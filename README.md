@@ -58,7 +58,7 @@ IDs you'll see: `P-01` principle, `R-01` rule, `D-01` decision, `FB-01` feedback
 
 ## Already have a design system or a Figma library?
 
-Keep it as the source. Copy its values into `tokens.json` and its rules into the files here, and update them when the source changes. This repo is the version the agent reads. When a proposal is approved, hand the recommended mockup and its spec to engineering, or rebuild it in Figma if that's where your team works.
+Keep it as the source. Copy its values into `tokens.json` and its rules into the files here, and update them when the source changes. This repo is the version the agent reads. When your team approves a proposal, hand the recommended mockup and its spec to engineering, or rebuild it in Figma if that's where your team works.
 
 ## Not for
 

@@ -34,7 +34,7 @@ The rules for when to promote are in `work/feedback.md`.
 
 Owners are the people listed in `.github/CODEOWNERS`.
 
-For the first few months, only owners change `design-system/`. Collect findings in the log and decide once a week until the output feels steady. Then let designers open pull requests too; copy and guidelines are a good place to start.
+For the first few months, only owners change `design-system/`. Collect findings in the log and decide once a week until the output feels steady. Then let designers open pull requests too; the UI text rules in `writing.md` are a good place to start.
 
 Once there are two or more owners, turn on branch protection with "Require review from Code Owners". GitHub won't let you approve your own pull request, and some plans don't offer branch protection on private repos. Until then, wait a day, then reread the diff before merging your own pull request.
 
