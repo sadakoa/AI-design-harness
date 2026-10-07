@@ -66,7 +66,7 @@ examples/           sample PRDs and a full example run
 
 IDs you'll see: `U-` user, `J-` job, `PP-` product principle, `PD-` product decision, `CON-` constraint, `P-` design principle, `R-` design rule, `D-` design decision, `FB-` feedback entry. They're never renumbered.
 
-[How it works](docs/how-it-works.md) explains the ideas behind it, with pictures. There's also a [slide deck](docs/slides/ai-design-harness.pdf) on the design side.
+[How it works](docs/how-it-works.md) explains the ideas behind it, with pictures. There's also a [slide deck](docs/slides/ai-design-harness.pdf); to present it from a browser, open `docs/slides/index.html`.
 
 ## Not for
 
