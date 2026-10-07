@@ -33,9 +33,7 @@ You need Claude Code or Codex, Node 20 or later, and git.
 
 ## Use it on your product
 
-Start with one product and one screen. [Adopting it](docs/adopting.md) has the steps for both cases:
-
-Install it into your repo with one command. It never overwrites anything; your README and existing files are left alone.
+Start with one product and one screen. Install it into your repo with one command. It never overwrites anything; your README and existing files are left alone.
 
 ```bash
 node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
@@ -43,10 +41,10 @@ node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
 
 Then open your repo in Claude Code and run `/bootstrap .`. What it does depends on what you have:
 
-- **You have a design system or a component library.** Bootstrap It points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
+- **You have a design system or a component library.** Bootstrap points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
 - **You don't.** Bootstrap still drafts a starting point from the colors, type and words your product already uses. You need less than you'd think.
 
-Either way, an owner reads the drafts before anyone relies on them.
+Either way, an owner reads the drafts before anyone relies on them. [Adopting it](docs/adopting.md) has the details.
 
 ## Day to day
 
