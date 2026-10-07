@@ -6,12 +6,10 @@
 //    Errors in design-system/screens/, warnings in work/features/. Lines tagged with an FB ID are skipped.
 // 5. product/ files have been reviewed in the last 90 days
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { dirname, join, relative, sep } from "node:path";
-import { fileURLToPath } from "node:url";
-import { renderCss, tokensCss, tokensJson } from "./build-tokens.mjs";
+import { join, relative, sep } from "node:path";
+import { renderCss, root, tokensCss, tokensJson } from "./build-tokens.mjs";
 import { MissingSource, inventoryFile, readConfig, syncedInventory, syncedTokens } from "./sync.mjs";
 
-const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ds = join(root, "design-system");
 const product = join(root, "product");
 const logFile = join(root, "work/feedback.md");

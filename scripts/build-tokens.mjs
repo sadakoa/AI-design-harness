@@ -1,11 +1,19 @@
 // Builds CSS variables from tokens.json (the only source of values). No dependencies.
 // color.action.primary → --color-action-primary
 // {color.primitive.blue.600} → var(--color-primitive-blue-600)
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+// The repo root is the nearest folder above this script that has design-system/INDEX.md,
+// so the scripts work from scripts/ or from scripts/harness/.
+function findRoot(start) {
+  for (let dir = start; ; dir = dirname(dir)) {
+    if (existsSync(join(dir, "design-system", "INDEX.md"))) return dir;
+    if (dirname(dir) === dir) return join(start, "..");
+  }
+}
+export const root = findRoot(dirname(fileURLToPath(import.meta.url)));
 export const tokensJson = join(root, "design-system/tokens/tokens.json");
 export const tokensCss = join(root, "design-system/tokens/tokens.css");
 

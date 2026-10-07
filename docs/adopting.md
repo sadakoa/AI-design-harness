@@ -2,21 +2,27 @@
 
 Start with one product and one screen. You can fill in the rest as you go.
 
-## 1. Get the files
+## 1. Install it
 
-Use this repo as a template for a new repo, or copy these into your product's repo: `product/`, `design-system/`, `work/`, `.claude/skills/`, `.agents/`, `.github/`, `scripts/`, `AGENTS.md`, and the three scripts in `package.json`. If you already have a `CLAUDE.md`, add the line `@AGENTS.md` to it.
+From a clone of this repo, point the installer at your product's repo. Add `--dry-run` first if you want to see what it would do.
 
-Have a look at `examples/`, then delete it.
+```bash
+node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
+```
+
+It copies `product/`, `design-system/`, `work/`, the skills and the scripts, adds `check`, `tokens` and `sync` to your `package.json` (or creates one), and points `CLAUDE.md` at the harness's instructions. It never overwrites anything: if a file already exists it's skipped and listed, and if a name is taken it uses another one (`AGENTS.harness.md`, `scripts/harness/`, `npm run harness:check`) and tells you.
+
+Starting a new product instead? Use this repo as a template, have a look at `examples/`, then delete it.
 
 ## 2. Let bootstrap draft the first version
 
-In Claude Code, run:
+Open your repo in Claude Code (restart the session if `/bootstrap` isn't listed yet) and run:
 
 ```
-/bootstrap path/to/your/app
+/bootstrap .
 ```
 
-It reads your code and docs, fills in `product/` and `design-system/` as far as it can, and writes `work/bootstrap-report.md`: what it found, what it guessed, and what an owner should check first. Everything it couldn't confirm is marked `hypothesis`. It commits on a branch called `bootstrap`, so you can review it as one pull request.
+It reads your code and docs, fills in `product/` and `design-system/` as far as it can, and writes `work/bootstrap-report.md`: what it found, what it guessed, and what an owner should check first. Everything it couldn't confirm is marked `hypothesis`. It commits on a new branch, so you can review it as one pull request.
 
 What happens next depends on what you have.
 

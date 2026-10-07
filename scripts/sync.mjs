@@ -4,11 +4,10 @@
 //   components: lists the component files in your code in components/inventory.md
 // The harness never writes back. Change the source, then run npm run sync again.
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { dirname, join, relative, resolve, sep } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
-import { renderCss, tokensCss, tokensJson } from "./build-tokens.mjs";
+import { join, relative, resolve, sep } from "node:path";
+import { pathToFileURL } from "node:url";
+import { renderCss, root, tokensCss, tokensJson } from "./build-tokens.mjs";
 
-const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const syncFile = join(root, "sync.json");
 export const inventoryFile = join(root, "design-system/components/inventory.md");
 

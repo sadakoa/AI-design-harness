@@ -31,4 +31,4 @@ This is the only skill that writes to `product/` and `design-system/` directly â
 
 5. **Report.** Write `work/bootstrap-report.md`: what you filled in and from where, what you guessed, what an owner should check first, and what's still missing.
 
-6. **Hand over.** Commit on a branch called `bootstrap` and ask before opening a pull request.
+6. **Hand over.** Commit on a new branch (for example `bootstrap`) and ask before opening a pull request.
