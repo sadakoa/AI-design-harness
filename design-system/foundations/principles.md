@@ -1,6 +1,6 @@
 # Principles
 
-> Answers: What do we choose, and why?
+> Answers: What do we prioritize, and why?
 
 This file sets direction. Values live in `tokens/tokens.json`; hard limits live in `rules.md`.
 

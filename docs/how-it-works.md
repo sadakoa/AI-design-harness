@@ -14,7 +14,7 @@ Don't split by length. Split when something is said twice, when you can't name t
 
 ![Building reads to explore options; reviewing checks one area at a time](images/build-vs-review.svg)
 
-Building and reviewing are different jobs, so they read different things. Building pulls in principles, rules, writing, layouts and approved screens, then spreads out into a few real options. Reviewing checks one area at a time — components, layout, copy — and only re-reads the files for that area. Every finding points to a principle or rule ID, so it's not just someone's taste.
+Building and reviewing are different jobs, so they read different things. Building pulls in principles, rules, writing, layouts and approved screens, then spreads out into a few real options. Reviewing checks one area at a time — components, layout, copy — and only re-reads the files for that area. Each finding names the principle or rule it's based on, or says plainly that it's a matter of taste.
 
 The columns in INDEX.md decide who reads what. The skills follow them.
 
@@ -34,8 +34,8 @@ The rules for when to promote are in `work/feedback.md`.
 
 Owners are the people listed in `.github/CODEOWNERS`.
 
-For the first few months, only owners change `design-system/`. Collect findings in the log and decide in batches until the output feels steady. Then let designers open pull requests too; copy and guidelines are a good place to start.
+For the first few months, only owners change `design-system/`. Collect findings in the log and decide once a week until the output feels steady. Then let designers open pull requests too; copy and guidelines are a good place to start.
 
-Once there are two or more owners, turn on branch protection with "Require review from Code Owners". GitHub won't let you approve your own pull request, and some plans don't offer branch protection on private repos. Until then, let your own pull request sit for a day and read the diff again before merging.
+Once there are two or more owners, turn on branch protection with "Require review from Code Owners". GitHub won't let you approve your own pull request, and some plans don't offer branch protection on private repos. Until then, wait a day, then reread the diff before merging your own pull request.
 
 If a pull request comment points out something that applies elsewhere, whoever wrote it adds a row to the log.

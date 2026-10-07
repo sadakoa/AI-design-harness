@@ -10,8 +10,8 @@ Every question has exactly one file. Read only what's marked for the task you're
 |---|---|---|---|---|---|---|
 | `INDEX.md` | Which file answers which question, and what should I read for this task? | ● | ● | ● | ● | ● |
 | `tokens/tokens.css` | Which CSS variables can I use? | ● | ● | ○ |  |  |
-| `tokens/tokens.json` | What is this value? |  |  |  |  | ○ |
-| `foundations/principles.md` | What do we choose, and why? | ● | ● | ● | ○ | ● |
+| `tokens/tokens.json` | Which exact values do we use? |  |  |  |  | ○ |
+| `foundations/principles.md` | What do we prioritize, and why? | ● | ● | ● | ○ | ● |
 | `foundations/rules.md` | What must we never do, and who catches it? | ● | ● | ● | ● | ● |
 | `foundations/writing.md` | How do we write UI text? | ● |  |  | ● | ○ |
 | `components/GUIDE.md` | Which component should I use? | ○ | ● |  |  | ○ |

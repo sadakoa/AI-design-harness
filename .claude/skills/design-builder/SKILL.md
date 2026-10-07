@@ -6,10 +6,10 @@ argument-hint: <path to PRD>
 
 # design-builder
 
-Walk through what a designer does in their head — read, frame, research, explore, recommend, write it up — and end with something a person can review. Don't settle on one option before step 6.
+Walk through what a designer does in their head — save the PRD, define the problem, ask, research, explore, recommend, write it up — and end with something a person can review. Don't settle on one option before step 6.
 
 - **In:** a PRD (product requirements doc) for one screen — a path, or pasted text.
-- **Out:** `proposal.html`, three mockups in `options/`, `review.md`, and new rows in the feedback log if anything came up.
+- **Out:** `proposal.html`, three clickable mockups in `options/`, `review.md`, and new rows in the feedback log if anything came up.
 - **Asks:** up to five questions, one at a time.
 - **Works best with:** web access for research and a browser tool for checking the mockups. Neither is required.
 
@@ -23,7 +23,7 @@ Start by creating `work/features/<yyyymmdd>-<slug>/`. The slug is a few lowercas
 work/features/<yyyymmdd>-<slug>/
   _inputs/         a copy of the PRD and anything else you were given
   research/        screenshots, and sources.md (source, what you noticed, what to borrow)
-  options/         a.html, b.html, c.html — working mockups
+  options/         a.html, b.html, c.html — clickable mockups
   proposal.html    the one-page proposal
   review.md        what design-review found
 ```
@@ -38,15 +38,15 @@ Never write to `design-system/`.
 
 ## Steps
 
-1. **Read.** Copy the PRD into `_inputs/` first. Pasted text goes to `_inputs/prd.md`.
+1. **Save the PRD.** Copy it into `_inputs/` first and read it. Pasted text goes to `_inputs/prd.md`.
 
-2. **Frame it.** In one or two sentences: whose job, on which screen, gets better how. Decide whether this is an improvement or a brand-new kind of screen. For a brand-new one, stop at options and let a person choose — step 6 becomes a comparison.
+2. **Define the problem.** In one or two sentences: whose job, on which screen, gets better how. Decide whether this improves an existing screen or is unlike anything the product has today. For the second kind, stop at options and let a person choose — step 6 becomes a comparison.
 
 3. **Ask, one question at a time.** Only ask what would change the design, five questions at most. If nobody answers, write down your assumption and mark it "open (assumed)".
 
 4. **Research.** Inside: the closest screens in `design-system/screens/` ("none" if it's empty). Outside: two to four products that solve the same job. Save screenshots in `research/` and write the source, what you noticed and what to borrow in `research/sources.md`. Copy why it works, not how it looks. Offline? Write what you know and mark the source "unverified".
 
-5. **Explore.** Pick two or three axes — list-first or detail-first, batch or one at a time, show everything or reveal gradually — and build about three options that land in different places. No color swaps.
+5. **Explore.** Build about three options that differ in structure — list-first or detail-first, batch or one at a time, show everything or reveal gradually. Not just in color.
    - Each option is one working HTML file in `options/`, loading tokens with `<link rel="stylesheet" href="../../../../design-system/tokens/tokens.css">`.
    - Follow R-01 for values. If you need something the design system doesn't have, build it, tag the line with an FB ID and log it as `missing` or `deviation`.
    - Support the four screen states in `patterns/GUIDE.md` through `?state=` in the URL, without showing a switcher on screen (R-05).
@@ -62,8 +62,8 @@ Never write to `design-system/`.
 
 - [ ] The problem fits in one or two sentences
 - [ ] Research has sources, or says "unverified"
-- [ ] The options differ on real axes
-- [ ] The recommendation is tied to the problem and a P-xx (for a brand-new screen, a comparison is enough)
+- [ ] The options differ in structure, not just color
+- [ ] The recommendation is tied to the problem and a P-xx (for a screen unlike anything the product has, a comparison is enough)
 - [ ] The normal state and all four `?state=` views work
 - [ ] `npm run check` shows nothing for this feature
 - [ ] `review.md` exists and has no open must-fix items
