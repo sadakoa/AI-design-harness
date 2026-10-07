@@ -1,29 +1,28 @@
-# 索引
+# Index
 
-> 答える問い：どのファイルが何に答えるか。いまの工程で何を読むか。
+> Answers: Which file answers which question, and what should I read for this task?
 
-`design-system/` は正本。1つの問いには1つのファイルが答える。工程に応じて、印のあるファイルだけを読む。
+Every question has exactly one file. Read only what's marked for the task you're on.
 
-- 「作る」は候補を広げるために読む。「レビュー」は意図とルールに照らして外れを見つけるために読む。「還元」は正本を直すときに読む。
-- ● 毎回読む ／ ○ その部品・値を使うと決めたとき、または迷ったときに読む ／ 空欄は読まない
+● always   ○ when it's relevant   blank: skip
 
-| ファイル | 答える問い | 作る | レビュー：部品 | レビュー：レイアウト | レビュー：文言 | 還元 |
+| File | Answers | Build | Review: parts | Review: layout | Review: copy | Promote |
 |---|---|---|---|---|---|---|
-| `INDEX.md` | どのファイルが何に答えるか。いまの工程で何を読むか | ● | ● | ● | ● | ● |
-| `tokens/tokens.css` | 使える CSS 変数は何か（名前・用途） | ● | ● | ○ |  |  |
-| `tokens/tokens.json` | この値は何か（値の正本） |  |  |  |  | ○ |
-| `foundations/principles.md` | 何を選ぶか・なぜそうするか | ● | ● | ● | ○ | ● |
-| `foundations/rules.md` | 何をしてはいけないか。機械で止めるか、人が見るか | ● | ● | ● | ● | ● |
-| `foundations/writing.md` | 画面の言葉をどう書くか（使う語・使わない語・文の形） | ● |  |  | ● | ○ |
-| `components/GUIDE.md` | どの部品を使うか。似た部品をどう使い分けるか | ○ | ● |  |  | ○ |
-| `components/*.md` | この部品はどう振る舞うか | ○ | ○ |  |  | ○ |
-| `patterns/GUIDE.md` | 部品をどう組んで画面にするか（粒度・レイアウト・画面の状態） | ● |  | ● |  | ○ |
-| `screens/README.md` | 確定した画面はどうなっているか。どう入れるか | ● |  | ○ |  |  |
-| `decisions.md` | なぜそう決めたか（理由と却下した案） |  |  |  |  | ● |
+| `INDEX.md` | Which file answers which question, and what should I read for this task? | ● | ● | ● | ● | ● |
+| `tokens/tokens.css` | Which CSS variables can I use? | ● | ● | ○ |  |  |
+| `tokens/tokens.json` | What is this value? |  |  |  |  | ○ |
+| `foundations/principles.md` | What do we choose, and why? | ● | ● | ● | ○ | ● |
+| `foundations/rules.md` | What must we never do, and who catches it? | ● | ● | ● | ● | ● |
+| `foundations/writing.md` | How do we write UI text? | ● |  |  | ● | ○ |
+| `components/GUIDE.md` | Which component should I use? | ○ | ● |  |  | ○ |
+| `components/*.md` | How does this component behave? | ○ | ○ |  |  | ○ |
+| `patterns/GUIDE.md` | How do components come together into a screen? | ● |  | ● |  | ○ |
+| `screens/README.md` | What do the approved screens look like? | ● |  | ○ |  |  |
+| `decisions.md` | Why did we decide this? |  |  |  |  | ● |
 
-## 書くときの決まり
+## When you write here
 
-- 値はトークン名で参照し、値そのものを書かない（値の正本は `tokens/tokens.json` だけ。`tokens.css` は生成物）。
-- 1つの内容は1か所に書く。ほかのファイルからは ID か見出しで場所を指す。
-- その画面だけの判断は正本に書かず、`work/features/` に書く。共通にすべきか迷ったら `work/feedback.md` に記録する。
-- ファイルを足したら、この表に1行足し、そのファイルの冒頭に同じ文の「> 答える問い：」を書く。`npm run check` が食い違いを見つける。
+- Use token names, never raw values. `tokens.json` is the only source; `tokens.css` is generated from it.
+- Say each thing once. Elsewhere, point to it by ID or heading.
+- Decisions that only apply to one screen stay in `work/features/`. If you're not sure, log it in `work/feedback.md`.
+- New file? Add a row here and put the same "Answers" line at the top of the file. `npm run check` catches mismatches.

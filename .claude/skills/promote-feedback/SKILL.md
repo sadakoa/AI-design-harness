@@ -1,37 +1,43 @@
 ---
 name: promote-feedback
-description: work/feedback.md の気づきを振り分け、正本（design-system/）へ還元する変更の案を作る。「台帳を見て」「正本に還元して」「フィードバックを整理して」で使う。判断とマージは人がする。
+description: Sort the feedback log and draft changes to the design system. Use for "go through the feedback log", "promote feedback", "what should become a rule". A person decides and merges.
 ---
 
 # promote-feedback
 
-レビューで得たことを正本へ還元する。振り分けの案と変更の案までを作り、決めるのは人。
+Turn what reviews taught us into changes to the design system. You propose; a person decides.
 
-## 進め方
+## Steps
 
-1. **読む。** `design-system/INDEX.md` の「還元」列のファイルと、`work/feedback.md` で状態が「未判断」の行を読む。`decisions.md` の「却下した案」と同じものを、理由なく出し直さない。
-2. **まとめる。** 同じことを言っている行を1つのまとまりにする。ID はまとめても残す。1つのまとまりの中で振り分けが分かれるなら、まとまりを分ける。
-3. **振り分けの案を出す。** 各まとまりに「採用／画面だけ／取り下げ」のどれかを、台帳の「還元の基準」に照らして付け、理由を1行書く。迷ったら「画面だけ」にする。
-4. **反映先を決める。** 採用の案には、INDEX で「その問いに答えるファイル」を1つ選ぶ。工程の決まり（skill の手順）についての気づきなら、`.claude/skills/` の該当する `SKILL.md` を反映先にする。1つに選べないときは、問いがあいまいか、新しいファイルが要るかのどちらかなので、そう書く。
-5. **人に確かめる。** 下の表を見せて、どれを進めるかを聞く。**返事があるまで、正本も台帳も書き換えない。**
-6. **返事どおりに書く。**
-   - 「画面だけ」「取り下げ」と言われた行は、台帳の状態と「結果」（理由）をその場で書く。
-   - 返事が無かった行は「未判断」のまま残す。
-   - 「採用」と言われたものは、ブランチを切って次をまとめて1つの PR にする。
-     - 反映先のファイルを直す。値を変えるときは `tokens/tokens.json` だけを直し、`npm run tokens` を実行する。新しいトークンの名前は `tokens.json` の `$description` の付け方に従う。
-     - `decisions.md` に1行足す（「承認した PR」は PR を作ってから書く）。
-     - ファイルを足したら `INDEX.md` に1行足す。
-     - 台帳の状態を「採用」、結果を D-xx にする。PR がマージされれば main でも採用になり、閉じれば元に戻る。
-     - `npm run check` を通す。
-   - PR を作ってよいかを聞く。マージはしない。
+1. **Read.** The files in the Promote column of the INDEX, and every `open` row in `work/feedback.md`. Check `decisions.md` so you don't bring back something that was already rejected, unless there's a new reason.
 
-## 見せる表
+2. **Group.** Merge rows that say the same thing and keep all their IDs. If a group would end up with different outcomes, split it.
 
-| まとまり | 含む ID | 振り分けの案 | 理由 | 反映先 | 変更の要点 |
+3. **Suggest.** Give each group `adopted`, `local` or `dropped`, using "When to promote" in the log, with a one-line reason. When in doubt, `local`.
+
+4. **Find the home.** For `adopted`, pick the one file in the INDEX that answers the question. If it's about how a skill works, the home is that skill's `SKILL.md`. If you can't settle on one file, the question is fuzzy or a new file is needed — say which.
+
+5. **Ask.** Show the table below and ask what to go ahead with. **Change nothing until you have an answer.**
+
+6. **Do what was approved.**
+   - `local` or `dropped`: update the status and reason in the log straight away.
+   - No answer: leave it `open`.
+   - `adopted`: make one PR on a new branch that
+     - edits the home file (for values, edit only `tokens/tokens.json`, then run `npm run tokens`; name new tokens the way its `$description` says),
+     - adds a row to `decisions.md` (fill in the PR number once there is one),
+     - adds an INDEX row if you created a file,
+     - sets the log rows to `adopted` with the D-xx,
+     - passes `npm run check`.
+
+   Ask before opening the PR. Never merge it.
+
+## Table
+
+| Group | IDs | Suggestion | Why | Home | Change |
 |---|---|---|---|---|---|
 
-## 守ること
+## Keep in mind
 
-- 1つの画面で1回起きただけの気づきを、全体の規則に広げない。
-- 正本には規則の文だけを書く。いつ、なぜ決めたかは `decisions.md` に書く。
-- 同じ内容を2か所に書かない。すでに書いてある場所があれば、そこを直す。
+- One thing on one screen isn't a rule yet.
+- The design system holds the rule. When and why go in `decisions.md`.
+- Say each thing once. If it's already written somewhere, edit it there.

@@ -1,6 +1,6 @@
-// tokens.json（値の正本）から CSS 変数を作る。依存パッケージなし。
-// 例: color.action.primary → --color-action-primary
-//     {color.primitive.blue.600} → var(--color-primitive-blue-600)
+// Builds CSS variables from tokens.json (the only source of values). No dependencies.
+// color.action.primary → --color-action-primary
+// {color.primitive.blue.600} → var(--color-primitive-blue-600)
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -30,19 +30,19 @@ export function renderCss(tokens) {
   const byName = new Map();
   for (const leaf of leaves) {
     if (typeof leaf.value !== "string" && typeof leaf.value !== "number") {
-      throw new Error(`${leaf.key} の $value は文字列か数値にする（いまは ${JSON.stringify(leaf.value)}）`);
+      throw new Error(`${leaf.key}: $value must be a string or a number (got ${JSON.stringify(leaf.value)})`);
     }
     const name = toName(leaf.key);
-    if (byName.has(name)) throw new Error(`${byName.get(name)} と ${leaf.key} が同じ ${name} になります`);
+    if (byName.has(name)) throw new Error(`${byName.get(name)} and ${leaf.key} both become ${name}`);
     byName.set(name, leaf.key);
     byKey.set(leaf.key, leaf);
   }
 
   const refsOf = (value) => (typeof value === "string" ? [...value.matchAll(refPattern)].map((m) => m[1]) : []);
   const visit = (key, trail) => {
-    if (trail.includes(key)) throw new Error(`参照が循環しています：${[...trail, key].join(" → ")}`);
+    if (trail.includes(key)) throw new Error(`circular reference: ${[...trail, key].join(" → ")}`);
     for (const ref of refsOf(byKey.get(key).value)) {
-      if (!byKey.has(ref)) throw new Error(`${key} が存在しないトークン {${ref}} を参照しています`);
+      if (!byKey.has(ref)) throw new Error(`${key} points to {${ref}}, which doesn't exist`);
       visit(ref, [...trail, key]);
     }
   };
@@ -54,7 +54,7 @@ export function renderCss(tokens) {
     return `  ${toName(key)}: ${css};${note}`;
   });
   return [
-    "/* 生成物。編集しない。tokens.json を直して npm run tokens で作り直す。 */",
+    "/* Generated — don't edit. Change tokens.json and run npm run tokens. */",
     ":root {",
     ...lines,
     "}",
@@ -66,9 +66,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   try {
     const css = renderCss(JSON.parse(readFileSync(tokensJson, "utf8")));
     writeFileSync(tokensCss, css);
-    console.log(`tokens.css を作りました（${css.split("\n").length - 4} 個）`);
+    console.log(`Wrote tokens.css (${css.split("\n").length - 4} variables)`);
   } catch (error) {
-    console.error(`NG    ${error.message}`);
+    console.error(`error  ${error.message}`);
     process.exit(1);
   }
 }

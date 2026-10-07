@@ -1,17 +1,15 @@
-# 禁則
+# Rules
 
-> 答える問い：何をしてはいけないか。機械で止めるか、人が見るか
+> Answers: What must we never do, and who catches it?
 
-越えてはいけない線と閾値は、このファイルだけに書く。`principles.md` からは ID で指す。
+Hard limits live here and nowhere else. Other files point to them by ID. If a machine can catch it, let the machine catch it.
 
-**機械で止められるものは機械で止める。** 「検出」が「人」のものは、`design-review` のどの観点で見るかを書く。
+<!-- replace. Never renumber; mark retired rules as retired instead of deleting them. -->
 
-<!-- 書き換える。ID は振り直さない。やめた禁則も消さずに「廃止」と書く -->
-
-| ID | 禁則 | なぜ | 検出 |
+| ID | Rule | Why | Caught by |
 |---|---|---|---|
-| R-01 | 色・余白・角丸・文字（大きさ・太さ・書体）は直書きせず、トークンを使う。線の太さ・幅や高さ・行間など、トークンに無い種類は直書きしてよい | 値の正本が散ると、変えるときに直し漏れる | 機械：`npm run check`（色と CSS 変数名）。余白・角丸・文字は人：部品の観点 |
-| R-02 | 色だけで状態や意味を伝えない。文字かアイコンを添える | 色が見分けにくい人に伝わらない | 人：部品の観点 |
-| R-03 | 1画面に主操作（`color.action.primary`）を2つ以上置かない。飾りにも使わない | 主役がぼやけ、次の一手に迷う | 人：レイアウトの観点 |
-| R-04 | 確認のダイアログを重ねて開かない | 今どこにいるかを見失う | 人：レイアウトの観点 |
-| R-05 | 検討用の版名・作業メモ・ファイルのパス・状態の切り替えを画面に出さない | 利用者には意味がなく、本物に見えなくなる | 人：文言の観点 |
+| R-01 | Use tokens for color, spacing, radius and type. Things with no token yet — border width, sizes, line height — can be written directly. | Values copied around get missed when they change. | `npm run check` for colors and variable names. Review (parts) for the rest. |
+| R-02 | Don't rely on color alone. Add text or an icon. | Not everyone can tell colors apart. | Review (parts) |
+| R-03 | One primary action per screen. Don't use `color.action.primary` for decoration. | Two main actions means neither is main. | Review (layout) |
+| R-04 | Don't stack confirmation dialogs. | People lose track of where they are. | Review (layout) |
+| R-05 | Keep work in progress off the screen: version names, notes, file paths, state switchers. | It means nothing to users and breaks the illusion. | Review (copy) |

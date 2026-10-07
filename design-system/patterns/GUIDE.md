@@ -1,42 +1,42 @@
-# 組み方
+# Composition
 
-> 答える問い：部品をどう組んで画面にするか（粒度・レイアウト・画面の状態）
+> Answers: How do components come together into a screen?
 
-その画面だけの判断はここに書かない（`work/features/` に書く）。2つ以上の画面で同じ組み方が出てきたら、`work/feedback.md` を経てここへ還元する。
+Decisions that only apply to one screen stay in `work/features/`. When the same arrangement shows up on two screens, promote it here through the feedback log.
 
-## 粒度
+## Levels
 
-組み立ての単位と名前を、デザインと実装でそろえる。そろえておくと、確定した案を作り直さずに実装へ渡せる。
+Use the same levels and names in design and in code. Then an approved design can go to engineering without being rebuilt.
 
-| 粒度 | 何か | 例 |
+| Level | What it is | Examples |
 |---|---|---|
-| 部品 | それ以上分けない UI の単位 | ボタン、入力欄、表 |
-| まとまり | 部品を組んだ、意味のある単位 | 検索バー＋絞り込み、ステータス表示 |
-| セクション | まとまりを集めた、機能の単位 | 一覧のヘッダー、詳細の基本情報 |
-| 画面 | セクションを並べた1枚 | 一覧画面、詳細画面 |
+| Component | The smallest piece | Button, input, table |
+| Block | A few components that mean something together | Search bar with filters, status |
+| Section | Blocks that make up one feature | List header, detail summary |
+| Screen | Sections on one page | List screen, detail screen |
 
-<!-- 書き換える。名前の付け方を決めて書く（例：まとまりは「名詞-役割」、画面は「対象-list／detail／edit」） -->
+<!-- replace: write down your naming rule, e.g. blocks are noun-role, screens are object-list / object-detail -->
 
-## レイアウトの選び方
+## Layouts
 
-<!-- 書き換える。プロダクトでよく使う形だけ残す -->
+<!-- replace: keep the ones you actually use -->
 
-| 形 | 向いている仕事 |
+| Layout | Good for |
 |---|---|
-| 1面 | 1つのことに集中する（設定、作成） |
-| 一覧＋詳細（左右） | 一覧と詳細を行き来しながらさばく |
-| ナビ＋一覧＋詳細（3面） | 対象を切り替えながら一覧と詳細を見る |
-| 上にタブ・ステップ | 同じ対象を観点や段階で切り替える |
+| Single pane | Focusing on one thing, like settings or a form |
+| List and detail | Working through many items |
+| Nav, list and detail | Switching between groups of items |
+| Tabs or steps on top | One object, different views or stages |
 
-迷ったら、`screens/` の確定画面から近いものを探し、その組み方に合わせる。
+Not sure? Find the closest screen in `screens/` and follow it.
 
-## 画面の状態
+## Screen states
 
-通常の状態だけで終わらせない。どの画面も、通常に加えて次の4つを決める（`principles.md` P-03）。
+Every screen needs these four on top of its normal state (P-03).
 
-| 状態 | いつ | 決めること |
+| State | When | What to decide |
 |---|---|---|
-| 読み込み中 | データを待っている間 | 何を待っているかが分かる形（骨組みの表示か、進み具合か） |
-| 空 | 表示するものが1件も無い | まだ何が無いか＋最初の一手（文の型は `writing.md`） |
-| エラー | 読み込みや操作が失敗した | 何が起きたか＋どうすればよいか。入力を消さない |
-| 完了 | 操作が済んだ直後 | 何が済んだか＋次にできること |
+| Loading | Waiting for data | Show what's coming — a skeleton or progress |
+| Empty | Nothing to show | What's missing, and the first step (see `writing.md`) |
+| Error | Something failed | What happened and what to do. Never wipe what they typed. |
+| Done | Right after an action | What finished, and what they can do next |

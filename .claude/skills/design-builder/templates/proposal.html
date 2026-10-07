@@ -1,25 +1,25 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{画面名}}の提案</title>
-<!-- work/features/<yyyymmdd>-<slug>/proposal.html に置いたときの相対パス -->
+<title>{{Screen}} — proposal</title>
+<!-- path from work/features/<yyyymmdd>-<slug>/proposal.html -->
 <link rel="stylesheet" href="../../../design-system/tokens/tokens.css">
 <style>
-  body { margin: 0; background: var(--color-surface-subtle); color: var(--color-text-primary); font-family: var(--font-family-base); font-size: var(--font-size-md); line-height: 1.7; }
+  body { margin: 0; background: var(--color-surface-subtle); color: var(--color-text-primary); font-family: var(--font-family-base); font-size: var(--font-size-md); line-height: 1.6; }
   main { max-width: 1080px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
   section { background: var(--color-surface-base); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--space-6); margin-bottom: var(--space-4); }
   h1 { font-size: var(--font-size-2xl); margin: 0 0 var(--space-2); }
   h2 { font-size: var(--font-size-xl); margin: 0 0 var(--space-4); }
   h3 { font-size: var(--font-size-lg); margin: var(--space-4) 0 var(--space-2); }
   .meta, .note { color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  a { color: var(--color-text-primary); }
   table { width: 100%; border-collapse: collapse; }
   th, td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--color-border-default); }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); }
   .grid img { width: 100%; border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); }
   iframe { width: 100%; height: 80vh; border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); background: var(--color-surface-base); }
-  a { color: var(--color-text-primary); }
   .pick { border: 2px solid var(--color-text-primary); }
   .tag { display: inline-block; padding: 0 var(--space-2); border: 1px solid var(--color-border-default); border-radius: var(--radius-full); background: var(--color-surface-subtle); font-size: var(--font-size-sm); }
 </style>
@@ -27,98 +27,98 @@
 <body>
 <main>
   <header>
-    <h1>{{画面名}}の提案</h1>
-    <p class="meta">{{yyyy-mm-dd}} ／ 元の PRD：<code>_inputs/{{ファイル名}}</code> ／ 種類：{{改修 or ゼロイチ}}</p>
+    <h1>{{Screen}} — proposal</h1>
+    <p class="meta">{{yyyy-mm-dd}} · PRD: <code>_inputs/{{file}}</code> · {{Improvement or New ground}}</p>
   </header>
 
   <section>
-    <h2>1. 課題</h2>
-    <p>{{誰の、どの仕事を、どう良くするか。1〜2文}}</p>
+    <h2>1. Problem</h2>
+    <p>{{Whose job, on which screen, gets better how. One or two sentences.}}</p>
   </section>
 
   <section>
-    <h2>2. 前提と未決</h2>
+    <h2>2. Assumptions and open questions</h2>
     <table>
-      <tr><th>項目</th><th>内容</th><th>状態</th></tr>
-      <tr><td>{{前提や質問}}</td><td>{{答え、または仮に置いたこと}}</td><td>{{確定／未決（仮）／未決}}</td></tr>
+      <tr><th>Question</th><th>Answer or assumption</th><th>Status</th></tr>
+      <tr><td>{{}}</td><td>{{}}</td><td>{{settled / open (assumed) / open}}</td></tr>
     </table>
   </section>
 
   <section>
-    <h2>3. 調査</h2>
-    <h3>社内の確定画面</h3>
-    <p>{{design-system/screens/ から参考にした画面と、合わせる点}}</p>
-    <h3>他社の事例</h3>
-    <!-- スクショがあるとき -->
+    <h2>3. Research</h2>
+    <h3>Approved screens</h3>
+    <p>{{Which screens in design-system/screens/ this follows, and how. "None" if there aren't any.}}</p>
+    <h3>Other products</h3>
+    <!-- With screenshots -->
     <div class="grid">
       <figure>
-        <img src="research/{{画像}}" alt="{{サービス名}}の{{画面}}">
-        <figcaption>{{サービス名}}：{{取り入れる理由}}<br><span class="note">出典：<a href="{{URL}}">{{URL}}</a></span></figcaption>
+        <img src="research/{{image}}" alt="{{Product}} — {{screen}}">
+        <figcaption>{{Product}}: {{what to borrow, and why}}<br><span class="note">Source: <a href="{{URL}}">{{URL}}</a></span></figcaption>
       </figure>
     </div>
-    <!-- スクショが無いとき（使わない方の形は消す） -->
+    <!-- Without screenshots (delete whichever you don't use) -->
     <table>
-      <tr><th>サービス</th><th>観察</th><th>取り入れること</th><th>出典</th></tr>
-      <tr><td>{{サービス名}}</td><td>{{}}</td><td>{{}}</td><td>{{URL（確かめられないときは「未確認」）}}</td></tr>
+      <tr><th>Product</th><th>What we noticed</th><th>What to borrow</th><th>Source</th></tr>
+      <tr><td>{{}}</td><td>{{}}</td><td>{{}}</td><td>{{URL, or "unverified"}}</td></tr>
     </table>
   </section>
 
   <section>
-    <h2>4. 案を分けた軸</h2>
+    <h2>4. Axes</h2>
     <table>
-      <tr><th>軸</th><th>案A</th><th>案B</th><th>案C</th></tr>
-      <tr><td>{{例：一覧中心か詳細中心か}}</td><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><th>Axis</th><th>A</th><th>B</th><th>C</th></tr>
+      <tr><td>{{e.g. list-first or detail-first}}</td><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
     </table>
   </section>
 
   <section>
-    <h2>5. 案</h2>
-    <h3>案A {{名前}}</h3>
-    <p>{{軸の取り方。良い点。弱い点}}</p>
-    <p class="note"><a href="options/a.html">別に開く</a> ／ 状態：<a href="options/a.html?state=loading">読み込み中</a>・<a href="options/a.html?state=empty">空</a>・<a href="options/a.html?state=error">エラー</a>・<a href="options/a.html?state=done">完了</a></p>
-    <iframe src="options/a.html" title="案A"></iframe>
-    <h3>案B {{名前}}</h3>
-    <p>{{軸の取り方。良い点。弱い点}}</p>
-    <p class="note"><a href="options/b.html">別に開く</a> ／ 状態：<a href="options/b.html?state=loading">読み込み中</a>・<a href="options/b.html?state=empty">空</a>・<a href="options/b.html?state=error">エラー</a>・<a href="options/b.html?state=done">完了</a></p>
-    <iframe src="options/b.html" title="案B"></iframe>
-    <h3>案C {{名前}}</h3>
-    <p>{{軸の取り方。良い点。弱い点}}</p>
-    <p class="note"><a href="options/c.html">別に開く</a> ／ 状態：<a href="options/c.html?state=loading">読み込み中</a>・<a href="options/c.html?state=empty">空</a>・<a href="options/c.html?state=error">エラー</a>・<a href="options/c.html?state=done">完了</a></p>
-    <iframe src="options/c.html" title="案C"></iframe>
+    <h2>5. Options</h2>
+    <h3>A: {{name}}</h3>
+    <p>{{Where it lands on the axes. What's good. What's weak.}}</p>
+    <p class="note"><a href="options/a.html">Open on its own</a> · States: <a href="options/a.html?state=loading">loading</a> · <a href="options/a.html?state=empty">empty</a> · <a href="options/a.html?state=error">error</a> · <a href="options/a.html?state=done">done</a></p>
+    <iframe src="options/a.html" title="Option A"></iframe>
+    <h3>B: {{name}}</h3>
+    <p>{{Where it lands on the axes. What's good. What's weak.}}</p>
+    <p class="note"><a href="options/b.html">Open on its own</a> · States: <a href="options/b.html?state=loading">loading</a> · <a href="options/b.html?state=empty">empty</a> · <a href="options/b.html?state=error">error</a> · <a href="options/b.html?state=done">done</a></p>
+    <iframe src="options/b.html" title="Option B"></iframe>
+    <h3>C: {{name}}</h3>
+    <p>{{Where it lands on the axes. What's good. What's weak.}}</p>
+    <p class="note"><a href="options/c.html">Open on its own</a> · States: <a href="options/c.html?state=loading">loading</a> · <a href="options/c.html?state=empty">empty</a> · <a href="options/c.html?state=error">error</a> · <a href="options/c.html?state=done">done</a></p>
+    <iframe src="options/c.html" title="Option C"></iframe>
   </section>
 
   <section class="pick">
-    <h2>6. 推し案 <span class="tag">案{{X}}</span></h2>
-    <p>{{選んだ理由。課題と principles.md のどの原則（P-xx）に結びつくか。ゼロイチなら比較だけを書き、推し案は人が決める}}</p>
-    <h3>選ばなかった案</h3>
+    <h2>6. Recommendation <span class="tag">{{A/B/C}}</span></h2>
+    <p>{{Why, tied to the problem and a principle (P-xx). On new ground, compare the options and leave the choice to a person.}}</p>
+    <h3>Why not the others</h3>
     <ul>
-      <li>案{{Y}}：{{何が足りなかったか}}</li>
+      <li>{{Option}}: {{what it was missing}}</li>
     </ul>
   </section>
 
   <section>
-    <h2>7. 仕様</h2>
-    <h3>構成</h3>
-    <p>{{セクションの並びと、それぞれの役割}}</p>
-    <h3>状態</h3>
+    <h2>7. Spec</h2>
+    <h3>Structure</h3>
+    <p>{{Sections in order, and what each one is for.}}</p>
+    <h3>States</h3>
     <table>
-      <tr><th>状態</th><th>見え方と次の一手</th></tr>
-      <tr><td>読み込み中</td><td>{{}}</td></tr>
-      <tr><td>空</td><td>{{}}</td></tr>
-      <tr><td>エラー</td><td>{{}}</td></tr>
-      <tr><td>完了</td><td>{{}}</td></tr>
+      <tr><th>State</th><th>What it shows, and the next step</th></tr>
+      <tr><td>Loading</td><td>{{}}</td></tr>
+      <tr><td>Empty</td><td>{{}}</td></tr>
+      <tr><td>Error</td><td>{{}}</td></tr>
+      <tr><td>Done</td><td>{{}}</td></tr>
     </table>
-    <h3>文言</h3>
-    <p>{{主なラベル・ボタン・メッセージ}}</p>
-    <h3>例外</h3>
-    <p>{{件数が多い・権限が無い・途中で離れた など}}</p>
+    <h3>Copy</h3>
+    <p>{{Main labels, buttons and messages.}}</p>
+    <h3>Edge cases</h3>
+    <p>{{Lots of items, no permission, leaving halfway, and so on.}}</p>
   </section>
 
   <section>
-    <h2>8. 正本への気づき</h2>
-    <p class="note">正本に無かったもの・外したもの・レビューで出たもの。<code>work/feedback.md</code> に記録した ID。レビューの結果は <a href="review.md">review.md</a>。</p>
+    <h2>8. Feedback for the design system</h2>
+    <p class="note">What the design system didn't have, rules we broke, and what the review found. IDs from <code>work/feedback.md</code>. Full review: <a href="review.md">review.md</a>.</p>
     <ul>
-      <li>{{FB-xx}}：{{内容}}</li>
+      <li>{{FB-xx}}: {{}}</li>
     </ul>
   </section>
 </main>

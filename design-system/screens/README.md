@@ -1,23 +1,23 @@
-# 確定した画面
+# Approved screens
 
-> 答える問い：確定した画面はどうなっているか。どう入れるか
+> Answers: What do the approved screens look like?
 
-人がレビューして確定した画面だけを置く。マージしたものが、その画面のいちばん新しいマスターになる。検討中の案は `work/features/` に置く。
+Only screens a person has reviewed and approved live here. Whatever is merged is the latest master for that screen. Work in progress stays in `work/features/`.
 
-## 入れ方
+## Adding a screen
 
-作業は人でも AI でもよい。マージは人が、承認を受けてからする。
+Anyone, person or agent, can prepare it. A person merges it after approval.
 
-1. 推し案を `screens/<画面名>/index.html` に写す。`work/features/` の元の検討は消さずに残す。
-2. `tokens.css` を読むパスを `../../tokens/tokens.css` に直す。状態の切り替え（`?state=`）は残す。
-3. 提案の「仕様」の章を `screens/<画面名>/README.md` に写す。
-4. 下の一覧に1行足す。
-5. `npm run check` を通し、PR を出す。ここでは色の直書きと存在しない CSS 変数がエラーになる。外した箇所は台帳で状態が「採用」か「画面だけ」になっていること。
+1. Copy the chosen option to `screens/<name>/index.html`. Leave the original in `work/features/`.
+2. Change the token path to `../../tokens/tokens.css`. Keep the `?state=` switch.
+3. Copy the spec section of the proposal into `screens/<name>/README.md`.
+4. Add a row below.
+5. Run `npm run check` and open a PR. In this folder, hard-coded colors and unknown CSS variables are errors, and any FB tag must be `adopted` or `local` in the log.
 
-## 一覧
+## Screens
 
-<!-- 画面を入れたら1行足す -->
+<!-- add a row for each screen -->
 
-| 画面 | 何の仕事のための画面か | 確定日 | 元の検討 |
+| Screen | Job it does | Approved | Came from |
 |---|---|---|---|
 |  |  |  |  |

@@ -1,4 +1,4 @@
-/* 生成物。編集しない。tokens.json を直して npm run tokens で作り直す。 */
+/* Generated — don't edit. Change tokens.json and run npm run tokens. */
 :root {
   --color-primitive-blue-50: #eef2ff;
   --color-primitive-blue-600: #3b5bdb;
@@ -11,19 +11,19 @@
   --color-primitive-red-600: #dc2626;
   --color-primitive-green-600: #16a34a;
   --color-primitive-amber-600: #d97706;
-  --color-surface-base: var(--color-primitive-gray-0); /* 画面の背景 */
-  --color-surface-subtle: var(--color-primitive-gray-50); /* 面を一段下げたいとき */
-  --color-text-primary: var(--color-primitive-gray-900); /* 本文・見出し */
-  --color-text-secondary: var(--color-primitive-gray-500); /* 補足・日時・件数 */
-  --color-text-on-action: var(--color-primitive-gray-0); /* 主操作の色の上に載せる文字 */
-  --color-border-default: var(--color-primitive-gray-200); /* 区切り線・入力欄の枠 */
-  --color-border-focus: var(--color-primitive-blue-600); /* キーボードで選んでいる要素の枠 */
-  --color-action-primary: var(--color-primitive-blue-600); /* 主操作の色（使い方は rules.md R-03） */
-  --color-action-primary-hover: var(--color-primitive-blue-700); /* 主操作にポインタが乗ったとき */
-  --color-action-primary-subtle: var(--color-primitive-blue-50); /* 主操作の色を薄く敷くとき（選択中の行など） */
-  --color-status-danger: var(--color-primitive-red-600); /* エラー・削除 */
-  --color-status-success: var(--color-primitive-green-600); /* 完了 */
-  --color-status-warning: var(--color-primitive-amber-600); /* 注意 */
+  --color-surface-base: var(--color-primitive-gray-0); /* Page background */
+  --color-surface-subtle: var(--color-primitive-gray-50); /* A step below the page, for grouping */
+  --color-text-primary: var(--color-primitive-gray-900); /* Body text and headings */
+  --color-text-secondary: var(--color-primitive-gray-500); /* Supporting text: dates, counts, hints */
+  --color-text-on-action: var(--color-primitive-gray-0); /* Text on the primary action color */
+  --color-border-default: var(--color-primitive-gray-200); /* Dividers and input borders */
+  --color-border-focus: var(--color-primitive-blue-600); /* Keyboard focus ring */
+  --color-action-primary: var(--color-primitive-blue-600); /* The primary action. See R-03 in rules.md */
+  --color-action-primary-hover: var(--color-primitive-blue-700); /* Primary action on hover */
+  --color-action-primary-subtle: var(--color-primitive-blue-50); /* A light wash of the primary color, e.g. a selected row */
+  --color-status-danger: var(--color-primitive-red-600); /* Errors and destructive actions */
+  --color-status-success: var(--color-primitive-green-600); /* Done */
+  --color-status-warning: var(--color-primitive-amber-600); /* Needs attention */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;

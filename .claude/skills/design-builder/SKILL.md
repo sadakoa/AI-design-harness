@@ -1,89 +1,66 @@
 ---
 name: design-builder
-description: PRD や仕様から、調査・複数案・推し案と仕様をまとめた提案を1枚の HTML で作る。「画面を考えて」「デザイン案を出して」「パターン出し」で使う。
-argument-hint: <PRDのパス>
+description: Turn a PRD into a one-page proposal with research, a few options, a recommendation and a spec. Use for "design this screen", "give me some options", "explore layouts".
+argument-hint: <path to PRD>
 ---
 
 # design-builder
 
-PRD から、デザイナーが頭の中でやっている流れ（資料 → 前提 → 調査 → 複数案 → 推す → まとめる）をなぞり、人がレビューできる提案を作る。工程6までは1案に寄せない。
+Walk through what a designer does in their head — read, frame, research, explore, pick, write it up — and end with something a person can review. Don't settle on one option before step 6.
 
-渡されたパスの PRD を使う。無ければ、パスかテキストを貼ってもらうよう頼む。
+Use the PRD at the path you were given. If there isn't one, ask for a path or pasted text.
 
-## 出力先
+## Where things go
 
-最初に `work/features/<yyyymmdd>-<slug>/` を作る。`<slug>` は対象を表す短い英小文字とハイフン。同じ対象を作り直すときは日付だけを変え、前のものは上書きしない。
+Start by creating `work/features/<yyyymmdd>-<slug>/`. The slug is a few lowercase words joined with hyphens. Redoing the same thing later? Same slug, new date — never overwrite.
 
 ```
 work/features/<yyyymmdd>-<slug>/
-├── _inputs/          ← 渡された PRD・資料のコピー（原本は動かさない）
-├── research/         ← スクショと sources.md（出典・観察・取り入れること）
-├── options/          ← 動く案（a.html, b.html, c.html）
-├── proposal.html     ← 1枚にまとめた提案
-└── review.md         ← design-review の結果
+  _inputs/         a copy of the PRD and anything else you were given
+  research/        screenshots, and sources.md (source, what you noticed, what to borrow)
+  options/         a.html, b.html, c.html — working options
+  proposal.html    the one-page proposal
+  review.md        what design-review found
 ```
 
-`design-system/` には書き込まない。
+Never write to `design-system/`.
 
-## 読むもの
+## What to read
 
-- `design-system/INDEX.md` の「作る」列。
-- 同じ `<slug>` の前回の検討があれば、その `proposal.html` と `review.md`。
-- `work/feedback.md` のうち、同じ画面か同じ部品の行（「画面だけ」と決まった判断を引き継ぐため）。
+- The Build column in `design-system/INDEX.md`.
+- If this slug was explored before, its last `proposal.html` and `review.md`.
+- Rows in `work/feedback.md` about the same screen or components, so earlier `local` decisions carry over.
 
-## 工程
+## Steps
 
-### 1. 資料を読む
+1. **Read.** Copy the PRD into `_inputs/` first. Pasted text goes to `_inputs/spec.md`.
 
-- PRD を `_inputs/` にコピーしてから読む。テキストで渡されたら `_inputs/spec.md` に保存する。
+2. **Frame it.** In one or two sentences: whose job, on which screen, gets better how. Decide whether this is new ground or an improvement. On new ground, stop at options and let a person choose — step 6 becomes a comparison.
 
-### 2. 前提を決める
+3. **Ask, one question at a time.** Only ask what would change the design, five questions at most. If nobody answers, write down your assumption and mark it "open (assumed)".
 
-- どの画面の、誰のどの仕事を、どう良くするのかを1〜2文で書く。
-- 前例のない画面（ゼロイチ）か、既存の改修かを決める。ゼロイチなら工程5の案までを作り、推し案は人が決める（工程6は選択肢の比較だけを書く）。
+4. **Research.** Inside: the closest screens in `design-system/screens/` ("none" if it's empty). Outside: two to four products that solve the same job. Save screenshots in `research/` and write the source, what you noticed and what to borrow in `research/sources.md`. Borrow reasons, not looks. Offline? Write what you know and mark the source "unverified".
 
-### 3. 不明点を1問ずつ聞く
+5. **Explore.** Pick two or three axes — list-first or detail-first, batch or one at a time, show everything or reveal gradually — and build about three options that land in different places. No color swaps.
+   - Each option is one working HTML file in `options/`, loading tokens with `<link rel="stylesheet" href="../../../../design-system/tokens/tokens.css">`.
+   - Follow R-01 for values. If you need something the design system doesn't have, build it, tag the line with an FB ID and log it as `missing` or `deviation`.
+   - Support `?state=loading|empty|error|done` (see `patterns/GUIDE.md`) without showing a switcher on screen (R-05).
+   - Write real copy, following `writing.md`.
 
-- 答えによって設計が変わる不明点だけを聞く。1回に1問、多くて5問。
-- 人が答えられないときは、質問と仮の答えを提案の「前提と未決」に並べ、状態を「未決（仮）」にして先へ進む。
+6. **Recommend.** Pick one, and tie the reason to the PRD and to a principle (P-xx). Say what the others were missing. Then write the spec: structure, behaviour in each state, copy, edge cases, open questions.
 
-### 4. 調査する
+7. **Write it up.** Copy `templates/proposal.html` to `proposal.html` and fill in every `{{ }}`.
 
-- **社内**：`design-system/screens/` から近い確定画面を探し、合わせるべき組み方を拾う。無ければ「該当なし」と書く。
-- **社外**：同じ仕事を解いている他社の画面を2〜4件。スクショを `research/` に置き、`research/sources.md` に出典 URL・観察・取り入れることを書く。見た目ではなく、使いやすさの理由を取り入れる。
-- ネットに出られないときは、知っている範囲の観察を書き、出典に「未確認」と付ける。
+8. **Review before you hand it over.** Run `design-review` on the pick and fix anything marked must. Add new FB IDs to the proposal. Then share the path with a three-line summary, and ask whether to open a PR.
 
-### 5. 案を作る
+## Done when
 
-- 設計の軸を2〜3個決め（例：一覧中心か詳細中心か／まとめて処理するか1件ずつか／全部見せるか段階的に見せるか）、軸の取り方がはっきり違う3案前後を作る。色違いの案は作らない。
-- 各案を `options/<a|b|c>.html` に、動く1枚の HTML で作る。トークンは `<link rel="stylesheet" href="../../../../design-system/tokens/tokens.css">` で読む。
-- 値の直書きは `rules.md` R-01 に従う。正本に無いものが要るときは組んだうえで、その行に FB の ID を書き、台帳に「不足」か「逸脱」で足す。
-- 通常の状態に加えて、`patterns/GUIDE.md` の4つの状態を `?state=loading|empty|error|done` で切り替えて見られるようにする。切り替えのボタンは画面に出さない（R-05）。
-- 文言は `writing.md` に沿い、仮の文ではなく本物らしい文を書く。
-
-### 6. 推す
-
-- 推し案を1つ選び、理由を PRD の課題と `principles.md` の ID（P-xx）に結びつけて書く。
-- 選ばなかった案は、何が足りなかったかを書く。
-- 推し案の仕様を書く：構成、状態ごとの振る舞い、文言、例外、未決。
-
-### 7. 1枚にまとめる
-
-- `templates/proposal.html` を出力先にコピーして `proposal.html` を作り、`{{ }}` をすべて埋める。
-
-### 8. 見直してから渡す
-
-- 推し案に `design-review` をかけ、「必須」の指摘を直す。台帳に足した ID を、提案の「正本への気づき」に書く。
-- 完成の条件をすべて満たしたら、`proposal.html` のパスと要点3行を返す。PR にするかは人に聞く。
-
-## 完成の条件
-
-- [ ] 課題が1〜2文で書けている
-- [ ] 調査に出典がある（ネットに出られないときは「未確認」と付いている）
-- [ ] 案ごとに違う軸を取っている
-- [ ] 推し案の理由が、課題と原則の ID に結びついている（ゼロイチなら比較だけでよい）
-- [ ] 通常と4つの状態が `?state=` で見られる（決まらないものは「未決」と書いてある）
-- [ ] `npm run check` に、この施策についての注意が出ていない
-- [ ] `review.md` があり、「必須」の指摘が残っていない
-- [ ] 正本から外したところに FB の ID が書かれ、台帳に載っている
-- [ ] `design-system/` を書き換えていない
+- [ ] The problem fits in one or two sentences
+- [ ] Research has sources, or says "unverified"
+- [ ] The options differ on real axes
+- [ ] The pick is tied to the problem and a P-xx (on new ground, a comparison is enough)
+- [ ] Normal plus four states work through `?state=`
+- [ ] `npm run check` shows nothing for this feature
+- [ ] `review.md` exists and has no open must-fix items
+- [ ] Every rule you broke is tagged and logged
+- [ ] Nothing in `design-system/` changed

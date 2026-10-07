@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="590" viewBox="0 0 960 590" role="img" aria-label="Each file in design-system answers one question; INDEX.md is the map">
+  <style>
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .q { font-size: 17px; font-weight: 600; fill: #1F2328; }
+    .path { font-size: 14px; fill: #57606A; }
+    .card { fill: #FFFFFF; stroke: #D8DEE4; stroke-width: 1.5; }
+  </style>
+
+  <rect x="0" y="0" width="960" height="590" rx="16" fill="#FAFAF7"/>
+
+  <!-- INDEX -->
+  <rect x="30" y="24" width="900" height="64" rx="12" fill="#EEF2FF" stroke="#3B5BDB" stroke-width="2"/>
+  <text class="mono" x="54" y="62" font-size="18" font-weight="600" fill="#1F2328">INDEX.md</text>
+  <text class="sans" x="160" y="62" font-size="15" fill="#1F2328">The map: which file answers what, and what to read for each task</text>
+
+  <!-- Left column -->
+  <rect class="card" x="30" y="108" width="435" height="82" rx="12"/>
+  <text class="sans q" x="52" y="142">What is this value?</text>
+  <text class="mono path" x="52" y="168">tokens/tokens.json</text>
+
+  <rect class="card" x="30" y="202" width="435" height="82" rx="12"/>
+  <text class="sans q" x="52" y="236">Which CSS variables can I use?</text>
+  <text class="mono path" x="52" y="262">tokens/tokens.css (generated)</text>
+
+  <rect class="card" x="30" y="296" width="435" height="82" rx="12"/>
+  <text class="sans q" x="52" y="330">What do we choose, and why?</text>
+  <text class="mono path" x="52" y="356">foundations/principles.md</text>
+
+  <rect class="card" x="30" y="390" width="435" height="82" rx="12"/>
+  <text class="sans q" x="52" y="424">What must we never do?</text>
+  <text class="mono path" x="52" y="450">foundations/rules.md</text>
+
+  <rect class="card" x="30" y="484" width="435" height="82" rx="12"/>
+  <text class="sans q" x="52" y="518">How do we write UI text?</text>
+  <text class="mono path" x="52" y="544">foundations/writing.md</text>
+
+  <!-- Right column -->
+  <rect class="card" x="495" y="108" width="435" height="82" rx="12"/>
+  <text class="sans q" x="517" y="142">Which component should I use?</text>
+  <text class="mono path" x="517" y="168">components/GUIDE.md</text>
+
+  <rect class="card" x="495" y="202" width="435" height="82" rx="12"/>
+  <text class="sans q" x="517" y="236">How does this component behave?</text>
+  <text class="mono path" x="517" y="262">components/&lt;name&gt;.md</text>
+
+  <rect class="card" x="495" y="296" width="435" height="82" rx="12"/>
+  <text class="sans q" x="517" y="330">How do components make a screen?</text>
+  <text class="mono path" x="517" y="356">patterns/GUIDE.md</text>
+
+  <rect class="card" x="495" y="390" width="435" height="82" rx="12"/>
+  <text class="sans q" x="517" y="424">What do approved screens look like?</text>
+  <text class="mono path" x="517" y="450">screens/</text>
+
+  <rect class="card" x="495" y="484" width="435" height="82" rx="12"/>
+  <text class="sans q" x="517" y="518">Why did we decide this?</text>
+  <text class="mono path" x="517" y="544">decisions.md</text>
+</svg>

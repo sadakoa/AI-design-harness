@@ -1,42 +1,44 @@
-# 気づきの台帳
+# Feedback log
 
-作る・レビューするなかで出た気づきを、1か所に貯める。正本へ還元するかは人が決める（`promote-feedback` が振り分けの案を出す）。
+Everything we learn while building and reviewing goes here. A person decides what becomes a rule; `promote-feedback` suggests how to sort it.
 
-## 書き方
+## How to log
 
-- 1件ごとに `FB-<番号>` を振る。振り直さない。やめたものも消さずに状態を「取り下げ」にする。
-- 正本から外した箇所には、その行に ID を書く（CSS は `/* FB-07 */`、HTML は `<!-- FB-07 -->`）。`npm run check` はその行の直書きを数えず、ID が台帳にあるかを確かめる。
-- 「誰が」には人の名前か skill の名前を書く。何に困ったかを書き、判断の理由が後から分かるようにする。
+Give each entry an ID — `FB-01`, `FB-02` and so on. Never renumber. If you drop one, keep the row and mark it `dropped`.
 
-| 種類 | 何か |
+When you break a rule on purpose, put the ID on that line too: `/* FB-07 */` in CSS, `<!-- FB-07 -->` in HTML. `npm run check` skips tagged lines and makes sure the ID exists here.
+
+"Who" is a person's name or a skill name.
+
+| Type | Meaning |
 |---|---|
-| 逸脱 | 正本のルールから、意図して外した |
-| 不足 | 正本に無いので、`work/` の中で組んだ |
-| 不具合 | 正本の部品や値が期待どおりに動かない |
-| 知見 | レビューで出た、ほかでも効きそうな判断 |
+| deviation | We broke a rule on purpose |
+| missing | The design system didn't have it, so we built it in `work/` |
+| bug | Something in the design system doesn't work |
+| insight | A review finding that probably applies elsewhere |
 
-| 状態 | 何か | 「結果」に書くこと |
+| Status | Meaning | Result column |
 |---|---|---|
-| 未判断 | まだ人が判断していない | — |
-| 採用 | 正本に入った（正本を直す PR の中でこの状態にする） | 決定ログの ID（D-xx） |
-| 画面だけ | その画面だけの判断として残す | 理由 |
-| 取り下げ | やめた | 理由 |
+| open | Nobody has decided yet | — |
+| adopted | It's in the design system now. Set this inside the PR that makes the change. | The decision ID (D-xx) |
+| local | It only applies to that screen | Why |
+| dropped | We let it go | Why |
 
-## 還元の基準
+## When to promote
 
-<!-- 書き換える -->
-次の1か2に当たり、かつ3が言えるものを還元の候補にする。最後に決めるのは人。
+<!-- replace with your own -->
+Promote an entry when (1) or (2) is true, and (3) is true:
 
-1. 2つ以上の画面・機能で、同じことが起きた
-2. 同じ逸脱を2回した
-3. 正本のどのファイルが答えるべき問いか、1つに言える
+1. The same thing came up on two or more screens.
+2. We broke the same rule twice.
+3. You can name the one file that should answer it.
 
-例外として、正本の誤りと、全画面に効くトークンの不足は、1件でも候補にする。
+A mistake in the design system, or a missing token that affects every screen, can be promoted right away. A person always makes the final call.
 
-## 一覧
+## Log
 
-<!-- 書き換える。（例）の行は使い始めるときに消し、FB-01 から振る -->
+<!-- replace: delete the (example) row and start at FB-01 -->
 
-| ID | 日付 | 種類 | 内容 | どこで | 誰が | 状態 | 結果 |
+| ID | Date | Type | What happened | Where | Who | Status | Result |
 |---|---|---|---|---|---|---|---|
-| FB-01 | （例）2026-10-07 | 知見 | 主操作が2つ並ぶと、どちらを押すか迷う | 一覧画面・詳細画面・設定画面 | design-review | 採用 | D-01 |
+| FB-01 | (example) 2026-10-07 | insight | Two primary buttons side by side, and people hesitate | List, detail, settings | design-review | adopted | D-01 |

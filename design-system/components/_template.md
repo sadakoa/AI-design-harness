@@ -1,55 +1,53 @@
-# 部品名
+# Component name
 
-> 答える問い：この部品はどう振る舞うか
+> Answers: How does this component behave?
 
-<!-- このファイルをコピーして `components/<部品名>.md` を作る。分からない欄は消さずに「未決」と書く -->
+<!-- Copy this file to components/<name>.md. If you don't know something yet, write "open" instead of deleting the section. -->
 
-## 使うとき・使わないとき
+## When to use it
 
-- **使う**：
-- **使わない**（代わりに使う部品）：
+- Use it for:
+- Don't use it for (and what to use instead):
 
-## 構成
+## Anatomy
 
-<!-- 部品を構成する要素。どれが必須で、どれが任意か -->
-
-| 要素 | 必須 | メモ |
+| Part | Required | Notes |
 |---|---|---|
 |  |  |  |
 
-## バリエーション
+## Variants
 
-| 名前 | いつ使うか |
+| Variant | When |
 |---|---|
 |  |  |
 
-## 操作に対する状態
+## States
 
-<!-- 画面全体の状態（読み込み中・空・エラー・完了）は patterns/GUIDE.md。ここには部品の状態を書く -->
+<!-- Screen states (loading, empty, error, done) are in patterns/GUIDE.md. This is about the component itself. -->
 
-| 状態 | 見た目と振る舞い |
+| State | How it looks and behaves |
 |---|---|
-| 通常 |  |
-| ホバー・フォーカス |  |
-| 選択中（あれば） |  |
-| 無効 |  |
+| Default |  |
+| Hover / focus |  |
+| Selected (if any) |  |
+| Disabled |  |
 
-## 文言
+## Copy
 
-<!-- ラベル・プレースホルダ・エラー文。用語は writing.md に合わせる -->
+<!-- Labels, placeholders, error text. Use the words in writing.md. -->
 
-## アクセシビリティ
+## Accessibility
 
-<!-- キーボード操作、読み上げ、フォーカスの移り方 -->
+<!-- Keyboard, screen reader, focus order. -->
 
-## 使うトークン
+## Tokens
 
-<!-- 用途の層のトークン名だけを書く。値は書かない -->
+<!-- Token names only, no values. -->
 
-## 禁則
+## Rules
 
-<!-- この部品に固有のもの。全体に効くものは rules.md へ -->
+<!-- Only rules specific to this component. Anything broader goes in rules.md. -->
 
-## 実装
+## Code
 
-<!-- 実装の場所やライブラリ。デザインと実装で同じ部品を使う -->
+<!-- Where it lives in code. Design and code use the same component. -->

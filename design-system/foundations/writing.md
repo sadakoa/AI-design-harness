@@ -1,30 +1,30 @@
-# 用字用語と文体
+# Writing
 
-> 答える問い：画面の言葉をどう書くか（使う語・使わない語・文の形）
+> Answers: How do we write UI text?
 
-画面の文言・ボタン名・エラー文・空の状態の文を書くときに読む。同じものを指す言葉は1つにそろえる。
+Read this whenever you write a label, button, error or empty state. One thing gets one word.
 
-## 用語
+## Words
 
-<!-- 書き換える。迷った語が出たらここに足す -->
+<!-- replace. Add a row whenever people disagree about a word. -->
 
-| 使う語 | 使わない語 | 意味 |
+| Use | Don't use | Meaning |
 |---|---|---|
-| （例）保存 | 登録、セーブ | 入力した内容を残す操作 |
-| （例）削除 | 消去、破棄 | 元に戻せない形で取り除く操作 |
-| （例）担当者 | オーナー、責任者 | その件を受け持つ人 |
+| (example) Save | Submit, Store | Keep what you entered |
+| (example) Delete | Remove, Erase | Gone for good |
+| (example) Assignee | Owner, Handler | The person working on it |
 
-## 文体
+## Style
 
-- 画面の文は「です・ます」にする。見出しとラベルは体言止めにする。
-- ボタンは動作を表す言葉にする（例：保存する、送信する、閉じる）。「OK」「はい」で済ませない。
-- 数字は半角、日時は `2026/10/07 15:00` の形にする。
-- 専門用語・社内の略語を画面に出さない。出すなら用語の表に載せる。
+- Sentence case everywhere.
+- Buttons say what they do: "Save changes", "Send", "Close". Not "OK" or "Yes".
+- Dates look like `Oct 7, 2026, 3:00 PM`.
+- No internal jargon. If a term has to appear, add it to the table above.
 
-## 文の型
+## Patterns
 
-| 場面 | 型 | 例 |
+| Situation | Shape | Example |
 |---|---|---|
-| エラー | 何が起きたか＋どうすればよいか | 保存できませんでした。通信を確かめて、もう一度保存してください。 |
-| 空の状態 | まだ何がないか＋最初の一手 | まだプロジェクトがありません。最初のプロジェクトを作りましょう。 |
-| 確認 | 何をするか＋元に戻せるか | このプロジェクトを削除します。削除すると元に戻せません。 |
+| Error | What happened, then what to do | Couldn't save. Check your connection and try again. |
+| Empty | What's missing, then the first step | No projects yet. Create your first one. |
+| Confirm | What will happen, and whether it can be undone | Delete this project? You can't undo this. |

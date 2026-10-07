@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="460" viewBox="0 0 960 460" role="img" aria-label="The loop: build, review, log, promote, with the design system in the middle">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#57606A"/>
+    </marker>
+  </defs>
+  <style>
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .title { font-size: 20px; font-weight: 600; fill: #1F2328; }
+    .code { font-size: 14px; fill: #3B5BDB; }
+    .desc { font-size: 14px; fill: #57606A; }
+    .label { font-size: 13px; fill: #57606A; }
+    .card { fill: #FFFFFF; stroke: #D8DEE4; stroke-width: 1.5; }
+    .line { fill: none; stroke: #57606A; stroke-width: 1.5; }
+  </style>
+
+  <rect x="0" y="0" width="960" height="460" rx="16" fill="#FAFAF7"/>
+
+  <!-- Build -->
+  <rect class="card" x="40" y="30" width="280" height="120" rx="12"/>
+  <text class="sans title" x="64" y="68">Build</text>
+  <text class="mono code" x="64" y="92">design-builder</text>
+  <text class="sans desc" x="64" y="116">Research, a few options,</text>
+  <text class="sans desc" x="64" y="136">and a one-page proposal</text>
+
+  <!-- Review -->
+  <rect class="card" x="640" y="30" width="280" height="120" rx="12"/>
+  <text class="sans title" x="664" y="68">Review</text>
+  <text class="mono code" x="664" y="92">design-review</text>
+  <text class="sans desc" x="664" y="116">Parts, layout and copy,</text>
+  <text class="sans desc" x="664" y="136">one lens at a time</text>
+
+  <!-- Log -->
+  <rect class="card" x="640" y="310" width="280" height="120" rx="12"/>
+  <text class="sans title" x="664" y="348">Log</text>
+  <text class="mono code" x="664" y="372">work/feedback.md</text>
+  <text class="sans desc" x="664" y="396">Findings that may matter</text>
+  <text class="sans desc" x="664" y="416">beyond one screen</text>
+
+  <!-- Promote -->
+  <rect class="card" x="40" y="310" width="280" height="120" rx="12"/>
+  <text class="sans title" x="64" y="348">Promote</text>
+  <text class="mono code" x="64" y="372">promote-feedback</text>
+  <text class="sans desc" x="64" y="396">Groups the log. A person</text>
+  <text class="sans desc" x="64" y="416">decides what becomes a rule</text>
+
+  <!-- Design system -->
+  <rect x="370" y="175" width="220" height="110" rx="12" fill="#EEF2FF" stroke="#3B5BDB" stroke-width="2"/>
+  <text class="mono" x="480" y="216" text-anchor="middle" font-size="16" font-weight="600" fill="#1F2328">design-system/</text>
+  <text class="sans" x="480" y="244" text-anchor="middle" font-size="15" fill="#1F2328">One question,</text>
+  <text class="sans" x="480" y="264" text-anchor="middle" font-size="15" fill="#1F2328">one file.</text>
+
+  <!-- Build → Review -->
+  <line class="line" x1="320" y1="90" x2="636" y2="90" marker-end="url(#arrow)"/>
+  <text class="sans label" x="480" y="80" text-anchor="middle">proposal</text>
+
+  <!-- Review → Log -->
+  <line class="line" x1="780" y1="150" x2="780" y2="306" marker-end="url(#arrow)"/>
+  <text class="sans label" x="792" y="232">findings</text>
+
+  <!-- Log → Promote -->
+  <line class="line" x1="640" y1="370" x2="324" y2="370" marker-end="url(#arrow)"/>
+  <text class="sans label" x="480" y="360" text-anchor="middle">every week</text>
+
+  <!-- Promote → Design system -->
+  <path class="line" d="M140,310 V255 H366" marker-end="url(#arrow)"/>
+  <text class="sans label" x="255" y="278" text-anchor="middle">approved changes</text>
+
+  <!-- Design system → Build -->
+  <path class="line" d="M370,205 H220 V154" marker-end="url(#arrow)"/>
+  <text class="sans label" x="296" y="194" text-anchor="middle">reads what it needs</text>
+</svg>

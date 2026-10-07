@@ -1,24 +1,22 @@
-# エージェントへの指示
+# Instructions for agents
 
-UI を作る・直す・レビューする前に、必ず [`design-system/INDEX.md`](design-system/INDEX.md) を読む。
+Before you build, change or review any UI, read [design-system/INDEX.md](design-system/INDEX.md). It tells you what to read for the task. Don't read the whole folder.
 
-## 読み方
+`design-system/tokens/tokens.json` is the only source for values. If anything disagrees with it, trust the tokens and log the mismatch in `work/feedback.md`.
 
-- INDEX の表で、いまの工程と観点に印のあるファイルだけを読む。`design-system/` を全部読まない。
-- 値は `design-system/tokens/tokens.json` が正本。ほかの場所の値と食い違ったら tokens を信じ、食い違いを `work/feedback.md` に記録する。
-- 正本に「（例）」や `<!-- 書き換える -->` が残っていたら、仮の基準として使い、成果物の「前提と未決」に「正本が例のまま」と書く。
+If a file still has `(example)` content, treat it as a placeholder and say so in your output.
 
-## 工程ごとの skill
+## Skills
 
-| 工程 | skill |
+| Task | Skill |
 |---|---|
-| 画面を考える（PRD から案と仕様まで） | `design-builder` |
-| できたものを観点別に見る | `design-review` |
-| 気づきを正本へ還元する | `promote-feedback` |
+| Design a screen from a PRD | `design-builder` |
+| Review a screen or proposal | `design-review` |
+| Turn feedback into design system changes | `promote-feedback` |
 
-## してはいけないこと
+## Don't
 
-- `design-system/` を直接書き換えない。変えるのは `promote-feedback` で人の返事をもらってからだけ。
-- 正本に無い部品・色・言葉を正本に足さない。要るときは `work/` の中でだけ組み、外した箇所に FB の ID を書いて台帳に記録する（書き方は `work/feedback.md`）。
-- 推測で埋めない。決まらないところは質問するか、「未決」と書いて先へ進む。
-- 作業の出力は `work/` の下に置く。`design-system/screens/` に入れるのは、`screens/README.md` の手順の PR だけ。マージは人がする。
+- Edit `design-system/` on your own. Changes go through `promote-feedback` and need a person's OK.
+- Add components, colors or wording to the design system. If you need something that isn't there, build it inside `work/`, tag the line with a feedback ID and log it.
+- Guess. Ask, or write it down as an open question and keep going.
+- Put output anywhere but `work/`. A screen only moves into `design-system/screens/` through a reviewed PR, and a person merges it.

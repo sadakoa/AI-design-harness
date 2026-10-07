@@ -1,40 +1,43 @@
-# 原則
+# Principles
 
-> 答える問い：何を選ぶか・なぜそうするか
+> Answers: What do we choose, and why?
 
-向きを決めるファイル。具体的な値は `tokens/tokens.json`、越えてはいけない線と閾値は `rules.md` に書き、ここには書かない。
+This file sets direction. Values live in `tokens/tokens.json`; hard limits live in `rules.md`.
 
-## 誰の、どんな仕事のための UI か
+## Who it's for
 
-<!-- 書き換える -->
-- **主な利用者**：（例）毎日長時間使う業務担当者。IT への慣れにはばらつきがある
-- **使われ方**：（例）デスクトップで一覧と詳細を行き来し、短時間に多くの件数をさばく
-- **いちばん大事にすること**：（例）読み取りの速さ、誤操作の防止、疲れにくさ
+<!-- replace -->
+- **Users:** (example) Support agents who use the product all day. Some are very comfortable with software, some aren't.
+- **Context:** (example) On a desktop, moving between a list and a detail view, getting through a lot of items quickly.
+- **What matters most:** (example) Reading fast, avoiding mistakes, not getting tired.
 
-## 品質の基準
+## Quality bar
 
-<!-- 書き換える。レビューの最初に必ず見る問い -->
-レビューでは、まず次の3つで画面全体を見る。
+<!-- replace -->
+A review starts with three questions about the whole screen:
 
-1. 情報が多くても圧倒されないか（補足は弱めるか畳む）
-2. 見るべきところがすぐ分かるか（主役が最初に目に入る位置と重みにある）
-3. 次の一手が打てるか（主操作が主役の近くにある）
+1. Does it stay calm when there's a lot of information?
+2. Is it obvious where to look first?
+3. Is the next step easy to take?
 
-## 原則
+## Principles
 
-<!-- 書き換える。3〜7個に絞る。各原則に「なぜ」と「迷ったときの問い」を付け、P-01 から番号を振る -->
+<!-- replace: keep three to seven, numbered P-01, P-02… -->
 
-### P-01 1画面1主役（例）
+### P-01 One screen, one main thing (example)
 
-- **なぜ**：画面ごとに解く仕事は1つ。主役が2つあると、どちらも読まれない。
-- **迷ったときの問い**：この画面で利用者がいちばん最初にすることは何か。
+Each screen does one job. If two things compete for attention, neither gets read.
 
-### P-02 次の一手で取捨選択する（例）
+Ask: what does someone do first here?
 
-- **なぜ**：要件にある情報をすべて並べると、仕事に使う情報が埋もれる。
-- **迷ったときの問い**：この情報は、利用者の次の一手に使われるか。使われないなら消すか、畳むか、別の場所へ移す。
+### P-02 Keep only what helps the next step (example)
 
-### P-03 どの状態でも行き止まらない（例）
+Put every requirement on screen and the useful parts get buried.
 
-- **なぜ**：空・読み込み・エラー・完了で行き止まると、利用者は迷う。
-- **迷ったときの問い**：どの状態でも次に取れる行動が分かるか（ボタンでなくても、文で示せていればよい）。状態の一覧は `patterns/GUIDE.md`。
+Ask: will they use this for what they do next? If not, remove it, fold it away or move it.
+
+### P-03 No dead ends (example)
+
+Loading, empty, error, done — any of them can leave people stuck.
+
+Ask: in every state, is it clear what to do next? A sentence is enough; it doesn't have to be a button. The states are listed in `patterns/GUIDE.md`.

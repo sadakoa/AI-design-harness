@@ -1,9 +1,9 @@
-// 正本の形が崩れていないかを見る。依存パッケージなし。
-// 1. design-system/ のファイルが INDEX.md に載っていて、「答える問い」が INDEX と同じ文か
-// 2. tokens.css が tokens.json から作り直されているか
-// 3. ID（P- R- D- FB-）が重複していないか、台帳と決定ログがつながっているか
-// 4. 画面と案の CSS に色の直書きや存在しない CSS 変数が無いか（rules.md R-01）
-//    design-system/screens/ はエラー、work/features/ は注意。FB の ID を書いた行は数えない
+// Checks that the design system still holds together. No dependencies.
+// 1. Every file in design-system/ is in INDEX.md, with the same "Answers" line
+// 2. tokens.css matches tokens.json
+// 3. IDs (P- R- D- FB-) aren't duplicated, and the feedback log points to real decisions
+// 4. CSS in screens and options has no hard-coded colors or unknown variables (R-01)
+//    Errors in design-system/screens/, warnings in work/features/. Lines tagged with an FB ID are skipped.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,7 +11,7 @@ import { renderCss, tokensCss, tokensJson } from "./build-tokens.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ds = join(root, "design-system");
-const ledgerFile = join(root, "work/feedback.md");
+const logFile = join(root, "work/feedback.md");
 const errors = [];
 const warnings = [];
 
@@ -27,12 +27,12 @@ const walk = (dir) =>
       })
     : [];
 
-// --- 1. 索引 ---
+// --- 1. Index ---
 const rows = read(join(ds, "INDEX.md"))
   .split("\n")
   .map((line) => line.match(/^\|\s*`([^`]+)`\s*\|\s*([^|]*?)\s*\|/))
   .filter(Boolean)
-  .map(([, path, question]) => ({ path, question }));
+  .map(([, path, answers]) => ({ path, answers }));
 
 const toRegExp = (pattern) =>
   new RegExp(`^${pattern.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^/]+")}$`);
@@ -41,13 +41,12 @@ const findRow = (path) =>
   rows.find((row) => row.path.includes("*") && toRegExp(row.path).test(path));
 const isExempt = (path) =>
   /(^|\/)(\.DS_Store|\.gitkeep)$/.test(path) ||
-  path.split("/").pop().startsWith("_") || // 雛形
-  (path.startsWith("screens/") && path !== "screens/README.md"); // 画面の中身は 4 で見る
-const sameQuestion = (a, b) => a.trim().replace(/。$/, "") === b.trim().replace(/。$/, "");
+  path.split("/").pop().startsWith("_") || // templates
+  (path.startsWith("screens/") && path !== "screens/README.md"); // screen files are checked in step 4
 
 for (const row of rows) {
   if (!row.path.includes("*") && !existsSync(join(ds, row.path))) {
-    errors.push(`INDEX.md に載っている ${row.path} がありません`);
+    errors.push(`INDEX.md lists ${row.path}, but it doesn't exist`);
   }
 }
 for (const file of walk(ds)) {
@@ -55,31 +54,31 @@ for (const file of walk(ds)) {
   if (isExempt(path)) continue;
   const row = findRow(path);
   if (!row) {
-    errors.push(`${path} が INDEX.md に載っていません（答える問いと読むタイミングを1行足す）`);
+    errors.push(`${path} isn't in INDEX.md — add a row saying what it answers and when to read it`);
     continue;
   }
   if (!path.endsWith(".md")) continue;
-  const line = read(file).match(/^> 答える問い：(.+)$/m);
+  const line = read(file).match(/^> Answers: (.+)$/m);
   if (!line) {
-    errors.push(`${path} に「> 答える問い：」の行がありません`);
-  } else if (!sameQuestion(line[1], row.question)) {
-    errors.push(`${path} の答える問い「${line[1]}」が INDEX.md の「${row.question}」と違います（同じ文にする）`);
+    errors.push(`${path} has no "> Answers:" line`);
+  } else if (line[1].trim() !== row.answers.trim()) {
+    errors.push(`${path} answers "${line[1].trim()}" but INDEX.md says "${row.answers}" — make them the same`);
   }
 }
 
-// --- 2. トークン ---
+// --- 2. Tokens ---
 let tokenNames = new Set();
 try {
   const css = renderCss(JSON.parse(read(tokensJson)));
   tokenNames = new Set([...css.matchAll(/^\s*(--[\w-]+):/gm)].map((m) => m[1]));
   if (!existsSync(tokensCss) || read(tokensCss) !== css) {
-    errors.push("tokens.css が tokens.json と合っていません（npm run tokens を実行する）");
+    errors.push("tokens.css is out of date — run npm run tokens");
   }
 } catch (error) {
-  errors.push(`tokens.json：${error.message}`);
+  errors.push(`tokens.json: ${error.message}`);
 }
 
-// --- 3. ID ---
+// --- 3. IDs ---
 const idRows = (file, prefix) =>
   existsSync(file)
     ? read(file)
@@ -91,32 +90,33 @@ const idRows = (file, prefix) =>
 const checkDuplicates = (ids, where) => {
   const seen = new Set();
   for (const id of ids) {
-    if (seen.has(id)) errors.push(`${where} で ${id} が重複しています（後から足した方に新しい番号を振る）`);
+    if (seen.has(id)) errors.push(`${id} appears twice in ${where} — give the newer one the next free number`);
     seen.add(id);
   }
 };
 
-const principleIds = existsSync(join(ds, "foundations/principles.md"))
-  ? [...read(join(ds, "foundations/principles.md")).matchAll(/^###\s+(P-\d+)/gm)].map((m) => m[1])
+const principlesFile = join(ds, "foundations/principles.md");
+const principleIds = existsSync(principlesFile)
+  ? [...read(principlesFile).matchAll(/^###\s+(P-\d+)/gm)].map((m) => m[1])
   : [];
 const decisionIds = idRows(join(ds, "decisions.md"), "D").map((r) => r.id);
-const ledger = idRows(ledgerFile, "FB").map(({ id, cells }) => ({ id, status: cells[5], result: cells[6] }));
+const log = idRows(logFile, "FB").map(({ id, cells }) => ({ id, status: cells[5], result: cells[6] }));
 checkDuplicates(principleIds, "principles.md");
 checkDuplicates(idRows(join(ds, "foundations/rules.md"), "R").map((r) => r.id), "rules.md");
 checkDuplicates(decisionIds, "decisions.md");
-checkDuplicates(ledger.map((r) => r.id), "work/feedback.md");
+checkDuplicates(log.map((r) => r.id), "work/feedback.md");
 
-const STATUSES = ["未判断", "採用", "画面だけ", "取り下げ"];
-for (const { id, status, result } of ledger) {
+const STATUSES = ["open", "adopted", "local", "dropped"];
+for (const { id, status, result } of log) {
   if (!STATUSES.includes(status)) {
-    errors.push(`work/feedback.md の ${id} の状態「${status}」は ${STATUSES.join("・")} のどれかにする`);
-  } else if (status === "採用" && !decisionIds.includes(result)) {
-    errors.push(`work/feedback.md の ${id} は「採用」なので、結果に decisions.md の ID（D-xx）を書く`);
+    errors.push(`${id} in work/feedback.md has status "${status}" — use one of: ${STATUSES.join(", ")}`);
+  } else if (status === "adopted" && !decisionIds.includes(result)) {
+    errors.push(`${id} in work/feedback.md is adopted, so its result should be a D-xx from decisions.md`);
   }
 }
-const ledgerStatus = new Map(ledger.map((r) => [r.id, r.status]));
+const statusOf = new Map(log.map((r) => [r.id, r.status]));
 
-// --- 4. 画面と案の CSS ---
+// --- 4. CSS in screens and options ---
 const COLOR =
   /#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\(|\b(?:white|black|red|green|blue|gray|grey|orange|yellow|purple|pink|brown|navy|silver)\b/i;
 
@@ -132,7 +132,7 @@ const cssChunks = (text, isCss) => {
   }
   return chunks;
 };
-// セレクタではなく、{ } の中の宣言だけを取り出す
+// Only declarations inside { }, never selectors
 const declarations = ({ css, offset, inline }) => {
   const bodies = inline
     ? [{ body: css, start: offset }]
@@ -149,11 +149,11 @@ const declarations = ({ css, offset, inline }) => {
   });
 };
 
-const scan = (dir, bucket, inScreens) => {
+const scan = (dir, bucket, approved) => {
   for (const file of walk(dir)) {
     const path = rel(file);
     if (/\/proposal\.html$/.test(path) && /\{\{/.test(read(file))) {
-      warnings.push(`${path} に埋めていない {{ }} が残っています`);
+      warnings.push(`${path} still has unfilled {{ }}`);
     }
     if (!/\.(html|css)$/.test(file)) continue;
     const text = read(file);
@@ -161,10 +161,10 @@ const scan = (dir, bucket, inScreens) => {
     const lineOf = (at) => text.slice(0, at).split("\n").length;
 
     for (const id of new Set(text.match(/FB-\d+/g) ?? [])) {
-      if (!ledgerStatus.has(id)) {
-        bucket.push(`${path} の ${id} が work/feedback.md にありません`);
-      } else if (inScreens && !["採用", "画面だけ"].includes(ledgerStatus.get(id))) {
-        bucket.push(`${path} の ${id} は台帳で「${ledgerStatus.get(id)}」です。確定画面に入れるのは「採用」か「画面だけ」になってから`);
+      if (!statusOf.has(id)) {
+        bucket.push(`${path} mentions ${id}, which isn't in work/feedback.md`);
+      } else if (approved && !["adopted", "local"].includes(statusOf.get(id))) {
+        bucket.push(`${path} uses ${id}, which is still "${statusOf.get(id)}" — approved screens need it adopted or local`);
       }
     }
 
@@ -176,11 +176,11 @@ const scan = (dir, bucket, inScreens) => {
       const value = decl.value.replace(/\/\*[\s\S]*?\*\//g, "").trim();
       const bare = value.replace(/var\([^)]*\)|url\([^)]*\)|"[^"]*"|'[^']*'/g, " ");
       if (COLOR.test(bare)) {
-        bucket.push(`${path}:${lineNo} ${decl.prop}: ${value} — 色の直書き（R-01。外すなら行に FB の ID）`);
+        bucket.push(`${path}:${lineNo} ${decl.prop}: ${value} — hard-coded color (R-01; tag the line with an FB ID if it's on purpose)`);
       }
       for (const [, name] of value.matchAll(/var\(\s*(--[\w-]+)/g)) {
         if (!tokenNames.has(name) && !localNames.has(name)) {
-          bucket.push(`${path}:${lineNo} ${name} は tokens.css にありません`);
+          bucket.push(`${path}:${lineNo} ${name} isn't in tokens.css`);
         }
       }
     }
@@ -189,14 +189,14 @@ const scan = (dir, bucket, inScreens) => {
 scan(join(ds, "screens"), errors, true);
 scan(join(root, "work/features"), warnings, false);
 
-// --- 例のままの箇所 ---
-const leftovers = [...walk(ds), ledgerFile]
+// --- Example content still in place ---
+const examples = [...walk(ds), logFile]
   .filter((file) => file.endsWith(".md") && existsSync(file))
-  .reduce((sum, file) => sum + (read(file).match(/（例）/g) ?? []).length, 0);
-if (leftovers) warnings.push(`「（例）」が ${leftovers} か所残っています（README の「はじめ方」）`);
+  .reduce((sum, file) => sum + (read(file).match(/\(example\)/g) ?? []).length, 0);
+if (examples) warnings.push(`${examples} "(example)" entries left — see "Getting started" in the README`);
 
-// --- 結果 ---
-for (const w of warnings) console.warn(`注意  ${w}`);
-for (const e of errors) console.error(`NG    ${e}`);
+// --- Result ---
+for (const w of warnings) console.warn(`warning  ${w}`);
+for (const e of errors) console.error(`error    ${e}`);
 if (errors.length) process.exit(1);
-console.log(`OK    索引 ${rows.length} 行・トークン・ID・画面の CSS を確かめました${warnings.length ? `（注意 ${warnings.length} 件）` : ""}`);
+console.log(`ok       index (${rows.length} rows), tokens, IDs and screen CSS look fine${warnings.length ? ` — ${warnings.length} warning(s)` : ""}`);

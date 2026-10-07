@@ -1,36 +1,42 @@
 ---
 name: design-review
-description: 画面やデザイン案を、部品・レイアウト・文言の観点ごとに正本と照らしてレビューする。「画面をレビューして」「デザイン案を見直して」「UI を確認して」で使う。
-argument-hint: <レビューする HTML か proposal.html のパス>
+description: Review a screen or design proposal against the design system, one lens at a time (parts, layout, copy). Use for "review this screen", "check this design", "critique this UI".
+argument-hint: <path to an HTML file or proposal.html>
 ---
 
 # design-review
 
-意図とルールに照らして、どこが外れているかを見つける。指摘だけを返し、直すのは頼まれたとき（`design-builder` の工程8から呼ばれたときを含む）だけ。
+Find where a design drifts from its intent and from the rules. Report, don't fix — unless you're asked to. Being called from step 8 of design-builder counts as being asked.
 
-渡されたパスを対象にする。無ければ聞く。
+Review the path you were given. If there isn't one, ask.
 
-## 進め方
+## Steps
 
-1. **意図を確かめる。** 何の画面で、誰のどの仕事のためか。提案なら `proposal.html` の課題を読む。分からなければ聞く。
-2. **機械で見られるものを先に見る。** `npm run check` を実行し、`rules.md` の「検出：機械」の行もすべて確かめる。
-3. **描画して見る。** ブラウザで開けるなら、幅 1280px と 768px で撮り、`?state=` の各状態も撮る。コンソールのエラーと、隠れるはずの要素が隠れているかも見る。`proposal.html` の iframe はページ全体の撮影では空白に写るので、`options/` の案を直接開いて撮る。
-4. **全体を見る。** `principles.md` の「品質の基準」で画面全体を見る。
-5. **観点ごとに見る。** 観点ごとに、INDEX の列に印のあるファイルだけを読み直してから見る。観点を混ぜない。
+1. **Know the intent.** Which screen, whose job? For a proposal, read its problem statement. Ask if it's unclear.
 
-| 観点 | INDEX の列 | 見ること |
-|---|---|---|
-| 部品 | レビュー：部品 | 部品の選び方は合っているか。部品の状態はそろっているか。R-01 に反する直書きは無いか |
-| レイアウト | レビュー：レイアウト | 主役は1つか。粒度・組み方・画面の4つの状態が `patterns/GUIDE.md` に沿うか。確定画面とずれていないか |
-| 文言 | レビュー：文言 | 用語が表のとおりか。文の型に沿うか。画面に出してはいけない言葉が無いか |
+2. **Let the machine go first.** Run `npm run check`, plus anything in `rules.md` that's caught by a check.
 
-6. **書き残す。** 指摘の表を、対象と同じ施策のディレクトリの `review.md` に書く（施策の外のものをレビューしたときは、結果を返すだけでよい）。
-7. **台帳に足す。** ほかの画面でも起きそうな指摘と、正本に答えが無かった指摘は、`work/feedback.md` に状態「未判断」で足す。足した ID を `review.md` の最後に書き、呼んだ人にも伝える。
+3. **Look at it rendered.** If you can open a browser, capture it 1280px and 768px wide, and in each `?state=`. Watch the console for errors, and make sure hidden things are actually hidden. The iframes in `proposal.html` come out blank in full-page captures, so open the files in `options/` directly.
 
-## 指摘の形
+4. **Whole screen first,** using the quality bar in `principles.md`.
 
-| # | 観点 | 重さ | どこ | 何が外れているか | 根拠 | 直し方 |
+5. **Then one lens at a time.** Before each lens, re-read only the files the INDEX marks for it. Don't mix lenses.
+
+   | Lens | Look for |
+   |---|---|
+   | Parts | The right component for the job? Its states covered? Values that break R-01? |
+   | Layout | One main thing? Levels and layout as in `patterns/GUIDE.md`? All four screen states? In line with approved screens? |
+   | Copy | Words from the table? Patterns followed? Anything that shouldn't be on screen? |
+
+6. **Write it down.** Findings go in `review.md` in the same feature folder. If the target isn't in `work/features/`, just return them.
+
+7. **Log what travels.** Anything likely to come up elsewhere, or that the design system had no answer for, goes into `work/feedback.md` as `open`. List the new IDs at the end of `review.md`.
+
+## Findings
+
+| # | Lens | Severity | Where | What's off | Based on | Fix |
 |---|---|---|---|---|---|---|
 
-- **重さ**は3段。**必須**（禁則に反する、または仕事が進まない）／**推奨**（原則に照らして良くなる）／**好み**（正本に根拠が無い）。
-- **根拠**には正本の ID か、ファイルと見出しを書く（例：`rules.md` R-03、`principles.md` P-02）。根拠を正本に示せない指摘は「好み」にし、正本に答えが無いこと自体を台帳に足す。
+Severity is **must** (breaks a rule or blocks the job), **should** (a principle says it would be better) or **taste** (nothing in the design system backs it).
+
+"Based on" is an ID or a file and heading, like `rules.md` R-03 or `principles.md` P-02. If you can't point to anything, it's taste — and the missing answer is worth logging.
