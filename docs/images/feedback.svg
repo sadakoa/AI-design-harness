@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300" role="img" aria-label="A feedback entry starts open; a person decides whether it is adopted, local or dropped">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300" role="img" aria-label="A feedback entry starts open; an owner decides whether it is adopted, screen-only or dropped">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#57606A"/>
@@ -19,20 +19,20 @@
   <rect x="40" y="108" width="200" height="84" rx="12" fill="#EEF2FF" stroke="#3B5BDB" stroke-width="2"/>
   <text class="mono status" x="140" y="146" text-anchor="middle">open</text>
   <text class="sans text" x="140" y="172" text-anchor="middle">a new finding</text>
-  <text class="sans text" x="140" y="226" text-anchor="middle">A person decides</text>
+  <text class="sans text" x="140" y="226" text-anchor="middle">An owner decides</text>
 
   <!-- outcomes -->
   <rect class="card" x="420" y="28" width="500" height="72" rx="12"/>
   <text class="mono status" x="444" y="70">adopted</text>
-  <text class="sans text" x="556" y="70">The design system changes. Logged as D-xx.</text>
+  <text class="sans text" x="596" y="70">The design system changes. Logged as D-xx.</text>
 
   <rect class="card" x="420" y="114" width="500" height="72" rx="12"/>
-  <text class="mono status" x="444" y="156">local</text>
-  <text class="sans text" x="556" y="156">Stays a decision for that one screen.</text>
+  <text class="mono status" x="444" y="156">screen-only</text>
+  <text class="sans text" x="596" y="156">Stays a decision for that one screen.</text>
 
   <rect class="card" x="420" y="200" width="500" height="72" rx="12"/>
   <text class="mono status" x="444" y="242">dropped</text>
-  <text class="sans text" x="556" y="242">The row stays, with the reason.</text>
+  <text class="sans text" x="596" y="242">The row stays, with the reason.</text>
 
   <!-- bus -->
   <line class="line" x1="240" y1="150" x2="320" y2="150"/>

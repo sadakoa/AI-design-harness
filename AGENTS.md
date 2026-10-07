@@ -4,7 +4,7 @@ Before you build, change or review any UI, read [design-system/INDEX.md](design-
 
 `design-system/tokens/tokens.json` is the only source for values. If anything disagrees with it, trust the tokens and log the mismatch in `work/feedback.md`.
 
-If a file still has `(example)` content, treat it as a placeholder and say so in your output.
+If a file still has `(example)` content, use it as a placeholder and say so in your output.
 
 ## Skills
 
@@ -16,7 +16,7 @@ If a file still has `(example)` content, treat it as a placeholder and say so in
 
 ## Don't
 
-- Edit `design-system/` on your own. Changes go through `promote-feedback` and need a person's OK.
+- Edit `design-system/` on your own. Changes go through `promote-feedback` and need an owner's OK (owners are listed in `.github/CODEOWNERS`).
 - Add components, colors or wording to the design system. If you need something that isn't there, build it inside `work/`, tag the line with a feedback ID and log it.
 - Guess. Ask, or write it down as an open question and keep going.
-- Put output anywhere but `work/`. A screen only moves into `design-system/screens/` through a reviewed PR, and a person merges it.
+- Put output anywhere but `work/`. A screen only moves into `design-system/screens/` through a reviewed pull request, and an owner merges it.

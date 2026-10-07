@@ -106,7 +106,7 @@ checkDuplicates(idRows(join(ds, "foundations/rules.md"), "R").map((r) => r.id), 
 checkDuplicates(decisionIds, "decisions.md");
 checkDuplicates(log.map((r) => r.id), "work/feedback.md");
 
-const STATUSES = ["open", "adopted", "local", "dropped"];
+const STATUSES = ["open", "adopted", "screen-only", "dropped"];
 for (const { id, status, result } of log) {
   if (!STATUSES.includes(status)) {
     errors.push(`${id} in work/feedback.md has status "${status}" — use one of: ${STATUSES.join(", ")}`);
@@ -163,8 +163,8 @@ const scan = (dir, bucket, approved) => {
     for (const id of new Set(text.match(/FB-\d+/g) ?? [])) {
       if (!statusOf.has(id)) {
         bucket.push(`${path} mentions ${id}, which isn't in work/feedback.md`);
-      } else if (approved && !["adopted", "local"].includes(statusOf.get(id))) {
-        bucket.push(`${path} uses ${id}, which is still "${statusOf.get(id)}" — approved screens need it adopted or local`);
+      } else if (approved && !["adopted", "screen-only"].includes(statusOf.get(id))) {
+        bucket.push(`${path} uses ${id}, which is still "${statusOf.get(id)}" — approved screens need it adopted or screen-only`);
       }
     }
 
@@ -193,7 +193,7 @@ scan(join(root, "work/features"), warnings, false);
 const examples = [...walk(ds), logFile]
   .filter((file) => file.endsWith(".md") && existsSync(file))
   .reduce((sum, file) => sum + (read(file).match(/\(example\)/g) ?? []).length, 0);
-if (examples) warnings.push(`${examples} "(example)" entries left — see "Getting started" in the README`);
+if (examples) warnings.push(`${examples} "(example)" entries left — see "Setting it up for your team" in the README`);
 
 // --- Result ---
 for (const w of warnings) console.warn(`warning  ${w}`);

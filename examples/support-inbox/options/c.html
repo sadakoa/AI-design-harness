@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inbox · Support</title>
+<link rel="stylesheet" href="../../../design-system/tokens/tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; display: flex; flex-direction: column; background: var(--color-surface-base); color: var(--color-text-primary); font-family: var(--font-family-base); font-size: var(--font-size-md); line-height: 1.5; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  svg { flex: none; }
+  ul { list-style: none; margin: 0; padding: 0; }
+
+  /* App bar */
+  .topbar { flex: none; height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-6); border-bottom: 1px solid var(--color-border-default); }
+  .brand { display: flex; align-items: center; gap: var(--space-2); font-weight: var(--font-weight-bold); }
+  .brand svg { fill: none; stroke: var(--color-text-primary); stroke-width: 1.5; stroke-linejoin: round; }
+  .me { display: flex; align-items: center; gap: var(--space-2); color: var(--color-text-secondary); }
+
+  /* Split */
+  .split { flex: 1; min-height: 0; display: grid; grid-template-columns: 460px minmax(0, 1fr); }
+  .list-pane { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--color-border-default); }
+  .list-head { flex: none; padding: var(--space-4) var(--space-4) 0; }
+  .list-title { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+  h1 { font-size: var(--font-size-xl); line-height: 1.3; margin: 0; }
+  .list-note { color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  .filters { display: flex; gap: var(--space-1); margin-top: var(--space-3); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border-default); }
+  .filter { display: inline-flex; align-items: center; gap: var(--space-2); height: 28px; padding: 0 var(--space-3); border: 1px solid var(--color-border-default); border-radius: var(--radius-full); background: var(--color-surface-base); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  .filter:hover { color: var(--color-text-primary); }
+  .filter[aria-pressed="true"] { border-color: var(--color-text-primary); color: var(--color-text-primary); font-weight: var(--font-weight-bold); }
+  .rows { flex: 1; overflow-y: auto; }
+  .count { display: inline-block; min-width: 24px; padding: 0 var(--space-2); border-radius: var(--radius-full); background: var(--color-surface-subtle); color: var(--color-text-secondary); font-size: var(--font-size-sm); font-weight: var(--font-weight-regular); line-height: 20px; text-align: center; }
+
+  .item { display: grid; grid-template-columns: 16px 16px minmax(0, 1fr) auto; column-gap: var(--space-3); row-gap: var(--space-1); align-items: center; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border-default); cursor: default; }
+  .item:hover { background: var(--color-surface-subtle); }
+  .item.is-checked { background: var(--color-action-primary-subtle); }
+  .item.is-current { box-shadow: inset 3px 0 0 var(--color-text-primary); }
+  .item input { grid-row: 1; width: 16px; height: 16px; margin: 0; accent-color: var(--color-text-primary); }
+  .item .pri { grid-row: 1; }
+  .item .subj { grid-row: 1; font-weight: var(--font-weight-bold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .item .avatar { grid-row: 1; justify-self: end; }
+  .item .sub { grid-column: 3; grid-row: 2; color: var(--color-text-secondary); font-size: var(--font-size-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .item .status { grid-column: 4; grid-row: 2; justify-self: end; color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+
+  .keys { flex: none; display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); padding: var(--space-3) var(--space-4); border-top: 1px solid var(--color-border-default); background: var(--color-surface-subtle); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  kbd { display: inline-block; min-width: 20px; padding: 0 var(--space-1); border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); background: var(--color-surface-base); color: var(--color-text-primary); font-family: var(--font-family-base); font-size: var(--font-size-sm); line-height: 18px; text-align: center; }
+
+  /* Detail */
+  .detail-pane { min-height: 0; overflow-y: auto; background: var(--color-surface-subtle); }
+  .detail { max-width: 720px; margin: 0 auto; padding: var(--space-8); }
+  .meta-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); color: var(--color-text-secondary); }
+  .pri-label { display: inline-flex; align-items: center; gap: var(--space-1); color: var(--color-text-primary); font-weight: var(--font-weight-bold); }
+  .detail h2 { margin: var(--space-2) 0 var(--space-6); font-size: var(--font-size-2xl); line-height: 1.3; }
+  .card { background: var(--color-surface-base); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); }
+  .fields { display: grid; grid-template-columns: 120px minmax(0, 1fr); margin: 0; }
+  .fields dt, .fields dd { margin: 0; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border-default); }
+  .fields dt { color: var(--color-text-secondary); }
+  .fields dd { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+  .fields dt:nth-last-of-type(1), .fields dd:last-child { border-bottom: 0; }
+  .fields dd.stack { flex-direction: column; align-items: flex-start; gap: 0; }
+  .muted { color: var(--color-text-secondary); }
+  .message { margin-top: var(--space-4); padding: var(--space-4); }
+  .message h3 { margin: 0 0 var(--space-2); font-size: var(--font-size-sm); color: var(--color-text-secondary); font-weight: var(--font-weight-regular); }
+  .message p { margin: 0; font-size: var(--font-size-lg); line-height: 1.6; }
+  .picked { margin-top: var(--space-4); }
+  .picked li { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: var(--space-3); align-items: center; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border-default); }
+  .picked li:last-child { border-bottom: 0; }
+  .picked .subj { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: var(--space-2); height: 32px; padding: 0 var(--space-3); border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); background: var(--color-surface-base); font-weight: var(--font-weight-bold); white-space: nowrap; }
+  .btn:hover { background: var(--color-surface-subtle); }
+  .btn-primary { background: var(--color-action-primary); border-color: var(--color-action-primary); color: var(--color-text-on-action); }
+  .btn-primary:hover { background: var(--color-action-primary-hover); border-color: var(--color-action-primary-hover); }
+  .btn-primary .chev path { stroke: var(--color-text-on-action); }
+  .btn-quiet { border: 0; background: none; color: var(--color-text-secondary); font-weight: var(--font-weight-regular); }
+  .btn-quiet:hover { background: var(--color-surface-subtle); color: var(--color-text-primary); }
+  .link { border: 0; background: none; padding: 0; font-weight: var(--font-weight-bold); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* Priority, status, people */
+  .pri .bar { fill: var(--color-border-default); }
+  .pri-high .on { fill: var(--color-status-danger); }
+  .pri-medium .on { fill: var(--color-status-warning); }
+  .pri-low .on { fill: var(--color-text-secondary); }
+  .status { display: inline-flex; align-items: center; gap: var(--space-1); white-space: nowrap; }
+  .st circle, .st path { fill: none; stroke-width: 1.5; }
+  .st-new circle { stroke: var(--color-text-secondary); }
+  .st-progress circle { stroke: var(--color-text-primary); }
+  .st-progress path { fill: var(--color-text-primary); stroke: none; }
+  .st-done circle, .st-done path { stroke: var(--color-status-success); stroke-linecap: round; stroke-linejoin: round; }
+  .avatar { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: var(--radius-full); border: 1px solid var(--color-border-default); background: var(--color-surface-subtle); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); line-height: 1; flex: none; }
+  .avatar.is-empty { border: 1px dashed var(--color-text-secondary); background: var(--color-surface-base); }
+  .chev path { fill: none; stroke: var(--color-text-secondary); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  /* Loading, empty, error */
+  .sk { display: block; height: 12px; border-radius: var(--radius-sm); background: var(--color-border-default); animation: breathe 1.6s ease-in-out infinite; }
+  @keyframes breathe { 50% { opacity: .45; } }
+  .notice { padding: var(--space-8) var(--space-6); text-align: center; }
+  .notice h2 { margin: var(--space-3) 0 var(--space-1); font-size: var(--font-size-lg); }
+  .notice p { margin: 0 auto var(--space-4); max-width: 360px; color: var(--color-text-secondary); text-wrap: balance; }
+  .notice svg { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .notice .ok { stroke: var(--color-status-success); }
+  .notice .bad { stroke: var(--color-status-danger); }
+  .notice .plain { stroke: var(--color-text-secondary); }
+
+  /* Menu */
+  .menu { position: absolute; z-index: 10; width: 264px; padding: var(--space-1); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); background: var(--color-surface-base); }
+  .menu-label { padding: var(--space-2) var(--space-3) var(--space-1); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  .menu-item { display: flex; align-items: center; gap: var(--space-2); width: 100%; padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-sm); background: none; text-align: left; }
+  .menu-item:hover, .menu-item:focus { background: var(--color-surface-subtle); }
+  .menu-item:focus-visible { outline-offset: -2px; }
+  .menu-item .load { margin-left: auto; color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  .menu-item .tick { margin-left: auto; fill: none; stroke: var(--color-text-primary); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .menu-item kbd { margin-left: var(--space-1); }
+  .menu-sep { height: 1px; margin: var(--space-1) 0; background: var(--color-border-default); }
+
+  /* Toast */
+  .toast { position: fixed; left: calc(50% + 230px); bottom: var(--space-6); transform: translateX(-50%); display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); background: var(--color-surface-base); white-space: nowrap; }
+  .toast svg { fill: none; stroke: var(--color-status-success); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 11.5 5.2 4.5h9.6l2.2 7v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 11.5h4.2l1 2h3.6l1-2H17"/></svg>
+    <span>Support</span>
+  </div>
+  <div class="me"><span class="avatar">MT</span><span>Mia Torres</span></div>
+</header>
+
+<div class="split">
+  <section class="list-pane" aria-label="Requests">
+    <div class="list-head">
+      <div class="list-title"><h1>Inbox</h1><span class="list-note" id="listNote"></span></div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <ul class="rows" id="rows"></ul>
+    <div class="keys" id="keys" aria-label="Keyboard shortcuts">
+      <span><kbd>J</kbd> <kbd>K</kbd> Move</span>
+      <span><kbd>X</kbd> Select</span>
+      <span><kbd>A</kbd> Assign</span>
+      <span><kbd>Esc</kbd> Clear selection</span>
+    </div>
+  </section>
+  <section class="detail-pane" id="detail" aria-live="polite"></section>
+</div>
+
+<div class="menu" id="menu" role="menu" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+const ME = "mt";
+const PEOPLE = [
+  { id: "mt", name: "Mia Torres", initials: "MT" },
+  { id: "do", name: "Daniel Okafor", initials: "DO" },
+  { id: "pr", name: "Priya Raman", initials: "PR" },
+  { id: "lb", name: "Lucas Berg", initials: "LB" },
+  { id: "hs", name: "Hana Sato", initials: "HS" },
+];
+const DATA = [
+  { id: "4821", priority: "high", status: "new", assignee: null, received: "2026-10-07T10:52", customer: "Jonas Lindqvist", email: "jonas.lindqvist@example.com", company: "Orbitline Logistics", subject: "Warehouse team locked out after password reset", message: "Since this morning's password reset, none of our 14 warehouse staff can sign in. The reset link says it has expired. We ship at 1 PM, so we need access back before then." },
+  { id: "4816", priority: "high", status: "new", assignee: null, received: "2026-10-07T09:18", customer: "Amara Osei", email: "amara.osei@example.com", company: "Pinecrest Dental", subject: "Charged twice for the October invoice", message: "Our card was charged twice on Oct 6 for invoice INV-20931. Could you refund the duplicate payment?" },
+  { id: "4809", priority: "high", status: "progress", assignee: "do", received: "2026-10-07T08:05", customer: "Rafael Duarte", email: "rafael.duarte@example.com", company: "Copperleaf Hotels", subject: "Bookings stopped syncing overnight", message: "Room availability stopped syncing with our booking channel around 2 AM. We've had two double bookings this morning." },
+  { id: "4819", priority: "medium", status: "new", assignee: null, received: "2026-10-07T10:31", customer: "Elena Varga", email: "elena.varga@example.com", company: "Tidewater Bakery", subject: "How do I export last month's invoices?", message: "Our accountant needs every invoice from September as PDFs. Is there a way to download them all at once?" },
+  { id: "4814", priority: "medium", status: "new", assignee: "pr", received: "2026-10-07T09:47", customer: "Noah Fischer", email: "noah.fischer@example.com", company: "Halden Studio", subject: "Add two seats to our plan", message: "Two designers join us on Monday. Can we add two seats now and have them billed from the start of next month?" },
+  { id: "4797", priority: "medium", status: "progress", assignee: "mt", received: "2026-10-06T16:40", customer: "Grace Liu", email: "grace.liu@example.com", company: "Marlow & Finch", subject: "Password reset email never arrives", message: "Several people on our team ask for a password reset, but the email never arrives, not even in spam." },
+  { id: "4790", priority: "medium", status: "progress", assignee: "lb", received: "2026-10-06T14:15", customer: "Samuel Achebe", email: "samuel.achebe@example.com", company: "Redfern Clinics", subject: "Report totals don't match the dashboard", message: "The monthly report says 1,284 appointments, but the dashboard shows 1,301 for the same dates. Which one is right?" },
+  { id: "4823", priority: "low", status: "new", assignee: null, received: "2026-10-07T11:04", customer: "Iris Novak", email: "iris.novak@example.com", company: "Quillstone Books", subject: "Idea: dark mode for the mobile app", message: "Our staff use the app late in the evening. A dark mode would make a real difference." },
+  { id: "4805", priority: "low", status: "new", assignee: null, received: "2026-10-07T07:56", customer: "Owen Price", email: "owen.price@example.com", company: "Saltmarsh Outdoor", subject: "Change our billing contact email", message: "From now on, please send invoices to billing@example.com instead of my address." },
+  { id: "4782", priority: "low", status: "progress", assignee: "mt", received: "2026-10-06T11:20", customer: "Leah Morgan", email: "leah.morgan@example.com", company: "Fernhill School", subject: "Update the address on our invoices", message: "We've moved to 18 Harbour Road. Please use the new address on future invoices." },
+  { id: "4801", priority: "medium", status: "done", assignee: "do", received: "2026-10-07T07:30", customer: "Nadia Rahman", email: "nadia.rahman@example.com", company: "Ashgrove Fitness", subject: "Receipt is missing our VAT number", message: "Our receipt doesn't show our VAT number, and our accountant needs it on every receipt." },
+  { id: "4779", priority: "high", status: "done", assignee: "hs", received: "2026-10-06T09:02", customer: "Tom Harlow", email: "tom.harlow@example.com", company: "Brookvale Pharmacy", subject: "Can't upload a logo larger than 2 MB", message: "Uploading our logo fails without an error. The file is 3.4 MB." },
+  { id: "4775", priority: "low", status: "done", assignee: "mt", received: "2026-10-05T17:48", customer: "Kai Moreno", email: "kai.moreno@example.com", company: "Lanternfish Games", subject: "Two-factor codes arrive late", message: "Two-factor codes arrive several minutes late, so they expire before we can use them." },
+];
+const PRIORITY_LABEL = { high: "High", medium: "Medium", low: "Low" };
+const STATUS_LABEL = { new: "New", progress: "In progress", done: "Done" };
+const FILTERS = [
+  { key: "open", label: "Open" },
+  { key: "unassigned", label: "Unassigned" },
+  { key: "done", label: "Done today" },
+];
+
+const params = new URLSearchParams(location.search);
+let screenState = params.get("state");
+let requests = DATA.map((r) => ({ ...r }));
+let filter = "open";
+let currentId = null;
+const checked = new Set();
+let toastTimer;
+
+// ---------- helpers ----------
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function formatDate(iso) {
+  const [d, t] = iso.split("T");
+  const [y, m, day] = d.split("-").map(Number);
+  const [h, min] = t.split(":").map(Number);
+  return `${MONTHS[m - 1]} ${day}, ${y}, ${h % 12 || 12}:${String(min).padStart(2, "0")} ${h >= 12 ? "PM" : "AM"}`;
+}
+const person = (id) => PEOPLE.find((p) => p.id === id);
+const byId = (id) => requests.find((r) => r.id === id);
+const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+const rank = { high: 0, medium: 1, low: 2 };
+const sortRequests = (a, b) => rank[a.priority] - rank[b.priority] || a.received.localeCompare(b.received);
+const openLoad = (pid) => requests.filter((r) => r.assignee === pid && r.status !== "done").length;
+function inFilter(r, f = filter) {
+  if (f === "done") return r.status === "done";
+  if (r.status === "done") return false;
+  return f === "unassigned" ? !r.assignee : true;
+}
+const visible = () => requests.filter((r) => inFilter(r)).sort(sortRequests);
+
+const icon = {
+  priority: (p) => `<svg class="pri pri-${p}" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect class="bar on" x="2" y="9.5" width="3" height="4.5" rx="1"/><rect class="bar ${p !== "low" ? "on" : ""}" x="6.5" y="6" width="3" height="8" rx="1"/><rect class="bar ${p === "high" ? "on" : ""}" x="11" y="2.5" width="3" height="11.5" rx="1"/></svg>`,
+  status: (s) => ({
+    new: `<svg class="st st-new" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/></svg>`,
+    progress: `<svg class="st st-progress" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><path d="M8 4.5a3.5 3.5 0 0 1 0 7z"/></svg>`,
+    done: `<svg class="st st-done" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><path d="m5.8 8.1 1.5 1.5 3-3.1"/></svg>`,
+  })[s],
+  chev: `<svg class="chev" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 6.5 3.5 3.5 3.5-3.5"/></svg>`,
+  tick: `<svg class="tick" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.5 3 3 6-6.5"/></svg>`,
+  check: `<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="m6.8 10.2 2.2 2.2 4.2-4.6"/></svg>`,
+};
+const avatar = (pid) => { const p = person(pid); return p ? `<span class="avatar" title="${esc(p.name)}">${p.initials}</span>` : `<span class="avatar is-empty" title="Unassigned"></span>`; };
+function notice({ tone, title, text, action }) {
+  const glyph = {
+    ok: `<svg class="ok" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12"/><path d="m11 16.5 3.5 3.5 6.5-7"/></svg>`,
+    bad: `<svg class="bad" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12"/><path d="M16 10.5v7"/><path d="M16 21.5v.01"/></svg>`,
+    plain: `<svg class="plain" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="14.5" cy="14.5" r="7.5"/><path d="m20 20 5.5 5.5"/></svg>`,
+  }[tone];
+  const btn = action ? `<button class="btn${action.primary ? " btn-primary" : ""}" data-action="${action.key}">${action.label}</button>` : "";
+  return `<li class="notice">${glyph}<h2>${title}</h2><p>${text}</p>${btn}</li>`;
+}
+
+// ---------- render ----------
+function renderList() {
+  const busy = screenState === "loading" || screenState === "error";
+  $("filters").innerHTML = FILTERS.map((f) => `<button class="filter" aria-pressed="${f.key === filter}" data-filter="${f.key}">${f.label}${busy ? "" : `<span class="count">${requests.filter((r) => inFilter(r, f.key)).length}</span>`}</button>`).join("");
+  const rows = $("rows");
+  const note = $("listNote");
+  $("keys").hidden = busy || !visible().length;
+
+  if (screenState === "loading") {
+    note.textContent = "Loading requests…";
+    rows.setAttribute("aria-busy", "true");
+    rows.innerHTML = [68, 52, 74, 46, 60, 55, 70].map((w) => `<li class="item" aria-hidden="true"><span></span><span></span><span class="sk" style="width: ${w}%;"></span><span class="sk" style="width: 24px; height: 24px; border-radius: var(--radius-full);"></span><span class="sk sub" style="width: 50%;"></span></li>`).join("");
+    return;
+  }
+  rows.removeAttribute("aria-busy");
+  if (screenState === "error") {
+    note.textContent = "";
+    rows.innerHTML = notice({ tone: "bad", title: "Couldn't load requests", text: "Check your connection and try again.", action: { key: "retry", label: "Try again", primary: true } });
+    return;
+  }
+
+  const list = visible();
+  note.textContent = checked.size ? `${checked.size} selected` : "Priority first, then longest waiting";
+  if (!list.length) {
+    rows.innerHTML = {
+      open: notice({ tone: "ok", title: "No open requests", text: "New requests show up here as soon as customers write in.", action: { key: "go-done", label: "View done today" } }),
+      unassigned: notice({ tone: "ok", title: "Nothing to assign", text: "Every open request has an assignee. New requests land here first." }),
+      done: notice({ tone: "plain", title: "Nothing is done yet today", text: "Requests show up here once they're marked done." }),
+    }[filter];
+    return;
+  }
+  rows.innerHTML = list.map((r) => `<li class="item${checked.has(r.id) ? " is-checked" : ""}${r.id === currentId ? " is-current" : ""}" data-id="${r.id}" ${r.id === currentId ? 'aria-current="true"' : ""}>
+    <input type="checkbox" class="pick" ${checked.has(r.id) ? "checked" : ""} aria-label="Select: ${esc(r.subject)}">
+    ${icon.priority(r.priority)}
+    <span class="subj"><span class="sr">${PRIORITY_LABEL[r.priority]} priority: </span>${esc(r.subject)}</span>
+    ${avatar(r.assignee)}
+    <span class="sub">${esc(r.company)} · <time datetime="${r.received}">${formatDate(r.received)}</time></span>
+    <span class="status">${icon.status(r.status)}${STATUS_LABEL[r.status]}</span>
+  </li>`).join("");
+}
+
+function renderDetail() {
+  const pane = $("detail");
+  if (screenState === "loading") {
+    pane.innerHTML = `<div class="detail" aria-hidden="true"><span class="sk" style="width: 30%;"></span><span class="sk" style="width: 70%; height: 24px; margin: var(--space-3) 0 var(--space-6);"></span><div class="card" style="padding: var(--space-4);"><span class="sk" style="width: 60%;"></span><span class="sk" style="width: 45%; margin-top: var(--space-4);"></span><span class="sk" style="width: 52%; margin-top: var(--space-4);"></span></div></div>`;
+    return;
+  }
+  const list = screenState === "error" ? [] : visible();
+  if (!list.length) { pane.innerHTML = ""; return; }
+
+  if (checked.size) {
+    const picked = [...checked].map(byId).sort(sortRequests);
+    pane.innerHTML = `<div class="detail">
+      <div class="meta-line">Bulk change</div>
+      <h2>${plural(picked.length, "request")} selected</h2>
+      <div class="actions">
+        <button class="btn btn-primary" id="bulkAssign" aria-haspopup="menu" aria-expanded="false">Assign ${plural(picked.length, "request")} ${icon.chev}</button>
+        <button class="btn btn-quiet" id="clearSelection">Clear selection</button>
+      </div>
+      <ul class="card picked">${picked.map((r) => `<li>${icon.priority(r.priority)}<span class="subj"><span class="sr">${PRIORITY_LABEL[r.priority]} priority: </span>${esc(r.subject)}</span>${avatar(r.assignee)}</li>`).join("")}</ul>
+    </div>`;
+    return;
+  }
+
+  const r = byId(currentId) && inFilter(byId(currentId)) ? byId(currentId) : list[0];
+  currentId = r.id;
+  const who = person(r.assignee);
+  pane.innerHTML = `<article class="detail">
+    <div class="meta-line"><span class="pri-label">${icon.priority(r.priority)}${PRIORITY_LABEL[r.priority]} priority</span><span aria-hidden="true">·</span><span class="status">${icon.status(r.status)}${STATUS_LABEL[r.status]}</span></div>
+    <h2>${esc(r.subject)}</h2>
+    <dl class="card fields">
+      <dt>Assignee</dt>
+      <dd><button class="btn" id="assignOne" aria-haspopup="menu" aria-expanded="false">${avatar(r.assignee)}${who ? esc(who.name) + (who.id === ME ? " (you)" : "") : "Unassigned"} ${icon.chev}</button></dd>
+      <dt>Customer</dt>
+      <dd class="stack"><span>${esc(r.customer)} · ${esc(r.company)}</span><span class="muted">${esc(r.email)}</span></dd>
+      <dt>Received</dt>
+      <dd><time datetime="${r.received}">${formatDate(r.received)}</time></dd>
+    </dl>
+    <div class="card message">
+      <h3>Latest message</h3>
+      <p>${esc(r.message)}</p>
+    </div>
+  </article>`;
+}
+
+function render() {
+  renderDetail();
+  renderList();
+}
+
+// ---------- assign menu ----------
+let menuTargets = [];
+let menuTrigger = null;
+function openMenu(trigger, ids) {
+  closeMenu();
+  menuTargets = ids;
+  menuTrigger = trigger;
+  const current = new Set(ids.map((id) => byId(id).assignee));
+  const only = current.size === 1 ? [...current][0] : undefined;
+  const menu = $("menu");
+  menu.innerHTML = `<div class="menu-label">${ids.length > 1 ? `Assign ${ids.length} requests to` : "Assign to"}</div>` +
+    PEOPLE.map((p, i) => `<button class="menu-item" role="menuitem" data-person="${p.id}" aria-keyshortcuts="${i + 1}">
+      <span class="avatar">${p.initials}</span><span>${esc(p.name)}${p.id === ME ? " (you)" : ""}</span>
+      ${only === p.id ? icon.tick : `<span class="load">${openLoad(p.id)} open</span>`}<kbd aria-hidden="true">${i + 1}</kbd>
+    </button>`).join("") +
+    ([...current].some(Boolean) ? `<div class="menu-sep" role="separator"></div><button class="menu-item" role="menuitem" data-person="">Remove assignee</button>` : "");
+  menu.hidden = false;
+  const rect = trigger.getBoundingClientRect();
+  const left = Math.min(rect.left, window.innerWidth - menu.offsetWidth - 16);
+  menu.style.left = `${left + window.scrollX}px`;
+  menu.style.top = `${rect.bottom + window.scrollY + 4}px`;
+  trigger.setAttribute("aria-expanded", "true");
+  menu.querySelector(".menu-item").focus();
+}
+function closeMenu(returnFocus = false) {
+  const menu = $("menu");
+  if (menu.hidden) return;
+  menu.hidden = true;
+  if (menuTrigger) {
+    menuTrigger.setAttribute("aria-expanded", "false");
+    if (returnFocus && document.body.contains(menuTrigger)) menuTrigger.focus();
+  }
+  menuTrigger = null;
+}
+function assign(ids, personId) {
+  const before = ids.map((id) => [id, byId(id).assignee]);
+  ids.forEach((id) => (byId(id).assignee = personId || null));
+  checked.clear();
+  render();
+  const n = plural(ids.length, "request");
+  const who = personId === ME ? "you" : person(personId)?.name;
+  showToast(personId ? `Assigned ${n} to ${who}.` : `Removed the assignee from ${n}.`, () => {
+    before.forEach(([id, a]) => (byId(id).assignee = a));
+    render();
+    showToast("Undone. The assignees are back as they were.");
+  });
+}
+function showToast(message, onUndo, persist = false) {
+  const toast = $("toast");
+  toast.innerHTML = `${icon.check}<span>${esc(message)}</span>${onUndo ? `<button class="link" id="undo">Undo</button>` : ""}`;
+  toast.hidden = false;
+  if (onUndo) $("undo").onclick = () => onUndo();
+  clearTimeout(toastTimer);
+  if (!persist) toastTimer = setTimeout(() => (toast.hidden = true), 8000);
+}
+function openAssignFromKeyboard() {
+  const trigger = $("bulkAssign") || $("assignOne");
+  if (!trigger) return;
+  openMenu(trigger, checked.size ? [...checked] : [currentId]);
+}
+function move(step) {
+  const list = visible();
+  if (!list.length) return;
+  const i = Math.max(0, list.findIndex((r) => r.id === currentId));
+  currentId = list[Math.min(list.length - 1, Math.max(0, i + step))].id;
+  render();
+  document.querySelector(".item.is-current")?.scrollIntoView({ block: "nearest" });
+}
+function toggle(id) { checked.has(id) ? checked.delete(id) : checked.add(id); render(); }
+
+// ---------- events ----------
+document.addEventListener("click", (e) => {
+  const item = e.target.closest(".menu-item");
+  if (item) { const ids = menuTargets; closeMenu(); assign(ids, item.dataset.person); return; }
+  const f = e.target.closest(".filter");
+  if (f) { filter = f.dataset.filter; checked.clear(); currentId = null; closeMenu(); render(); return; }
+  if (e.target.closest("#assignOne")) { const b = $("assignOne"); if (menuTrigger === b) { closeMenu(); return; } openMenu(b, [currentId]); return; }
+  if (e.target.closest("#bulkAssign")) { const b = $("bulkAssign"); if (menuTrigger === b) { closeMenu(); return; } openMenu(b, [...checked]); return; }
+  if (e.target.closest("#clearSelection")) { checked.clear(); render(); return; }
+  const action = e.target.closest("[data-action]");
+  if (action) {
+    const key = action.dataset.action;
+    if (key === "retry") { screenState = "loading"; render(); setTimeout(() => { screenState = null; render(); }, 700); }
+    if (key === "go-done") { filter = "done"; currentId = null; render(); }
+    return;
+  }
+  const row = e.target.closest(".item[data-id]");
+  if (row && !e.target.matches(".pick")) { currentId = row.dataset.id; closeMenu(); render(); return; }
+  if (!e.target.closest("#menu")) closeMenu();
+});
+document.addEventListener("change", (e) => {
+  if (!e.target.matches(".pick")) return;
+  const id = e.target.closest(".item").dataset.id;
+  currentId = id;
+  toggle(id);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.target.matches("input[type=search], textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+  const menuOpen = !$("menu").hidden;
+  if (menuOpen) {
+    const items = [...$("menu").querySelectorAll(".menu-item")];
+    const i = items.indexOf(document.activeElement);
+    if (e.key === "ArrowDown") { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+    else if (e.key === "Escape") { e.preventDefault(); closeMenu(true); }
+    else if (e.key === "Tab") closeMenu();
+    else if (/^[1-9]$/.test(e.key) && PEOPLE[Number(e.key) - 1]) { e.preventDefault(); const ids = menuTargets; closeMenu(); assign(ids, PEOPLE[Number(e.key) - 1].id); }
+    return;
+  }
+  if (screenState === "loading" || screenState === "error") return;
+  const k = e.key.toLowerCase();
+  if (k === "j" || e.key === "ArrowDown") { e.preventDefault(); move(1); }
+  else if (k === "k" || e.key === "ArrowUp") { e.preventDefault(); move(-1); }
+  else if (k === "x") { e.preventDefault(); if (currentId) toggle(currentId); }
+  else if (k === "a") { e.preventDefault(); openAssignFromKeyboard(); }
+  else if (e.key === "Escape" && checked.size) { checked.clear(); render(); }
+});
+
+// ---------- states ----------
+if (screenState === "empty") requests = requests.filter((r) => r.status === "done");
+render();
+if (screenState === "done") {
+  screenState = null;
+  ["4821", "4816"].forEach((id) => (byId(id).assignee = "pr"));
+  currentId = "4816";
+  render();
+  showToast("Assigned 2 requests to Priya Raman.", () => {
+    ["4821", "4816"].forEach((id) => (byId(id).assignee = null));
+    render();
+    showToast("Undone. The assignees are back as they were.");
+  }, true);
+}
+</script>
+</body>
+</html>

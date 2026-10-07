@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500" viewBox="0 0 960 500" role="img" aria-label="Build reads to open up into several options; review reads one lens at a time and narrows to findings">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500" viewBox="0 0 960 500" role="img" aria-label="Building reads to explore several options; reviewing checks one area at a time and narrows to findings">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#57606A"/>
@@ -24,7 +24,7 @@
   <!-- Build panel -->
   <rect x="24" y="24" width="444" height="452" rx="14" fill="#FFFFFF" stroke="#D8DEE4" stroke-width="1.5"/>
   <text class="sans h" x="52" y="70">Build</text>
-  <text class="sans sub" x="52" y="94">Open up: one brief, several real options</text>
+  <text class="sans sub" x="52" y="94">Open up: one PRD, several real options</text>
 
   <rect class="node" x="52" y="160" width="90" height="44" rx="10" style="fill:#EEF2FF;stroke:#3B5BDB"/>
   <text class="sans nodeText" x="97" y="187" text-anchor="middle">PRD</text>
@@ -58,10 +58,10 @@
   <!-- Review panel -->
   <rect x="492" y="24" width="444" height="452" rx="14" fill="#FFFFFF" stroke="#D8DEE4" stroke-width="1.5"/>
   <text class="sans h" x="520" y="70">Review</text>
-  <text class="sans sub" x="520" y="94">Narrow down: one lens at a time</text>
+  <text class="sans sub" x="520" y="94">Narrow down: one area at a time</text>
 
   <rect class="node" x="520" y="118" width="110" height="36" rx="8"/>
-  <text class="sans nodeText" x="575" y="141" text-anchor="middle">Parts</text>
+  <text class="sans nodeText" x="575" y="141" text-anchor="middle">Components</text>
   <rect class="node" x="520" y="165" width="110" height="36" rx="8"/>
   <text class="sans nodeText" x="575" y="188" text-anchor="middle">Layout</text>
   <rect class="node" x="520" y="212" width="110" height="36" rx="8"/>
@@ -72,8 +72,8 @@
   <line class="line" x1="630" y1="183" x2="796" y2="182" marker-end="url(#arrow)"/>
   <line class="line" x1="630" y1="230" x2="796" y2="184" marker-end="url(#arrow)"/>
 
-  <text class="sans small" x="520" y="290">READS, PER LENS</text>
-  <text class="sans lens" x="520" y="322">Parts</text>
+  <text class="sans small" x="520" y="290">READS, PER AREA</text>
+  <text class="sans lens" x="520" y="322">Components</text>
   <text class="mono files" x="520" y="344">principles · rules · components · tokens.css</text>
   <text class="sans lens" x="520" y="382">Layout</text>
   <text class="mono files" x="520" y="404">principles · rules · patterns</text>

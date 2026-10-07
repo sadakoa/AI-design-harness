@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inbox · Support</title>
+<link rel="stylesheet" href="../../../design-system/tokens/tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-surface-base); color: var(--color-text-primary); font-family: var(--font-family-base); font-size: var(--font-size-md); line-height: 1.5; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  svg { flex: none; }
+
+  /* App bar */
+  .topbar { height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-8); border-bottom: 1px solid var(--color-border-default); }
+  .brand { display: flex; align-items: center; gap: var(--space-2); font-weight: var(--font-weight-bold); }
+  .brand svg { fill: none; stroke: var(--color-text-primary); stroke-width: 1.5; stroke-linejoin: round; }
+  .me { display: flex; align-items: center; gap: var(--space-2); color: var(--color-text-secondary); }
+
+  /* Page */
+  .page { padding: var(--space-6) var(--space-8) var(--space-8); }
+  h1 { font-size: var(--font-size-2xl); line-height: 1.3; margin: 0; }
+  .lede { margin: var(--space-1) 0 var(--space-4); color: var(--color-text-secondary); min-height: 21px; }
+  .lede strong { color: var(--color-text-primary); font-weight: var(--font-weight-bold); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: var(--space-6); border-bottom: 1px solid var(--color-border-default); }
+  .tab { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) 0 var(--space-3); border: 0; background: none; color: var(--color-text-secondary); }
+  .tab:hover { color: var(--color-text-primary); }
+  .tab[aria-selected="true"] { color: var(--color-text-primary); font-weight: var(--font-weight-bold); box-shadow: inset 0 -2px 0 var(--color-text-primary); }
+  .count { display: inline-block; min-width: 24px; padding: 0 var(--space-2); border-radius: var(--radius-full); background: var(--color-surface-subtle); color: var(--color-text-secondary); font-size: var(--font-size-sm); font-weight: var(--font-weight-regular); line-height: 20px; text-align: center; }
+
+  /* Toolbar */
+  .toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); height: 56px; }
+  .tool-left { display: flex; align-items: center; gap: var(--space-3); color: var(--color-text-secondary); }
+  .tool-left strong { color: var(--color-text-primary); }
+  .search { position: relative; display: flex; align-items: center; }
+  .search svg { position: absolute; left: var(--space-3); fill: none; stroke: var(--color-text-secondary); stroke-width: 1.5; stroke-linecap: round; }
+  .search input { width: 280px; height: 32px; padding: 0 var(--space-3) 0 var(--space-8); border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); background: var(--color-surface-base); }
+  .search input::placeholder { color: var(--color-text-secondary); }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: var(--space-2); height: 32px; padding: 0 var(--space-3); border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); background: var(--color-surface-base); font-weight: var(--font-weight-bold); white-space: nowrap; }
+  .btn:hover { background: var(--color-surface-subtle); }
+  .btn-primary { background: var(--color-action-primary); border-color: var(--color-action-primary); color: var(--color-text-on-action); }
+  .btn-primary:hover { background: var(--color-action-primary-hover); border-color: var(--color-action-primary-hover); }
+  .btn-primary .chev path { stroke: var(--color-text-on-action); }
+  .btn-quiet { border: 0; background: none; color: var(--color-text-secondary); font-weight: var(--font-weight-regular); }
+  .btn-quiet:hover { background: var(--color-surface-subtle); color: var(--color-text-primary); }
+  .link { border: 0; background: none; padding: 0; font-weight: var(--font-weight-bold); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* List */
+  .table-wrap { overflow-x: auto; }
+  .list { width: 100%; min-width: 860px; border-collapse: collapse; table-layout: fixed; }
+  .list col.c-check { width: 44px; }
+  .list col.c-status { width: 140px; }
+  .list col.c-assignee { width: 208px; }
+  .list col.c-received { width: 200px; }
+  .list th, .list td { padding: var(--space-3); text-align: left; border-bottom: 1px solid var(--color-border-default); vertical-align: middle; }
+  .list thead th { padding-top: var(--space-2); padding-bottom: var(--space-2); border-top: 1px solid var(--color-border-default); color: var(--color-text-secondary); font-size: var(--font-size-sm); font-weight: var(--font-weight-regular); }
+  .list input[type="checkbox"] { width: 16px; height: 16px; margin: 0; accent-color: var(--color-text-primary); display: block; }
+  .group th { background: var(--color-surface-subtle); padding-top: var(--space-2); padding-bottom: var(--space-2); }
+  .group-label { display: flex; align-items: center; gap: var(--space-2); font-weight: var(--font-weight-bold); }
+  .row:hover td { background: var(--color-surface-subtle); }
+  .row.is-selected td { background: var(--color-action-primary-subtle); }
+  .subject { font-weight: var(--font-weight-bold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .customer { color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .received { color: var(--color-text-secondary); white-space: nowrap; }
+
+  /* Priority, status, people */
+  .pri .bar { fill: var(--color-border-default); }
+  .pri-high .on { fill: var(--color-status-danger); }
+  .pri-medium .on { fill: var(--color-status-warning); }
+  .pri-low .on { fill: var(--color-text-secondary); }
+  .status { display: inline-flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+  .st circle, .st path { fill: none; stroke-width: 1.5; }
+  .st-new circle { stroke: var(--color-text-secondary); }
+  .st-progress circle { stroke: var(--color-text-primary); }
+  .st-progress path { fill: var(--color-text-primary); stroke: none; }
+  .st-done circle, .st-done path { stroke: var(--color-status-success); stroke-linecap: round; stroke-linejoin: round; }
+  .avatar { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: var(--radius-full); border: 1px solid var(--color-border-default); background: var(--color-surface-subtle); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); line-height: 1; flex: none; }
+  .avatar.is-empty { border: 1px dashed var(--color-text-secondary); background: var(--color-surface-base); }
+  .assignee { display: inline-flex; align-items: center; gap: var(--space-2); max-width: 100%; height: 32px; margin-left: calc(var(--space-2) * -1); padding: 0 var(--space-2); border: 1px solid var(--color-surface-base); border-radius: var(--radius-sm); background: none; text-align: left; }
+  .row:hover .assignee { border-color: var(--color-border-default); background: var(--color-surface-base); }
+  .assignee .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .assignee.is-empty { border-color: var(--color-border-default); background: var(--color-surface-base); font-weight: var(--font-weight-bold); }
+  .assignee.is-empty:hover { background: var(--color-surface-subtle); }
+  .chev path { fill: none; stroke: var(--color-text-secondary); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .assignee .chev { opacity: 0; }
+  .assignee.is-empty .chev, .row:hover .assignee .chev, .assignee:focus-visible .chev, .assignee[aria-expanded="true"] .chev { opacity: 1; }
+
+  /* Loading, empty, error */
+  .sk { display: block; height: 12px; border-radius: var(--radius-sm); background: var(--color-border-default); animation: breathe 1.6s ease-in-out infinite; }
+  @keyframes breathe { 50% { opacity: .45; } }
+  .notice td { padding: var(--space-8) var(--space-4); text-align: center; }
+  .notice h2 { margin: var(--space-3) 0 var(--space-1); font-size: var(--font-size-lg); }
+  .notice p { margin: 0 auto var(--space-4); max-width: 420px; color: var(--color-text-secondary); }
+  .notice svg { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .notice .ok { stroke: var(--color-status-success); }
+  .notice .bad { stroke: var(--color-status-danger); }
+  .notice .plain { stroke: var(--color-text-secondary); }
+
+  /* Menu */
+  .menu { position: absolute; z-index: 10; width: 264px; padding: var(--space-1); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); background: var(--color-surface-base); }
+  .menu-label { padding: var(--space-2) var(--space-3) var(--space-1); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  .menu-item { display: flex; align-items: center; gap: var(--space-2); width: 100%; padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-sm); background: none; text-align: left; }
+  .menu-item:hover, .menu-item:focus { background: var(--color-surface-subtle); }
+  .menu-item:focus-visible { outline-offset: -2px; }
+  .menu-item .load { margin-left: auto; color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  .menu-item .tick { fill: none; stroke: var(--color-text-primary); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .menu-sep { height: 1px; margin: var(--space-1) 0; background: var(--color-border-default); }
+
+  /* Toast */
+  .toast { position: fixed; left: 50%; bottom: var(--space-6); transform: translateX(-50%); display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); background: var(--color-surface-base); white-space: nowrap; }
+  .toast svg { fill: none; stroke: var(--color-status-success); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 11.5 5.2 4.5h9.6l2.2 7v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 11.5h4.2l1 2h3.6l1-2H17"/></svg>
+    <span>Support</span>
+  </div>
+  <div class="me"><span class="avatar">MT</span><span>Mia Torres</span></div>
+</header>
+
+<main class="page">
+  <h1>Inbox</h1>
+  <p class="lede" id="lede"></p>
+
+  <div class="tabs" role="tablist" aria-label="Views" id="tabs"></div>
+
+  <div class="toolbar">
+    <div class="tool-left" id="toolLeft"></div>
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+      <input type="search" id="search" placeholder="Search subject or customer" aria-label="Search requests">
+    </label>
+  </div>
+
+  <div class="table-wrap">
+    <table class="list" id="list">
+      <colgroup><col class="c-check"><col><col class="c-status"><col class="c-assignee"><col class="c-received"></colgroup>
+      <thead>
+        <tr>
+          <th scope="col"><input type="checkbox" id="selectAll" aria-label="Select all requests in this view"></th>
+          <th scope="col">Request</th>
+          <th scope="col">Status</th>
+          <th scope="col">Assignee</th>
+          <th scope="col">Received</th>
+        </tr>
+      </thead>
+      <tbody id="body"></tbody>
+    </table>
+  </div>
+</main>
+
+<div class="menu" id="menu" role="menu" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+const ME = "mt";
+const PEOPLE = [
+  { id: "mt", name: "Mia Torres", initials: "MT" },
+  { id: "do", name: "Daniel Okafor", initials: "DO" },
+  { id: "pr", name: "Priya Raman", initials: "PR" },
+  { id: "lb", name: "Lucas Berg", initials: "LB" },
+  { id: "hs", name: "Hana Sato", initials: "HS" },
+];
+const DATA = [
+  { id: "4821", priority: "high", status: "new", assignee: null, received: "2026-10-07T10:52", customer: "Jonas Lindqvist", company: "Orbitline Logistics", subject: "Warehouse team locked out after password reset" },
+  { id: "4816", priority: "high", status: "new", assignee: null, received: "2026-10-07T09:18", customer: "Amara Osei", company: "Pinecrest Dental", subject: "Charged twice for the October invoice" },
+  { id: "4809", priority: "high", status: "progress", assignee: "do", received: "2026-10-07T08:05", customer: "Rafael Duarte", company: "Copperleaf Hotels", subject: "Bookings stopped syncing overnight" },
+  { id: "4819", priority: "medium", status: "new", assignee: null, received: "2026-10-07T10:31", customer: "Elena Varga", company: "Tidewater Bakery", subject: "How do I export last month's invoices?" },
+  { id: "4814", priority: "medium", status: "new", assignee: "pr", received: "2026-10-07T09:47", customer: "Noah Fischer", company: "Halden Studio", subject: "Add two seats to our plan" },
+  { id: "4797", priority: "medium", status: "progress", assignee: "mt", received: "2026-10-06T16:40", customer: "Grace Liu", company: "Marlow & Finch", subject: "Password reset email never arrives" },
+  { id: "4790", priority: "medium", status: "progress", assignee: "lb", received: "2026-10-06T14:15", customer: "Samuel Achebe", company: "Redfern Clinics", subject: "Report totals don't match the dashboard" },
+  { id: "4823", priority: "low", status: "new", assignee: null, received: "2026-10-07T11:04", customer: "Iris Novak", company: "Quillstone Books", subject: "Idea: dark mode for the mobile app" },
+  { id: "4805", priority: "low", status: "new", assignee: null, received: "2026-10-07T07:56", customer: "Owen Price", company: "Saltmarsh Outdoor", subject: "Change our billing contact email" },
+  { id: "4782", priority: "low", status: "progress", assignee: "mt", received: "2026-10-06T11:20", customer: "Leah Morgan", company: "Fernhill School", subject: "Update the address on our invoices" },
+  { id: "4801", priority: "medium", status: "done", assignee: "do", received: "2026-10-07T07:30", customer: "Nadia Rahman", company: "Ashgrove Fitness", subject: "Receipt is missing our VAT number" },
+  { id: "4779", priority: "high", status: "done", assignee: "hs", received: "2026-10-06T09:02", customer: "Tom Harlow", company: "Brookvale Pharmacy", subject: "Can't upload a logo larger than 2 MB" },
+  { id: "4775", priority: "low", status: "done", assignee: "mt", received: "2026-10-05T17:48", customer: "Kai Moreno", company: "Lanternfish Games", subject: "Two-factor codes arrive late" },
+];
+const PRIORITIES = [
+  { key: "high", label: "High" },
+  { key: "medium", label: "Medium" },
+  { key: "low", label: "Low" },
+];
+const STATUS_LABEL = { new: "New", progress: "In progress", done: "Done" };
+const VIEWS = [
+  { key: "open", label: "Open" },
+  { key: "unassigned", label: "Unassigned" },
+  { key: "mine", label: "Assigned to me" },
+  { key: "done", label: "Done today" },
+];
+
+const params = new URLSearchParams(location.search);
+let screenState = params.get("state");
+let requests = DATA.map((r) => ({ ...r }));
+let view = "open";
+let query = "";
+const selected = new Set();
+let toastTimer;
+
+// ---------- helpers ----------
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function formatDate(iso) {
+  const [d, t] = iso.split("T");
+  const [y, m, day] = d.split("-").map(Number);
+  const [h, min] = t.split(":").map(Number);
+  return `${MONTHS[m - 1]} ${day}, ${y}, ${h % 12 || 12}:${String(min).padStart(2, "0")} ${h >= 12 ? "PM" : "AM"}`;
+}
+const person = (id) => PEOPLE.find((p) => p.id === id);
+const byId = (id) => requests.find((r) => r.id === id);
+const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+const rank = { high: 0, medium: 1, low: 2 };
+const sortRequests = (a, b) => rank[a.priority] - rank[b.priority] || a.received.localeCompare(b.received);
+
+const icon = {
+  priority: (p) => `<svg class="pri pri-${p}" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect class="bar on" x="2" y="9.5" width="3" height="4.5" rx="1"/><rect class="bar ${p !== "low" ? "on" : ""}" x="6.5" y="6" width="3" height="8" rx="1"/><rect class="bar ${p === "high" ? "on" : ""}" x="11" y="2.5" width="3" height="11.5" rx="1"/></svg>`,
+  status: (s) => ({
+    new: `<svg class="st st-new" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/></svg>`,
+    progress: `<svg class="st st-progress" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><path d="M8 4.5a3.5 3.5 0 0 1 0 7z"/></svg>`,
+    done: `<svg class="st st-done" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><path d="m5.8 8.1 1.5 1.5 3-3.1"/></svg>`,
+  })[s],
+  chev: `<svg class="chev" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 6.5 3.5 3.5 3.5-3.5"/></svg>`,
+  tick: `<svg class="tick" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.5 3 3 6-6.5"/></svg>`,
+  check: `<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="m6.8 10.2 2.2 2.2 4.2-4.6"/></svg>`,
+};
+
+function inView(r, v = view) {
+  if (v === "done") return r.status === "done";
+  if (r.status === "done") return false;
+  if (v === "unassigned") return !r.assignee;
+  if (v === "mine") return r.assignee === ME;
+  return true;
+}
+function matches(r) {
+  if (!query) return true;
+  return `${r.subject} ${r.customer} ${r.company}`.toLowerCase().includes(query.toLowerCase());
+}
+const visible = () => requests.filter((r) => inView(r) && matches(r)).sort(sortRequests);
+
+// ---------- render ----------
+function renderTabs() {
+  const counts = screenState === "loading" || screenState === "error";
+  $("tabs").innerHTML = VIEWS.map((v) => {
+    const n = requests.filter((r) => inView(r, v.key)).length;
+    return `<button class="tab" role="tab" aria-selected="${v.key === view}" data-view="${v.key}">${v.label}${counts ? "" : `<span class="count">${n}</span>`}</button>`;
+  }).join("");
+}
+
+function renderLede() {
+  const lede = $("lede");
+  if (screenState === "loading") { lede.innerHTML = `<span class="sk" style="width: 320px; margin-top: var(--space-1);"></span>`; return; }
+  if (screenState === "error") { lede.textContent = ""; return; }
+  const open = requests.filter((r) => r.status !== "done");
+  if (!open.length) { lede.textContent = "No open requests right now."; return; }
+  const urgent = open.filter((r) => r.priority === "high" && !r.assignee).length;
+  lede.innerHTML = `${plural(open.length, "open request")}. ` + (urgent
+    ? `<strong>${plural(urgent, "high-priority request")} ${urgent === 1 ? "has" : "have"} no assignee.</strong>`
+    : "Every high-priority request has an assignee.");
+}
+
+function renderToolbar() {
+  const left = $("toolLeft");
+  if (screenState === "loading") { left.textContent = "Loading requests…"; return; }
+  if (selected.size) {
+    left.innerHTML = `<strong>${selected.size} selected</strong>
+      <button class="btn btn-primary" id="bulkAssign" aria-haspopup="menu" aria-expanded="false">Assign ${icon.chev}</button>
+      <button class="btn btn-quiet" id="clearSelection">Clear selection</button>`;
+  } else {
+    left.textContent = screenState === "error" ? "" : "Sorted by priority, then longest waiting. Select several to assign them at once.";
+  }
+}
+
+function rowHtml(r) {
+  const who = person(r.assignee);
+  const isSel = selected.has(r.id);
+  return `<tr class="row${isSel ? " is-selected" : ""}" data-id="${r.id}">
+    <td><input type="checkbox" class="pick" ${isSel ? "checked" : ""} aria-label="Select: ${esc(r.subject)}"></td>
+    <td><div class="subject" title="${esc(r.subject)}">${esc(r.subject)}</div><div class="customer">${esc(r.customer)} · ${esc(r.company)}</div></td>
+    <td><span class="status">${icon.status(r.status)}${STATUS_LABEL[r.status]}</span></td>
+    <td><button class="assignee${who ? "" : " is-empty"}" aria-haspopup="menu" aria-expanded="false" aria-label="${who ? `Assignee: ${esc(who.name)}. Change assignee` : "Unassigned. Assign this request"}">
+      <span class="avatar${who ? "" : " is-empty"}" ${who ? "" : 'title="Unassigned"'}>${who ? who.initials : ""}</span><span class="name">${who ? esc(who.name) + (who.id === ME ? " (you)" : "") : "Assign"}</span>${icon.chev}</button></td>
+    <td class="received"><time datetime="${r.received}">${formatDate(r.received)}</time></td>
+  </tr>`;
+}
+
+function noticeHtml({ tone, title, text, action }) {
+  const glyph = {
+    ok: `<svg class="ok" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12"/><path d="m11 16.5 3.5 3.5 6.5-7"/></svg>`,
+    bad: `<svg class="bad" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12"/><path d="M16 10.5v7"/><path d="M16 21.5v.01"/></svg>`,
+    plain: `<svg class="plain" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="14.5" cy="14.5" r="7.5"/><path d="m20 20 5.5 5.5"/></svg>`,
+  }[tone];
+  const btn = action ? `<button class="btn${action.primary ? " btn-primary" : ""}" data-action="${action.key}">${action.label}</button>` : "";
+  return `<tr class="notice"><td colspan="5">${glyph}<h2>${title}</h2><p>${text}</p>${btn}</td></tr>`;
+}
+
+function emptyNotice() {
+  if (query) return noticeHtml({ tone: "plain", title: `No requests match “${esc(query)}”`, text: "Check the spelling, or clear the search to see every request in this view.", action: { key: "clear-search", label: "Clear search" } });
+  return {
+    open: noticeHtml({ tone: "ok", title: "No open requests", text: "New requests show up here as soon as customers write in. To look back at what was closed, open Done today.", action: { key: "go-done", label: "View done today" } }),
+    unassigned: noticeHtml({ tone: "ok", title: "Every open request has an assignee", text: "New requests land here first. Nothing needs assigning right now." }),
+    mine: noticeHtml({ tone: "plain", title: "Nothing is assigned to you", text: "Pick a request from Unassigned to get started.", action: { key: "go-unassigned", label: "View unassigned" } }),
+    done: noticeHtml({ tone: "plain", title: "Nothing is done yet today", text: "Requests show up here once they're marked done." }),
+  }[view];
+}
+
+function renderBody() {
+  const body = $("body");
+  const all = $("selectAll");
+  all.disabled = screenState === "loading" || screenState === "error";
+
+  if (screenState === "loading") {
+    body.innerHTML = Array.from({ length: 7 }, (_, i) => `<tr aria-hidden="true">
+      <td></td>
+      <td><span class="sk" style="width: ${[62, 48, 70, 55, 40, 66, 52][i]}%;"></span><span class="sk" style="width: 34%; margin-top: var(--space-2);"></span></td>
+      <td><span class="sk" style="width: 72px;"></span></td>
+      <td><span class="sk" style="width: 120px;"></span></td>
+      <td><span class="sk" style="width: 140px;"></span></td>
+    </tr>`).join("");
+    $("list").setAttribute("aria-busy", "true");
+    return;
+  }
+  $("list").removeAttribute("aria-busy");
+
+  if (screenState === "error") {
+    body.innerHTML = noticeHtml({ tone: "bad", title: "Couldn't load requests", text: "Check your connection and try again.", action: { key: "retry", label: "Try again", primary: true } });
+    return;
+  }
+
+  const rows = visible();
+  if (!rows.length) { body.innerHTML = emptyNotice(); all.checked = false; all.indeterminate = false; all.disabled = true; return; }
+
+  body.innerHTML = PRIORITIES.map((p) => {
+    const group = rows.filter((r) => r.priority === p.key);
+    if (!group.length) return "";
+    const picked = group.filter((r) => selected.has(r.id)).length;
+    return `<tr class="group" data-group="${p.key}">
+      <th scope="col"><input type="checkbox" class="pick-group" ${picked === group.length ? "checked" : ""} data-partial="${picked > 0 && picked < group.length}" aria-label="Select all ${p.label.toLowerCase()}-priority requests"></th>
+      <th scope="colgroup" colspan="4"><span class="group-label">${icon.priority(p.key)}${p.label}<span class="count">${group.length}</span></span></th>
+    </tr>` + group.map(rowHtml).join("");
+  }).join("");
+  body.querySelectorAll('[data-partial="true"]').forEach((el) => (el.indeterminate = true));
+
+  const picked = rows.filter((r) => selected.has(r.id)).length;
+  all.checked = picked > 0 && picked === rows.length;
+  all.indeterminate = picked > 0 && picked < rows.length;
+}
+
+function render() {
+  renderTabs();
+  renderLede();
+  renderToolbar();
+  renderBody();
+}
+
+// ---------- assign menu ----------
+let menuTargets = [];
+let menuTrigger = null;
+
+function openMenu(trigger, ids) {
+  closeMenu();
+  menuTargets = ids;
+  menuTrigger = trigger;
+  const current = new Set(ids.map((id) => byId(id).assignee));
+  const only = current.size === 1 ? [...current][0] : undefined;
+  const load = (pid) => requests.filter((r) => r.assignee === pid && r.status !== "done").length;
+  const menu = $("menu");
+  menu.innerHTML = `<div class="menu-label">${ids.length > 1 ? `Assign ${ids.length} requests to` : "Assign to"}</div>` +
+    PEOPLE.map((p) => `<button class="menu-item" role="menuitem" data-person="${p.id}">
+      <span class="avatar">${p.initials}</span><span>${esc(p.name)}${p.id === ME ? " (you)" : ""}</span>
+      ${only === p.id ? icon.tick : `<span class="load">${load(p.id)} open</span>`}
+    </button>`).join("") +
+    ([...current].some(Boolean) ? `<div class="menu-sep" role="separator"></div><button class="menu-item" role="menuitem" data-person="">Remove assignee</button>` : "");
+  menu.hidden = false;
+  const rect = trigger.getBoundingClientRect();
+  const left = Math.min(rect.left, window.innerWidth - menu.offsetWidth - 16);
+  menu.style.left = `${left + window.scrollX}px`;
+  menu.style.top = `${rect.bottom + window.scrollY + 4}px`;
+  trigger.setAttribute("aria-expanded", "true");
+  menu.querySelector(".menu-item").focus();
+}
+
+function closeMenu(returnFocus = false) {
+  const menu = $("menu");
+  if (menu.hidden) return;
+  menu.hidden = true;
+  if (menuTrigger) {
+    menuTrigger.setAttribute("aria-expanded", "false");
+    if (returnFocus && document.body.contains(menuTrigger)) menuTrigger.focus();
+  }
+  menuTrigger = null;
+}
+
+function assign(ids, personId) {
+  const before = ids.map((id) => [id, byId(id).assignee]);
+  ids.forEach((id) => (byId(id).assignee = personId || null));
+  selected.clear();
+  render();
+  const n = plural(ids.length, "request");
+  const who = personId === ME ? "you" : person(personId)?.name;
+  showToast(personId ? `Assigned ${n} to ${who}.` : `Removed the assignee from ${n}.`, () => {
+    before.forEach(([id, a]) => (byId(id).assignee = a));
+    render();
+    showToast("Undone. The assignees are back as they were.");
+  });
+}
+
+function showToast(message, onUndo, persist = false) {
+  const toast = $("toast");
+  toast.innerHTML = `${icon.check}<span>${esc(message)}</span>${onUndo ? `<button class="link" id="undo">Undo</button>` : ""}`;
+  toast.hidden = false;
+  if (onUndo) $("undo").onclick = () => onUndo();
+  clearTimeout(toastTimer);
+  if (!persist) toastTimer = setTimeout(() => (toast.hidden = true), 8000);
+}
+
+// ---------- events ----------
+document.addEventListener("click", (e) => {
+  const tab = e.target.closest(".tab");
+  if (tab) { view = tab.dataset.view; selected.clear(); closeMenu(); render(); return; }
+
+  const item = e.target.closest(".menu-item");
+  if (item) { const ids = menuTargets; closeMenu(); assign(ids, item.dataset.person); return; }
+
+  const assigneeBtn = e.target.closest(".assignee");
+  if (assigneeBtn) {
+    if (menuTrigger === assigneeBtn) { closeMenu(); return; }
+    openMenu(assigneeBtn, [assigneeBtn.closest(".row").dataset.id]);
+    return;
+  }
+  if (e.target.closest("#bulkAssign")) {
+    const btn = e.target.closest("#bulkAssign");
+    if (menuTrigger === btn) { closeMenu(); return; }
+    openMenu(btn, [...selected]);
+    return;
+  }
+  if (e.target.closest("#clearSelection")) { selected.clear(); render(); return; }
+
+  const action = e.target.closest("[data-action]");
+  if (action) {
+    const key = action.dataset.action;
+    if (key === "retry") { screenState = "loading"; render(); setTimeout(() => { screenState = null; render(); }, 700); }
+    if (key === "go-done") { view = "done"; render(); }
+    if (key === "go-unassigned") { view = "unassigned"; render(); }
+    if (key === "clear-search") { query = ""; $("search").value = ""; render(); }
+    return;
+  }
+  if (!e.target.closest("#menu")) closeMenu();
+});
+
+document.addEventListener("change", (e) => {
+  if (e.target.matches(".pick")) {
+    const id = e.target.closest(".row").dataset.id;
+    e.target.checked ? selected.add(id) : selected.delete(id);
+  } else if (e.target.matches(".pick-group")) {
+    const key = e.target.closest(".group").dataset.group;
+    visible().filter((r) => r.priority === key).forEach((r) => (e.target.checked ? selected.add(r.id) : selected.delete(r.id)));
+  } else if (e.target.id === "selectAll") {
+    visible().forEach((r) => (e.target.checked ? selected.add(r.id) : selected.delete(r.id)));
+  } else return;
+  closeMenu();
+  renderToolbar();
+  renderBody();
+});
+
+$("search").addEventListener("input", (e) => { query = e.target.value.trim(); selected.clear(); render(); });
+
+$("menu").addEventListener("keydown", (e) => {
+  const items = [...$("menu").querySelectorAll(".menu-item")];
+  const i = items.indexOf(document.activeElement);
+  if (e.key === "ArrowDown") { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+  if (e.key === "ArrowUp") { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+  if (e.key === "Escape") { e.preventDefault(); closeMenu(true); }
+  if (e.key === "Tab") closeMenu();
+});
+
+// ---------- states ----------
+if (screenState === "empty") {
+  requests = requests.filter((r) => r.status === "done");
+}
+render();
+if (screenState === "done") {
+  screenState = null;
+  ["4821", "4816"].forEach((id) => (byId(id).assignee = "pr"));
+  render();
+  showToast("Assigned 2 requests to Priya Raman.", () => {
+    ["4821", "4816"].forEach((id) => (byId(id).assignee = null));
+    render();
+    showToast("Undone. The assignees are back as they were.");
+  }, true);
+}
+</script>
+</body>
+</html>

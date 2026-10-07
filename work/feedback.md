@@ -1,6 +1,6 @@
 # Feedback log
 
-Everything we learn while building and reviewing goes here. A person decides what becomes a rule; `promote-feedback` suggests how to sort it.
+Everything we learn while building and reviewing goes here. An owner decides what becomes a rule; `promote-feedback` suggests how to sort it.
 
 ## How to log
 
@@ -15,13 +15,13 @@ When you break a rule on purpose, put the ID on that line too: `/* FB-07 */` in 
 | deviation | We broke a rule on purpose |
 | missing | The design system didn't have it, so we built it in `work/` |
 | bug | Something in the design system doesn't work |
-| insight | A review finding that probably applies elsewhere |
+| insight | A review finding that probably applies to other screens too |
 
 | Status | Meaning | Result column |
 |---|---|---|
-| open | Nobody has decided yet | — |
+| open | No owner has decided yet | — |
 | adopted | It's in the design system now. Set this inside the PR that makes the change. | The decision ID (D-xx) |
-| local | It only applies to that screen | Why |
+| screen-only | It only applies to that one screen | Why |
 | dropped | We let it go | Why |
 
 ## When to promote
@@ -33,7 +33,7 @@ Promote an entry when (1) or (2) is true, and (3) is true:
 2. We broke the same rule twice.
 3. You can name the one file that should answer it.
 
-A mistake in the design system, or a missing token that affects every screen, can be promoted right away. A person always makes the final call.
+A mistake in the design system, or a missing token that affects every screen, can be promoted right away. An owner always makes the final call.
 
 ## Log
 

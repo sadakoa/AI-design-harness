@@ -4,9 +4,9 @@
 
 Every question has exactly one file. Read only what's marked for the task you're on.
 
-● always   ○ when it's relevant   blank: skip
+● always · ○ when it's relevant · blank: skip
 
-| File | Answers | Build | Review: parts | Review: layout | Review: copy | Promote |
+| File | Answers | Build | Review: components | Review: layout | Review: copy | Promote |
 |---|---|---|---|---|---|---|
 | `INDEX.md` | Which file answers which question, and what should I read for this task? | ● | ● | ● | ● | ● |
 | `tokens/tokens.css` | Which CSS variables can I use? | ● | ● | ○ |  |  |

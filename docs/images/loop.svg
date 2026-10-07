@@ -28,21 +28,21 @@
   <rect class="card" x="640" y="30" width="280" height="120" rx="12"/>
   <text class="sans title" x="664" y="68">Review</text>
   <text class="mono code" x="664" y="92">design-review</text>
-  <text class="sans desc" x="664" y="116">Parts, layout and copy,</text>
-  <text class="sans desc" x="664" y="136">one lens at a time</text>
+  <text class="sans desc" x="664" y="116">Components, layout, copy —</text>
+  <text class="sans desc" x="664" y="136">one area at a time</text>
 
   <!-- Log -->
   <rect class="card" x="640" y="310" width="280" height="120" rx="12"/>
   <text class="sans title" x="664" y="348">Log</text>
   <text class="mono code" x="664" y="372">work/feedback.md</text>
-  <text class="sans desc" x="664" y="396">Findings that may matter</text>
-  <text class="sans desc" x="664" y="416">beyond one screen</text>
+  <text class="sans desc" x="664" y="396">Findings that could apply</text>
+  <text class="sans desc" x="664" y="416">to other screens</text>
 
   <!-- Promote -->
   <rect class="card" x="40" y="310" width="280" height="120" rx="12"/>
   <text class="sans title" x="64" y="348">Promote</text>
   <text class="mono code" x="64" y="372">promote-feedback</text>
-  <text class="sans desc" x="64" y="396">Groups the log. A person</text>
+  <text class="sans desc" x="64" y="396">Groups the log. An owner</text>
   <text class="sans desc" x="64" y="416">decides what becomes a rule</text>
 
   <!-- Design system -->
@@ -61,7 +61,7 @@
 
   <!-- Log → Promote -->
   <line class="line" x1="640" y1="370" x2="324" y2="370" marker-end="url(#arrow)"/>
-  <text class="sans label" x="480" y="360" text-anchor="middle">every week</text>
+  <text class="sans label" x="480" y="360" text-anchor="middle">weekly, run by an owner</text>
 
   <!-- Promote → Design system -->
   <path class="line" d="M140,310 V255 H366" marker-end="url(#arrow)"/>

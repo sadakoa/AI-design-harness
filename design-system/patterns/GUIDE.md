@@ -32,7 +32,7 @@ Not sure? Find the closest screen in `screens/` and follow it.
 
 ## Screen states
 
-Every screen needs these four on top of its normal state (P-03).
+Every screen needs these four on top of its normal state. In mockups, switch between them with `?state=loading`, `?state=empty`, `?state=error` and `?state=done` at the end of the URL.
 
 | State | When | What to decide |
 |---|---|---|

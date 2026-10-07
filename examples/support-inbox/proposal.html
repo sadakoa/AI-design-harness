@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support inbox — proposal</title>
+<!-- path from examples/support-inbox/proposal.html -->
+<link rel="stylesheet" href="../../design-system/tokens/tokens.css">
+<style>
+  body { margin: 0; background: var(--color-surface-subtle); color: var(--color-text-primary); font-family: var(--font-family-base); font-size: var(--font-size-md); line-height: 1.6; }
+  main { max-width: 1080px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
+  section { background: var(--color-surface-base); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--space-6); margin-bottom: var(--space-4); }
+  h1 { font-size: var(--font-size-2xl); margin: 0 0 var(--space-2); }
+  h2 { font-size: var(--font-size-xl); margin: 0 0 var(--space-4); }
+  h3 { font-size: var(--font-size-lg); margin: var(--space-4) 0 var(--space-2); }
+  .meta, .note { color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  a { color: var(--color-text-primary); }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--color-border-default); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); }
+  .grid img { width: 100%; border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); }
+  iframe { width: 100%; height: 80vh; border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); background: var(--color-surface-base); }
+  .pick { border: 2px solid var(--color-text-primary); }
+  .tag { display: inline-block; padding: 0 var(--space-2); border: 1px solid var(--color-border-default); border-radius: var(--radius-full); background: var(--color-surface-subtle); font-size: var(--font-size-sm); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Support inbox — proposal</h1>
+    <p class="meta">2026-10-07 · PRD: <code>_inputs/prd.md</code> · Improvement</p>
+  </header>
+
+  <section>
+    <h2>1. Problem</h2>
+    <p>Support agents who handle 50–100 requests a day open the inbox and see everything by date, so a high-priority request can sit under routine ones and get missed. The list should open on what's urgent and let agents hand requests to the right person, one or several at a time.</p>
+    <p class="note">This improves a list that already exists, so it ends with a recommendation. The design system still has placeholder content: <code>principles.md</code>, the word table in <code>writing.md</code>, <code>components/GUIDE.md</code> and the feedback log are marked "(example)". P-01 to P-03 and the word table are used as written here, but they need replacing before these decisions carry weight.</p>
+  </section>
+
+  <section>
+    <h2>2. Assumptions and open questions</h2>
+    <table>
+      <tr><th>Question</th><th>Answer or assumption</th><th>Status</th></tr>
+      <tr><td>Who can assign requests: any agent, or only a lead?</td><td>Any agent can assign to anyone on the team, including themselves.</td><td>open (assumed)</td></tr>
+      <tr><td>Who sets priority, and can agents change it from this list?</td><td>Priority arrives already set. Changing it isn't part of this screen.</td><td>open (assumed)</td></tr>
+      <tr><td>Within the same priority, what comes first?</td><td>The request that has waited longest (oldest received time).</td><td>open (assumed)</td></tr>
+      <tr><td>Should done requests stay in the main list?</td><td>No. They move to a "Done today" view one click away, so the list stays about open work.</td><td>open (assumed)</td></tr>
+      <tr><td>Does assigning a request change its status?</td><td>No. A request stays "New" until the assignee starts on it. Assigning only sets the assignee.</td><td>open (assumed)</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>3. Research</h2>
+    <h3>Approved screens</h3>
+    <p>None. <code>design-system/screens/</code> has no approved screens yet, so there was nothing to follow.</p>
+    <h3>Other products</h3>
+    <p class="note">From general knowledge, without screenshots. Details are in <a href="research/sources.md">research/sources.md</a>. We borrowed the reasons, not the looks.</p>
+    <table>
+      <tr><th>Product</th><th>What we noticed</th><th>What to borrow</th><th>Source</th></tr>
+      <tr><td>Zendesk Support</td><td>Agents work from saved views such as "Unassigned tickets", sorted by priority and then by age. Ticking several tickets lets you set the assignee once for all of them.</td><td>Open the list already sorted by priority, then by how long each request has waited. Assign many from one selection.</td><td>unverified</td></tr>
+      <tr><td>Intercom Inbox</td><td>"Unassigned" is its own place next to "Your inbox". Assigning is a quick action, and priority conversations sit above the rest instead of just getting a color.</td><td>Make "Unassigned" one click away. Show priority through order and position, with color only as a second signal.</td><td>unverified</td></tr>
+      <tr><td>Linear</td><td>Lists can be grouped by priority, with a header and count for each group. Priority icons differ in shape (how many bars are filled). Keyboard shortcuts select, move and assign.</td><td>Group headers with counts. A priority icon with filled bars plus the word. Shortcuts as an extra, never the only way.</td><td>unverified</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>4. Axes</h2>
+    <table>
+      <tr><th>Axis</th><th>A</th><th>B</th><th>C</th></tr>
+      <tr><td>What gives the list its shape</td><td>Priority: one list grouped High, Medium, Low</td><td>Ownership: Unassigned on the left, Assigned by person on the right</td><td>Priority order, plus a side panel for the current request</td></tr>
+      <tr><td>How you assign</td><td>Button on each unassigned row, or select several and press Assign</td><td>Button on each card, or select several. You can see everyone's open count while you choose.</td><td>Keyboard first (X to select, A to assign, 1–5 to pick a person), or the button in the panel</td></tr>
+      <tr><td>How much is visible at once</td><td>Everything: all six PRD fields on every row</td><td>Unassigned in full; assigned requests shortened to subject and status</td><td>Short rows; full details for one request at a time</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>5. Options</h2>
+    <h3>A: Priority groups</h3>
+    <p>One table grouped High, Medium, Low, with a count on each group. Inside a group, the request that has waited longest comes first. Every row shows subject, customer, status, assignee and received time. Assign from the row, or select several and assign them once. <strong>Good:</strong> the shape of the screen is the priority, so urgent requests can't sink, and the summary line says how many high-priority requests have no assignee. <strong>Weak:</strong> a request that's already in progress can still sit at the top of its group, and the table needs about 900px before it has to scroll sideways.</p>
+    <p class="note"><a href="options/a.html">Open on its own</a> · States: <a href="options/a.html?state=loading">loading</a> · <a href="options/a.html?state=empty">empty</a> · <a href="options/a.html?state=error">error</a> · <a href="options/a.html?state=done">done</a></p>
+    <iframe src="options/a.html" title="Option A"></iframe>
+    <h3>B: Unassigned and team</h3>
+    <p>Two panels. On the left, unassigned requests as cards, highest priority first. On the right, everyone's assigned requests grouped by person with an open count, fewest first. <strong>Good:</strong> you can see who has room before you assign, and nothing unassigned can hide. <strong>Weak:</strong> priority turns into a label on a card instead of the order of the whole screen, the two panels compete for attention, bulk assign only works on unassigned requests, and reassigning hides in small rows.</p>
+    <p class="note"><a href="options/b.html">Open on its own</a> · States: <a href="options/b.html?state=loading">loading</a> · <a href="options/b.html?state=empty">empty</a> · <a href="options/b.html?state=error">error</a> · <a href="options/b.html?state=done">done</a></p>
+    <iframe src="options/b.html" title="Option B"></iframe>
+    <h3>C: Triage with preview</h3>
+    <p>A compact list in priority order on the left. On the right, the current request: assignee, customer, received time and the latest message. J and K move, X selects, A assigns, 1–5 picks a person. <strong>Good:</strong> fastest for agents who live on the keyboard, and you can read the message before you assign. <strong>Weak:</strong> the right panel is a preview of the detail page the PRD leaves out of scope, priority is only an icon in the narrow list, subjects get cut off, and the shortcuts favor experienced agents.</p>
+    <p class="note"><a href="options/c.html">Open on its own</a> · States: <a href="options/c.html?state=loading">loading</a> · <a href="options/c.html?state=empty">empty</a> · <a href="options/c.html?state=error">error</a> · <a href="options/c.html?state=done">done</a></p>
+    <iframe src="options/c.html" title="Option C"></iframe>
+  </section>
+
+  <section class="pick">
+    <h2>6. Recommendation <span class="tag">A</span></h2>
+    <p>The PRD's problem is that urgent requests get missed because the list only knows about dates. Option A turns priority into the structure of the list: High is always on top with its count, and the line under the title says how many high-priority requests have no assignee. That follows <strong>P-01 One screen, one main thing</strong>: the screen does one job, showing what to work on in order, and nothing competes with it. It also keeps to <strong>P-02</strong>: each row has the six fields the PRD asks for and nothing else. Assigning is visible on every unassigned row, and several requests can be assigned in one go from the selection bar, which covers both "Must support" items.</p>
+    <h3>Why not the others</h3>
+    <ul>
+      <li>B: Answers "who has room?" better than "what's urgent?". Priority becomes a label inside a card, in-progress requests lose their priority order, and two panels pull attention in different directions (P-01). Worth keeping: the open count per person, which A already shows in its assign menu.</li>
+      <li>C: Good for keyboard-heavy agents, but its side panel previews the detail page the PRD puts out of scope, and it shows one request at a time, so comparing urgency means scanning a narrow list with only icons. Leading with shortcuts also makes it harder for agents who are less at ease with software (<code>principles.md</code>, "Who it's for"). Worth keeping for later: J, K, X and A as an extra on top of A.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Spec</h2>
+    <h3>Structure</h3>
+    <p>In order:</p>
+    <ol>
+      <li><strong>App bar:</strong> product name and the signed-in agent.</li>
+      <li><strong>Page header:</strong> the title "Inbox" and one summary line with the open count and how many high-priority requests have no assignee. It tells agents where to look first.</li>
+      <li><strong>Views:</strong> tabs for Open, Unassigned, Assigned to me and Done today, each with a count.</li>
+      <li><strong>Toolbar:</strong> the sort order and a hint for bulk assigning. Once rows are selected, it becomes "N selected · Assign · Clear selection". Search sits on the right.</li>
+      <li><strong>List:</strong> one table with columns for selection, request (subject, then customer and company), status, assignee and received time. It's grouped High, Medium, Low, with a select-all and a count on each group.</li>
+    </ol>
+    <h3>States</h3>
+    <table>
+      <tr><th>State</th><th>What it shows, and the next step</th></tr>
+      <tr><td>Loading</td><td>The title and tab names stay put. Placeholders stand in for the summary line and seven rows, and the toolbar says "Loading requests…". Selecting is turned off. Nothing to do but wait.</td></tr>
+      <tr><td>Empty</td><td>"No open requests" and "New requests show up here as soon as customers write in. To look back at what was closed, open Done today.", with a "View done today" button. Other views have their own empty text: Unassigned says "Every open request has an assignee". Assigned to me says "Nothing is assigned to you" and offers "View unassigned". A search with no results says "No requests match “…”" and offers "Clear search".</td></tr>
+      <tr><td>Error</td><td>"Couldn't load requests" and "Check your connection and try again.", with "Try again", the only primary button on the screen. Tab names stay; counts are hidden.</td></tr>
+      <tr><td>Done</td><td>The rows show their new assignee and the summary line updates, for example to "Every high-priority request has an assignee." A toast says "Assigned 2 requests to Priya Raman." and offers "Undo" for 8 seconds.</td></tr>
+    </table>
+    <h3>Copy</h3>
+    <p>Title "Inbox". Summary "10 open requests. 2 high-priority requests have no assignee." Tabs "Open", "Unassigned", "Assigned to me", "Done today". Columns "Request", "Status", "Assignee", "Received". Groups "High", "Medium", "Low". Statuses "New", "In progress", "Done". Toolbar "Sorted by priority, then longest waiting. Select several to assign them at once." Buttons "Assign", "Clear selection", "Try again", "View done today", "View unassigned", "Clear search", "Undo". Menu "Assign to" or "Assign 3 requests to", each person with "N open", then "Remove assignee" (wording still open, see review #6). Toasts "Assigned N requests to Priya Raman.", "Assigned N requests to you.", "Removed the assignee from N requests." Dates look like "Oct 7, 2026, 10:52 AM".</p>
+    <h3>Edge cases</h3>
+    <ul>
+      <li><strong>Lots of requests:</strong> at 100 or more, the groups stay and each keeps its count. Collapsing Low by default is an open question.</li>
+      <li><strong>Selection and switching:</strong> changing view or searching clears the selection, so nobody assigns rows they can't see. Select-all only covers the current view and search.</li>
+      <li><strong>Assigning in Unassigned:</strong> the rows leave the view. The toast confirms the change, and Undo brings them back.</li>
+      <li><strong>Mixed selection:</strong> if the selected rows have different assignees, the menu shows no tick. "Remove assignee" appears if any of them has one.</li>
+      <li><strong>Two people assign the same request at once:</strong> open. Today the last change wins, which needs a decision.</li>
+      <li><strong>Long subjects and names:</strong> cut off with an ellipsis, with the full text on hover.</li>
+      <li><strong>No permission to assign:</strong> open. For now we assume everyone can (question 1).</li>
+      <li><strong>Leaving halfway:</strong> the selection isn't kept, but nothing is lost, because each assignment saves right away.</li>
+      <li><strong>Team size:</strong> we assumed 5–15 people. Past about 10, the menu needs a search box.</li>
+      <li><strong>Narrow windows:</strong> below about 900px, the table scrolls sideways (review #7).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8. Feedback for the design system</h2>
+    <p class="note">What the design system didn't have, rules we broke, and what the review found. IDs from <code>work/feedback.md</code>. Full review: <a href="review.md">review.md</a>. In this example run, new entries aren't added to the log; they're listed under "Would log" in review.md and would take the next free IDs.</p>
+    <ul>
+      <li>FB-01 (example, carried over): one primary action per screen. A keeps to one: "Assign" only once rows are selected, and "Try again" only in the error state.</li>
+      <li>Would log, missing: no component specs for the table with group rows, the assign menu, the toast, or the priority and status indicators. They were built in <code>work/</code>.</li>
+      <li>Would log, missing: no priority colors. <code>color.status.danger</code> and <code>color.status.warning</code> stand in for high and medium (review #3).</li>
+      <li>Would log, insight: secondary text on the selected-row wash is about 4.3:1, and <code>rules.md</code> has no contrast rule (review #4).</li>
+      <li>Would log, missing: no token for loading placeholders (review #5).</li>
+      <li>Would log, missing: no word for taking an assignee off, because "Remove" is reserved in <code>writing.md</code> (review #6).</li>
+      <li>Would log, missing: no elevation for menus and toasts (review #8).</li>
+      <li>Would log, missing: only one date format, while lists need a short one for today (review #9).</li>
+      <li>Would log, insight: a list's main per-row action has to be visible without hovering (review #1, fixed here).</li>
+    </ul>
+    <p class="note">No rules were broken on purpose, so no lines are tagged.</p>
+  </section>
+</main>
+</body>
+</html>

@@ -1,11 +1,11 @@
 ---
 name: promote-feedback
-description: Sort the feedback log and draft changes to the design system. Use for "go through the feedback log", "promote feedback", "what should become a rule". A person decides and merges.
+description: Sort the feedback log and draft changes to the design system. Use for "go through the feedback log", "promote feedback", "what should become a rule". An owner decides and merges.
 ---
 
 # promote-feedback
 
-Turn what reviews taught us into changes to the design system. You propose; a person decides.
+Turn what reviews taught us into changes to the design system. You propose; an owner (listed in `.github/CODEOWNERS`) decides.
 
 ## Steps
 
@@ -13,14 +13,14 @@ Turn what reviews taught us into changes to the design system. You propose; a pe
 
 2. **Group.** Merge rows that say the same thing and keep all their IDs. If a group would end up with different outcomes, split it.
 
-3. **Suggest.** Give each group `adopted`, `local` or `dropped`, using "When to promote" in the log, with a one-line reason. When in doubt, `local`.
+3. **Suggest.** Give each group `adopted`, `screen-only` or `dropped`, using "When to promote" in the log, with a one-line reason. When in doubt, `screen-only`.
 
 4. **Find the home.** For `adopted`, pick the one file in the INDEX that answers the question. If it's about how a skill works, the home is that skill's `SKILL.md`. If you can't settle on one file, the question is fuzzy or a new file is needed — say which.
 
 5. **Ask.** Show the table below and ask what to go ahead with. **Change nothing until you have an answer.**
 
 6. **Do what was approved.**
-   - `local` or `dropped`: update the status and reason in the log straight away.
+   - `screen-only` or `dropped`: update the status and reason in the log straight away.
    - No answer: leave it `open`.
    - `adopted`: make one PR on a new branch that
      - edits the home file (for values, edit only `tokens/tokens.json`, then run `npm run tokens`; name new tokens the way its `$description` says),
