@@ -1,0 +1,7 @@
+# 正本と、正本の扱いを決めるファイルの変更には、ここに書いた人の承認を必須にする。
+# 効かせるには、ブランチ保護で「Require review from Code Owners」を有効にする（README の「運用」）。
+/design-system/    @sadakoa
+/.claude/skills/   @sadakoa
+/scripts/          @sadakoa
+/.github/          @sadakoa
+/AGENTS.md         @sadakoa

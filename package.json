@@ -1,0 +1,12 @@
+{
+  "name": "ai-design-harness",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "tokens": "node scripts/build-tokens.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
