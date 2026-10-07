@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Design Harness — slides</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  :root { --s: 0.5; }
+  body { margin: 0; background: #E4E4E8; }
+  .deck { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 0; }
+  .frame { width: calc(1920px * var(--s)); height: calc(1080px * var(--s)); overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+  section { position: relative; width: 1920px; height: 1080px; overflow: hidden; transform: scale(var(--s)); transform-origin: 0 0; }
+  section h1, section h2, section h3, section p { margin: 0; }
+  section p { font-size: 32px; line-height: 1.4; }
+  section div:not([style*="display"]) { display: flex; flex-direction: column; }
+  section aside { display: none; }
+  section table { border-collapse: collapse; width: 100%; }
+  section th, section td { padding: 0.35em 0.6em; border-bottom: 1px solid #E4E4E8; }
+  @page { size: 1920px 1080px; margin: 0; }
+  @media print {
+    body { background: none; }
+    .deck { padding: 0; gap: 0; }
+    .frame { width: 1920px; height: 1080px; box-shadow: none; break-after: page; }
+    section { transform: none; }
+  }
+</style>
+</head>
+<body>
+<!-- Exported from the Slides artifact. Speaker notes are in each slide's <aside>. -->
+<div class="deck">
+<div class="frame">
+<section id="cover" data-transition="fade" style="background:#11103C;color:#FFFFFF;font-family:'Poppins', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-size:28px;color:#DFE6FF;letter-spacing:0.06em">STARTER KIT</p>
+<h1 style="font-size:120px;font-weight:500;line-height:1.1;color:#FFFFFF">AI Design Harness</h1>
+<div style="max-width:1300px">
+<p style="font-size:40px;line-height:1.4;color:#DFE6FF">Write design decisions down once, so people and AI agents build from the same place.</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#DFE6FF">github.com/sadakoa/AI-design-harness</p>
+<aside>A small starter kit for teams where people and AI agents design UI together. It is a repo of plain files plus three skills and a check script.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="why" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">WHY</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">Why it exists</h2>
+</div>
+<p style="font-size:32px;line-height:1.4;color:#323136">Design knowledge lives in designers' heads. This writes it down where agents can use it too.</p>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:32px;color:#FFFFFF;background:#63679B;padding:20px;text-align:center">Today</p>
+<div style="display:flex;flex-direction:column;gap:16px;padding:40px 48px">
+<p style="font-size:28px;line-height:1.4">❌ One long doc mixes rules, values and one-off decisions</p>
+<p style="font-size:28px;line-height:1.4">❌ Agents read all of it, every time</p>
+<p style="font-size:28px;line-height:1.4">❌ Review findings stay buried in comments</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:32px;color:#FFFFFF;background:#4863FF;padding:20px;text-align:center">With the harness</p>
+<div style="display:flex;flex-direction:column;gap:16px;padding:40px 48px">
+<p style="font-size:28px;line-height:1.4">✅ One question, one file</p>
+<p style="font-size:28px;line-height:1.4">✅ Agents read only what the task needs</p>
+<p style="font-size:28px;line-height:1.4">✅ Findings flow back into the rules</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">2</p>
+<aside>The usual setup is one long design document. It mixes everything, it drifts, and an agent has to read all of it every time. And what we learn in reviews rarely makes it back. The harness fixes those three things.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="loop" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">HOW IT FLOWS</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">The loop</h2>
+</div>
+<!-- Build 0,0,520,200  Review 1144,0,520,200  Log 1144,420,520,200  Promote 0,420,520,200  System 622,210,420,200 -->
+<div style="position:relative;width:1664px;height:620px">
+<div style="position:absolute;left:0px;top:0px;width:520px;height:200px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:24px">
+<p style="font-size:36px;color:#11103C;text-align:center">Build</p>
+<p style="font-size:26px;color:#4863FF;text-align:center">design-builder</p>
+<p style="font-size:26px;text-align:center">Research, options, a proposal</p>
+</div>
+<div style="position:absolute;left:1144px;top:0px;width:520px;height:200px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:24px">
+<p style="font-size:36px;color:#11103C;text-align:center">Review</p>
+<p style="font-size:26px;color:#4863FF;text-align:center">design-review</p>
+<p style="font-size:26px;text-align:center">One lens at a time</p>
+</div>
+<div style="position:absolute;left:1144px;top:420px;width:520px;height:200px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:24px">
+<p style="font-size:36px;color:#11103C;text-align:center">Log</p>
+<p style="font-size:26px;color:#4863FF;text-align:center">work/feedback.md</p>
+<p style="font-size:26px;text-align:center">Findings that may travel</p>
+</div>
+<div style="position:absolute;left:0px;top:420px;width:520px;height:200px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:24px">
+<p style="font-size:36px;color:#11103C;text-align:center">Promote</p>
+<p style="font-size:26px;color:#4863FF;text-align:center">promote-feedback</p>
+<p style="font-size:26px;text-align:center">A person decides the rules</p>
+</div>
+<div style="position:absolute;left:622px;top:210px;width:420px;height:200px;background:#11103C;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;padding:24px">
+<p style="font-size:32px;color:#FFFFFF;text-align:center">design-system/</p>
+<p style="font-size:28px;color:#DFE6FF;text-align:center">One question, one file</p>
+</div>
+<x-connector x1="520" y1="100" x2="1144" y2="100" style="color:#323136;border-width:3px"></x-connector>
+<x-connector x1="1404" y1="200" x2="1404" y2="420" style="color:#323136;border-width:3px"></x-connector>
+<x-connector x1="1144" y1="520" x2="520" y2="520" style="color:#323136;border-width:3px"></x-connector>
+<x-connector x1="180" y1="420" x2="622" y2="350" route="vh" style="color:#323136;border-width:3px"></x-connector>
+<x-connector x1="622" y1="270" x2="300" y2="200" route="hv" style="color:#323136;border-width:3px"></x-connector>
+<p style="position:absolute;left:732px;top:56px;width:200px;font-size:24px;color:#606060;text-align:center">proposal</p>
+<p style="position:absolute;left:1424px;top:293px;width:200px;font-size:24px;color:#606060">findings</p>
+<p style="position:absolute;left:732px;top:476px;width:200px;font-size:24px;color:#606060;text-align:center">every week</p>
+<p style="position:absolute;left:250px;top:362px;width:340px;font-size:24px;color:#606060;text-align:center">approved changes</p>
+<p style="position:absolute;left:316px;top:280px;width:296px;font-size:24px;color:#606060;text-align:center">reads what it needs</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">3</p>
+<aside>Build turns a PRD into a one-page proposal. Review checks it one lens at a time. Anything that might matter beyond that screen goes into the feedback log. Once a week, promote-feedback sorts the log, and a person decides what becomes a rule. The design system sits in the middle, and the next build reads from it.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="files" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">IDEA 1</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">One question, one file</h2>
+</div>
+<p style="font-size:30px;line-height:1.4;color:#FFFFFF;background:#11103C;padding:20px 32px;border-radius:16px;text-align:center">INDEX.md — the map: which file answers what, and what to read for each task</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 24px">
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">What is this value?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">tokens/tokens.json</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">Which component should I use?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">components/GUIDE.md</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">Which CSS variables can I use?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">tokens/tokens.css (generated)</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">How does this component behave?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">components/&lt;name&gt;.md</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">What do we choose, and why?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">foundations/principles.md</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">How do components make a screen?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">patterns/GUIDE.md</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">What must we never do?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">foundations/rules.md</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">What do approved screens look like?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">screens/</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">How do we write UI text?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">foundations/writing.md</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:10px 24px">
+<p style="font-size:28px;line-height:1.3;color:#11103C;text-align:center">Why did we decide this?</p>
+<p style="font-size:24px;line-height:1.3;color:#606060;text-align:center">decisions.md</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">4</p>
+<aside>Every question gets exactly one file, and INDEX.md is the map. When something changes there is one place to edit, and an agent only opens what the task needs. Split by duplication, not by length.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="build-review" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">IDEA 2</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">Build wide, review narrow</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:32px;color:#FFFFFF;background:#11103C;padding:20px;text-align:center">Build: open up</p>
+<div style="display:flex;flex-direction:column;align-items:center;gap:24px;padding:40px">
+<div style="display:flex;align-items:center;gap:24px">
+<p style="font-size:28px;color:#11103C;background:#DFE6FF;padding:8px 28px;border-radius:999px;text-align:center">PRD</p>
+<x-shape kind="arrow-right" style="width:64px;height:32px;background:#323136"></x-shape>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:28px;color:#11103C;background:#FFFFFF;padding:8px 28px;border-radius:999px;text-align:center">Option A</p>
+<p style="font-size:28px;color:#11103C;background:#FFFFFF;padding:8px 28px;border-radius:999px;text-align:center">Option B</p>
+<p style="font-size:28px;color:#11103C;background:#FFFFFF;padding:8px 28px;border-radius:999px;text-align:center">Option C</p>
+</div>
+</div>
+<p style="font-size:24px;color:#606060;letter-spacing:0.06em;text-align:center">READS</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">principles · rules · writing<br>patterns · tokens.css · screens</p>
+<p style="font-size:26px;color:#606060;text-align:center">When needed: components</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:32px;color:#FFFFFF;background:#11103C;padding:20px;text-align:center">Review: narrow down</p>
+<div style="display:flex;flex-direction:column;align-items:center;gap:24px;padding:40px">
+<div style="display:flex;align-items:center;gap:24px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:28px;color:#11103C;background:#FFFFFF;padding:8px 28px;border-radius:999px;text-align:center">Parts</p>
+<p style="font-size:28px;color:#11103C;background:#FFFFFF;padding:8px 28px;border-radius:999px;text-align:center">Layout</p>
+<p style="font-size:28px;color:#11103C;background:#FFFFFF;padding:8px 28px;border-radius:999px;text-align:center">Copy</p>
+</div>
+<x-shape kind="arrow-right" style="width:64px;height:32px;background:#323136"></x-shape>
+<p style="font-size:28px;color:#11103C;background:#DFE6FF;padding:8px 28px;border-radius:999px;text-align:center">Findings</p>
+</div>
+<p style="font-size:24px;color:#606060;letter-spacing:0.06em;text-align:center">READS, ONE LENS AT A TIME</p>
+<p style="font-size:24px;line-height:1.4;text-align:center">Parts: principles, rules, components, tokens.css</p>
+<p style="font-size:24px;line-height:1.4;text-align:center">Layout: principles, rules, patterns</p>
+<p style="font-size:24px;line-height:1.4;text-align:center">Copy: rules, writing</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">5</p>
+<aside>Building and reviewing are different jobs, so they read different things. Building reads widely and spreads out into a few real options. Reviewing goes one lens at a time and only re-reads the files for that lens.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="reading" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">IDEA 2</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">Reading by task</h2>
+<p style="font-size:24px;color:#606060">● always · ○ when it's relevant · blank means skip · taken from INDEX.md</p>
+</div>
+<table style="font-family:'Poppins', Arial, sans-serif;font-size:24px;color:#323136">
+<tr style="background:#11103C"><th style="padding:6px 12px;width:34%;color:#FFFFFF;text-align:center;font-weight:500">File</th><th style="padding:6px 12px;width:13.2%;color:#FFFFFF;text-align:center;font-weight:500">Build</th><th style="padding:6px 12px;width:13.2%;color:#FFFFFF;text-align:center;font-weight:500">Parts</th><th style="padding:6px 12px;width:13.2%;color:#FFFFFF;text-align:center;font-weight:500">Layout</th><th style="padding:6px 12px;width:13.2%;color:#FFFFFF;text-align:center;font-weight:500">Copy</th><th style="padding:6px 12px;width:13.2%;color:#FFFFFF;text-align:center;font-weight:500">Promote</th></tr>
+<tr><td style="padding:6px 12px;text-align:center">INDEX.md</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td></tr>
+<tr style="background:#F8F8F8"><td style="padding:6px 12px;text-align:center">tokens/tokens.css</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#606060">○</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td></tr>
+<tr><td style="padding:6px 12px;text-align:center">tokens/tokens.json</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center;color:#606060">○</td></tr>
+<tr style="background:#F8F8F8"><td style="padding:6px 12px;text-align:center">foundations/principles.md</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#606060">○</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td></tr>
+<tr><td style="padding:6px 12px;text-align:center">foundations/rules.md</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td></tr>
+<tr style="background:#F8F8F8"><td style="padding:6px 12px;text-align:center">foundations/writing.md</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center;color:#606060">○</td></tr>
+<tr><td style="padding:6px 12px;text-align:center">components/GUIDE.md</td><td style="padding:6px 12px;text-align:center;color:#606060">○</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center;color:#606060">○</td></tr>
+<tr style="background:#F8F8F8"><td style="padding:6px 12px;text-align:center">components/&lt;name&gt;.md</td><td style="padding:6px 12px;text-align:center;color:#606060">○</td><td style="padding:6px 12px;text-align:center;color:#606060">○</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center;color:#606060">○</td></tr>
+<tr><td style="padding:6px 12px;text-align:center">patterns/GUIDE.md</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center;color:#606060">○</td></tr>
+<tr style="background:#F8F8F8"><td style="padding:6px 12px;text-align:center">screens/README.md</td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center;color:#606060">○</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td></tr>
+<tr><td style="padding:6px 12px;text-align:center">decisions.md</td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center"></td><td style="padding:6px 12px;text-align:center;color:#4863FF">●</td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">6</p>
+<aside>This is the table the skills follow. It lives in INDEX.md, so if you change who reads what, you change it there and nowhere else.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="feedback" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">IDEA 3</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">Feed reviews back</h2>
+</div>
+<p style="font-size:32px;line-height:1.4">Promote a finding when it came up on two or more screens, or twice — and one file clearly owns it.</p>
+<!-- open 0,170,380,160  adopted 704,0,960,130  local 704,185,960,130  dropped 704,370,960,130 -->
+<div style="position:relative;width:1664px;height:500px">
+<div style="position:absolute;left:0px;top:170px;width:380px;height:160px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px">
+<p style="font-size:40px;color:#11103C;text-align:center">open</p>
+<p style="font-size:26px;text-align:center">a new finding</p>
+</div>
+<div style="position:absolute;left:704px;top:0px;width:960px;height:130px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;overflow:hidden">
+<div style="width:240px;background:#4863FF;display:flex;align-items:center;justify-content:center"><p style="font-size:34px;color:#FFFFFF;text-align:center">adopted</p></div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:0px 24px"><p style="font-size:28px;text-align:center">The rule changes. Logged as D-xx.</p></div>
+</div>
+<div style="position:absolute;left:704px;top:185px;width:960px;height:130px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;overflow:hidden">
+<div style="width:240px;background:#11103C;display:flex;align-items:center;justify-content:center"><p style="font-size:34px;color:#FFFFFF;text-align:center">local</p></div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:0px 24px"><p style="font-size:28px;text-align:center">Stays with that one screen.</p></div>
+</div>
+<div style="position:absolute;left:704px;top:370px;width:960px;height:130px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);display:flex;overflow:hidden">
+<div style="width:240px;background:#606060;display:flex;align-items:center;justify-content:center"><p style="font-size:34px;color:#FFFFFF;text-align:center">dropped</p></div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:0px 24px"><p style="font-size:28px;text-align:center">The row stays, with the reason.</p></div>
+</div>
+<x-connector x1="380" y1="250" x2="704" y2="250" style="color:#323136;border-width:3px"></x-connector>
+<x-connector x1="540" y1="65" x2="540" y2="435" head="none" style="color:#323136;border-width:3px"></x-connector>
+<x-connector x1="540" y1="65" x2="704" y2="65" style="color:#323136;border-width:3px"></x-connector>
+<x-connector x1="540" y1="435" x2="704" y2="435" style="color:#323136;border-width:3px"></x-connector>
+<p style="position:absolute;left:0px;top:346px;width:380px;font-size:24px;color:#606060;text-align:center">A person decides</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">7</p>
+<aside>Every finding starts open in work/feedback.md. Once a week promote-feedback groups them and suggests where each should go, but a person decides. Adopted changes go in a PR with a row in decisions.md. Local ones stay with that screen. Dropped ones keep their row and the reason.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="builder" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">IN PRACTICE</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">design-builder, step by step</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:28px 24px">
+<p style="font-size:44px;line-height:1.1;color:#4863FF;text-align:center">01</p>
+<p style="font-size:32px;color:#11103C;text-align:center">Read</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">Copy the PRD into the feature folder</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:28px 24px">
+<p style="font-size:44px;line-height:1.1;color:#4863FF;text-align:center">02</p>
+<p style="font-size:32px;color:#11103C;text-align:center">Frame</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">Whose job gets better, and how</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:28px 24px">
+<p style="font-size:44px;line-height:1.1;color:#4863FF;text-align:center">03</p>
+<p style="font-size:32px;color:#11103C;text-align:center">Ask</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">Only what changes the design</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:28px 24px">
+<p style="font-size:44px;line-height:1.1;color:#4863FF;text-align:center">04</p>
+<p style="font-size:32px;color:#11103C;text-align:center">Research</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">Approved screens first, then others</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:28px 24px">
+<p style="font-size:44px;line-height:1.1;color:#4863FF;text-align:center">05</p>
+<p style="font-size:32px;color:#11103C;text-align:center">Explore</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">About three working options</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:28px 24px">
+<p style="font-size:44px;line-height:1.1;color:#4863FF;text-align:center">06</p>
+<p style="font-size:32px;color:#11103C;text-align:center">Recommend</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">Pick one, tie it to a principle</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:28px 24px">
+<p style="font-size:44px;line-height:1.1;color:#4863FF;text-align:center">07</p>
+<p style="font-size:32px;color:#11103C;text-align:center">Write up</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">Everything on one HTML page</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);padding:28px 24px">
+<p style="font-size:44px;line-height:1.1;color:#4863FF;text-align:center">08</p>
+<p style="font-size:32px;color:#11103C;text-align:center">Review</p>
+<p style="font-size:26px;line-height:1.4;text-align:center">Run design-review, then hand over</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">8</p>
+<aside>design-builder walks through what a designer does in their head. The important part is step 5: options have to differ on real axes, not colors. On screens with no precedent it stops at the options and a person picks.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="check" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">IN PRACTICE</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">What the check catches</h2>
+</div>
+<p style="font-size:32px;line-height:1.4"><span style="color:#4863FF">npm run check</span> runs on your machine and on every pull request.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">Index drift</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">A file not in INDEX.md, or a mismatched question</p>
+</div>
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">Stale tokens</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">tokens.css not rebuilt after tokens.json changed</p>
+</div>
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">Hard-coded colors</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">Raw colors in screens and options (R-01)</p>
+</div>
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">Unknown variables</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">CSS variables that aren't in tokens.css</p>
+</div>
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">Duplicate IDs</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">Two P-, R-, D- or FB- entries with one number</p>
+</div>
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">Loose ends</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">Adopted feedback with no decision behind it</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">9</p>
+<aside>If a machine can catch it, the machine should. The check has no dependencies. Lines you tag with a feedback ID are skipped on purpose, so breaking a rule is allowed as long as it is recorded.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="team" data-transition="fade" style="background:#FFFFFF;color:#323136;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#4863FF;letter-spacing:0.06em">IN PRACTICE</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#11103C">Running it as a team</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px">
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">First months</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">Only maintainers change the design system. Decide in batches.</p>
+</div>
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">Then</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">Designers open PRs too. Start with copy and guidelines.</p>
+</div>
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#11103C;padding:16px;text-align:center">Every week</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">Someone runs promote-feedback. A person decides.</p>
+</div>
+<div style="display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#4863FF;padding:16px;text-align:center">Approvals</p>
+<p style="font-size:26px;line-height:1.4;text-align:center;padding:24px">With two or more people, require a Code Owner's review.</p>
+</div>
+</div>
+<div style="display:flex;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<div style="width:240px;background:#63679B;display:flex;align-items:center;justify-content:center"><p style="font-size:26px;color:#FFFFFF;letter-spacing:0.06em;text-align:center">NOT FOR</p></div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:28px 40px"><p style="font-size:28px;line-height:1.4;text-align:center">Screens with no precedent. Keep designers on the moments that change the experience.</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:600px;font-size:24px;color:#606060">AI Design Harness</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#606060;text-align:right">10</p>
+<aside>Start small: maintainers only, decide in batches. Open it up once the output is steady. GitHub won't let you approve your own PR, so with one person, let a PR sit a day and reread the diff. Agents can draft options for brand-new screens, but they won't reach a shippable bar on their own.</aside>
+</section>
+</div>
+<div class="frame">
+<section id="start" data-transition="fade" style="background:#11103C;color:#FFFFFF;font-family:'Poppins', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;color:#DFE6FF;letter-spacing:0.06em">START</p>
+<h2 style="font-size:72px;font-weight:500;line-height:1.15;color:#FFFFFF">Getting started</h2>
+</div>
+<div style="display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;align-items:center;gap:28px"><p style="font-size:44px;color:#DFE6FF">1</p><p style="font-size:32px;line-height:1.3;color:#FFFFFF">Replace everything marked (example)</p></div>
+<div style="display:flex;align-items:center;gap:28px"><p style="font-size:44px;color:#DFE6FF">2</p><p style="font-size:32px;line-height:1.3;color:#FFFFFF">Write component specs as you need them</p></div>
+<div style="display:flex;align-items:center;gap:28px"><p style="font-size:44px;color:#DFE6FF">3</p><p style="font-size:32px;line-height:1.3;color:#FFFFFF">Put your own handles in CODEOWNERS</p></div>
+<div style="display:flex;align-items:center;gap:28px"><p style="font-size:44px;color:#DFE6FF">4</p><p style="font-size:32px;line-height:1.3;color:#FFFFFF">Run npm run tokens, then npm run check</p></div>
+</div>
+<div style="width:720px;display:flex;flex-direction:column;background:#F8F8F8;border-radius:16px;box-shadow:4px 4px 12px rgba(0,0,0,0.2);overflow:hidden">
+<p style="font-size:30px;color:#FFFFFF;background:#4863FF;padding:16px;text-align:center">What's inside</p>
+<table style="font-family:'Poppins', Arial, sans-serif;font-size:24px;color:#323136">
+<tr><td style="width:48%;text-align:center">design-system/</td><td style="width:52%;text-align:center">The source of truth</td></tr>
+<tr><td style="text-align:center">work/features/</td><td style="text-align:center">Explorations and proposals</td></tr>
+<tr><td style="text-align:center">work/feedback.md</td><td style="text-align:center">The feedback log</td></tr>
+<tr><td style="text-align:center">.claude/skills/</td><td style="text-align:center">The three skills</td></tr>
+<tr><td style="text-align:center">scripts/</td><td style="text-align:center">check and build-tokens</td></tr>
+</table>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1300px;font-size:24px;color:#DFE6FF">Built on ideas from Canary's NestUI and Reiwa Travel's design-builder write-up</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#DFE6FF;text-align:right">11</p>
+<aside>Getting started is four steps. Replace the example content with your own product, write component specs only as you need them, set CODEOWNERS, and run the two scripts. Credits: Canary's NestUI and Reiwa Travel's design-builder write-up.</aside>
+</section>
+</div>
+</div>
+<script>
+  // Fit slides to the window
+  const fit = () => document.documentElement.style.setProperty("--s", Math.min(1, (window.innerWidth - 48) / 1920));
+  fit();
+  window.addEventListener("resize", fit);
+
+  // Draw <x-connector> and <x-shape kind="arrow-right"> with SVG
+  const NS = "http://www.w3.org/2000/svg";
+  const styleValue = (el, name) => ((el.getAttribute("style") || "").match(new RegExp("(?:^|;)\\s*" + name + ":\\s*([^;]+)")) || [])[1];
+
+  document.querySelectorAll("x-connector").forEach((el) => {
+    const [x1, y1, x2, y2] = ["x1", "y1", "x2", "y2"].map((a) => parseFloat(el.getAttribute(a)));
+    const route = el.getAttribute("route") || "straight";
+    const color = styleValue(el, "color") || "#323136";
+    const width = parseFloat(styleValue(el, "border-width") || "2");
+    const [fx, fy] = route === "hv" ? [x2, y1] : route === "vh" ? [x1, y2] : [x1, y1];
+    const angle = Math.atan2(y2 - fy, x2 - fx);
+    const size = width * 4;
+    const hasHead = (el.getAttribute("head") || "end") !== "none";
+    const ex = hasHead ? x2 - Math.cos(angle) * size * 0.6 : x2;
+    const ey = hasHead ? y2 - Math.sin(angle) * size * 0.6 : y2;
+    const d = route === "hv" ? `M${x1} ${y1} H${ex} V${ey}` : route === "vh" ? `M${x1} ${y1} V${ey} H${ex}` : `M${x1} ${y1} L${ex} ${ey}`;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("style", "position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none");
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", d);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", color);
+    path.setAttribute("stroke-width", width);
+    path.setAttribute("stroke-linecap", "round");
+    path.setAttribute("stroke-linejoin", "round");
+    svg.appendChild(path);
+    if (hasHead) {
+      const bx = x2 - Math.cos(angle) * size, by = y2 - Math.sin(angle) * size;
+      const px = -Math.sin(angle) * size * 0.5, py = Math.cos(angle) * size * 0.5;
+      const head = document.createElementNS(NS, "polygon");
+      head.setAttribute("points", `${x2},${y2} ${bx + px},${by + py} ${bx - px},${by - py}`);
+      head.setAttribute("fill", color);
+      svg.appendChild(head);
+    }
+    el.replaceWith(svg);
+  });
+
+  document.querySelectorAll('x-shape[kind="arrow-right"]').forEach((el) => {
+    const w = parseFloat(styleValue(el, "width")), h = parseFloat(styleValue(el, "height"));
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", w);
+    svg.setAttribute("height", h);
+    svg.setAttribute("style", "flex:none");
+    const shape = document.createElementNS(NS, "polygon");
+    shape.setAttribute("points", `0,${h * 0.3} ${w * 0.6},${h * 0.3} ${w * 0.6},0 ${w},${h / 2} ${w * 0.6},${h} ${w * 0.6},${h * 0.7} 0,${h * 0.7}`);
+    shape.setAttribute("fill", styleValue(el, "background") || "#323136");
+    svg.appendChild(shape);
+    el.replaceWith(svg);
+  });
+</script>
+</body>
+</html>

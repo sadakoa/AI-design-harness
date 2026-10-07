@@ -12,7 +12,7 @@ Most design knowledge lives in designers' heads. This repo is a place to write i
 2. **Build wide, review narrow.** When building you read to open up options. When reviewing you read to check, one lens at a time.
 3. **Feed reviews back.** Findings go into a log. A person decides what becomes a rule.
 
-[How it works](docs/how-it-works.md) explains each one, with pictures.
+[How it works](docs/how-it-works.md) explains each one, with pictures. There's also a short [slide deck](docs/slides/ai-design-harness.pdf); to present it from a browser, open `docs/slides/index.html`.
 
 ## What's inside
 
