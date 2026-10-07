@@ -1,71 +1,73 @@
 # AI Design Harness
 
-A template repo for teams that design UI with AI agents (Claude Code or Codex), with or without a designer on the team.
+A template repo for teams that design with AI agents (Claude Code or Codex) — with or without a designer, and with or without a design system.
 
-You write your design rules down as small files. An agent uses them to draft and review screens. When a review turns up something new, an owner decides whether it goes into the rules.
+Before anyone writes code, it does two things:
 
-Together, these files, three skills and one check script are the "harness". They keep the agent inside your rules.
+1. **Checks you're building the right thing.** A PRD is matched against your users, the jobs they're trying to get done and the decisions you've already made. If it clashes, it stops there.
+2. **Designs it the way your team would.** The agent drafts a few clickable options, recommends one, writes the spec and reviews it against your rules.
 
-![Build, review, log, promote — and the design system in the middle](docs/images/loop.svg)
+What it learns along the way goes back into your product and design notes, so the next round starts from there.
 
-## The three ideas
+![How it fits together: frame, build, review, then your team ships; what you learn is promoted back into product/ and design-system/](docs/images/flow.svg)
 
-1. **One question, one file.** "What color is this?", "Which component?", "How do we word errors?" — each has exactly one home.
-2. **Build wide, review narrow.** Building explores a few real options. Reviewing checks one area at a time: components, layout, then copy (the UI text).
-3. **Feed reviews back.** Findings go into a log. Once a week an owner promotes the ones that matter into the design system, and the next build reads them.
+## See it (2 minutes)
 
-[How it works](docs/how-it-works.md) explains each one, with pictures. There's also a short [slide deck](docs/slides/ai-design-harness.pdf); to present it from a browser, open `docs/slides/index.html`.
+Clone the repo and open `examples/support-inbox/proposal.html` in a browser. It's a full run for a made-up support inbox: the framing, three clickable mockups, the recommendation, the spec and the review.
 
-## What you get
+![One of the three mockups: a support inbox grouped by priority](docs/images/example-option-a.png)
 
-For each screen, a one-page HTML proposal: research notes, about three clickable mockups, a recommendation with reasons and a spec. Next to it, `review.md` checks the recommendation against your rules. You open the proposal in a browser.
+## Try it (15 minutes, nothing to set up)
 
-![One of three mockups from the example proposal: a support inbox grouped by priority](docs/images/example-option-a.png)
+The repo ships with example content for Helpline, a made-up help desk, so the skills work straight away. Open the repo in Claude Code and type:
 
-That's one of the three mockups from [a full example run](examples/support-inbox/), for a made-up support inbox.
+| Type | What happens |
+|---|---|
+| `/frame examples/prd/community-forum.md` | It stops: customer log-ins go against a decision the product already made, and public posts break a privacy constraint. |
+| `/frame examples/prd/hand-off.md` | It treats it as a flow of four screens, and asks a product owner to decide first: no job covers the main goal yet. |
+| `/design-builder examples/prd/support-inbox.md` | It frames the PRD, asks a few questions, builds three options and reviews its pick. Open the proposal it writes in `work/features/`. |
 
-It doesn't write production code or use your component library. It gets you to a reviewed design; building it is still your job.
-
-## Your first hour
+In Codex, ask for the skill by name: "run frame on examples/prd/hand-off.md".
 
 You need Claude Code or Codex, Node 20 or later, and git.
 
-1. **Get the files.** Use this repo as a template for a new repo. Or copy `design-system/`, `work/`, `.claude/skills/`, `.agents/`, `.github/`, `scripts/` and `AGENTS.md` into your product repo, add the two scripts from `package.json`, and if you already have a `CLAUDE.md`, add the line `@AGENTS.md` to it.
-2. **Fill in the minimum.** In `design-system/foundations/principles.md`, write who the product is for and your quality bar. In `design-system/tokens/tokens.json`, put your real colors (the values there are placeholders). Run `npm run tokens`. Everything else can stay as `(example)` for now; the agent will tell you when it relied on one.
-3. **Write a short PRD** (product requirements doc) for one screen: who uses it, what job they're doing, what's wrong today, what has to be on it. Save it anywhere, e.g. `work/prd/invoice-list.md`.
-4. **Run it.** In Claude Code, opened in your repo, type `/design-builder work/prd/invoice-list.md`. It asks up to five questions, builds the options and reviews its own recommendation.
-5. **Open** the proposal in a browser, e.g. `work/features/20261007-invoice-list/proposal.html`.
+## Use it on your product
 
-## Setting it up for your team
+Start with one product and one screen. [Adopting it](docs/adopting.md) has the steps for both cases:
 
-- Replace the rest of the `(example)` content as you go. Delete `FB-01` in `work/feedback.md` and `D-01` in `design-system/decisions.md` together, or the check will complain.
-- Keep the rule IDs `R-01`–`R-05` (reword them freely); the skills and the check refer to them. Add your own from `R-06`.
-- Put your team's GitHub usernames in `.github/CODEOWNERS`. These people are the **owners**: they approve every change to `design-system/`. No designer on the team? Pick one owner anyway.
-- `npm run check` runs on every pull request. It needs nothing but Node.
+- **You have a design system or a component library.** Run `/bootstrap path/to/your/app`. It points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
+- **You don't.** `/bootstrap` still drafts a starting point from the colors, type and words your product already uses. You need less than you'd think.
 
-## Everyday use
+Either way, an owner reads the drafts before anyone relies on them.
 
-| To | Run | You get |
-|---|---|---|
-| Design a screen | `/design-builder path/to/prd.md` | A reviewed proposal in `work/features/` |
-| Review a screen made some other way | `/design-review path/to/page.html` | `review.md`, plus new entries in the feedback log |
-| Turn feedback into rules (weekly) | `/promote-feedback` | A pull request against `design-system/` for an owner to merge |
-| Keep an approved screen | Follow [screens/README.md](design-system/screens/README.md) | `design-system/screens/<name>/` |
+## Day to day
 
-Skills are saved instructions for the agent. The `/name` form is Claude Code; in Codex, ask for the skill by name.
+| When | Who | Run | You get |
+|---|---|---|---|
+| There's a new idea | Product owner | `/frame path/to/prd.md` | `framing.md`: go, decide first, or stop |
+| It's a go | Anyone | `/design-builder path/to/prd.md` | A reviewed proposal for a screen or a flow |
+| A screen was made some other way | Anyone | `/design-review path/to/page.html` | `review.md`, plus entries in the log |
+| Something comes up in real use | Anyone | Add a row to `work/feedback.md` | An observation in the log |
+| Once a week | Owners | `/promote-feedback` | Pull requests against `product/` or `design-system/` |
 
-IDs you'll see: `P-01` principle, `R-01` rule, `D-01` decision, `FB-01` feedback entry. They're never renumbered.
+Skills are saved instructions for the agent. `npm run check` runs on every pull request and catches broken links between all of these.
 
-## Already have a design system or a Figma library?
+## What's inside
 
-Keep it as the source. Copy its values into `tokens.json` and its rules into the files here, and update them when the source changes. This repo is the version the agent reads. When your team approves a proposal, hand the recommended mockup and its spec to engineering, or rebuild it in Figma if that's where your team works.
+```
+product/            what to build and why: users, jobs, concepts, constraints, decisions
+design-system/      how it looks and behaves: tokens, rules, writing, components, layouts
+work/features/      one folder per idea: framing, mockups, proposal, review
+work/feedback.md    what we've learned, waiting for an owner
+.claude/skills/     bootstrap, frame, design-builder, design-review, promote-feedback
+scripts/            check, sync, build-tokens
+examples/           sample PRDs and a full example run
+```
+
+IDs you'll see: `U-` user, `J-` job, `PP-` product principle, `PD-` product decision, `CON-` constraint, `P-` design principle, `R-` design rule, `D-` design decision, `FB-` feedback entry. They're never renumbered.
+
+[How it works](docs/how-it-works.md) explains the ideas behind it, with pictures. There's also a [slide deck](docs/slides/ai-design-harness.pdf) on the design side.
 
 ## Not for
 
-Screens unlike anything your product has today (say, your first dashboard). The agent can draft options to compare, but someone with design experience should choose and finish them. And if you only need lots of rough ideas fast, one long design-notes file is enough.
-
-## Notes
-
-On Windows, clone with `git clone -c core.symlinks=true <url>` so `.agents/skills` (the Codex copy of the skills) works.
-
-Built on ideas from Canary's [NestUI](https://github.com/SSK-TBD/NestUI) ([article](https://note.com/canary_inc/n/n538adfe8daee)) and Reiwa Travel's [design-builder write-up](https://note.com/toitoi1618/n/ndf35dbd2585b).
+Screens unlike anything your product has today, say your first dashboard: the agent can draft options, but someone with design experience should finish them. It also doesn't write production code. It gets you to a reviewed design; building it is still your job.

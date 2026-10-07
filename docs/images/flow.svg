@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="470" viewBox="0 0 960 470" role="img" aria-label="A PRD is framed against product/, built and reviewed against design-system/, then your team decides and ships. Findings and what real use shows go into the log, and owners promote them weekly into product/ or design-system/.">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#57606A"/>
+    </marker>
+  </defs>
+  <style>
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .title { font-size: 17px; font-weight: 600; fill: #1F2328; }
+    .code { font-size: 13px; fill: #3B5BDB; }
+    .desc { font-size: 13px; fill: #57606A; }
+    .label { font-size: 13px; fill: #57606A; }
+    .card { fill: #FFFFFF; stroke: #D8DEE4; stroke-width: 1.5; }
+    .source { fill: #EEF2FF; stroke: #3B5BDB; stroke-width: 2; }
+    .line { fill: none; stroke: #57606A; stroke-width: 1.5; }
+  </style>
+
+  <rect x="0" y="0" width="960" height="470" rx="16" fill="#FAFAF7"/>
+
+  <!-- Top row: the work -->
+  <rect class="card" x="20" y="40" width="100" height="96" rx="12"/>
+  <text class="sans title" x="70" y="80" text-anchor="middle">PRD</text>
+  <text class="sans desc" x="70" y="102" text-anchor="middle">an idea</text>
+
+  <rect class="card" x="150" y="40" width="150" height="96" rx="12"/>
+  <text class="sans title" x="225" y="70" text-anchor="middle">Frame</text>
+  <text class="mono code" x="225" y="90" text-anchor="middle">/frame</text>
+  <text class="sans desc" x="225" y="110" text-anchor="middle">Right thing?</text>
+
+  <rect class="card" x="340" y="40" width="170" height="96" rx="12"/>
+  <text class="sans title" x="425" y="70" text-anchor="middle">Build</text>
+  <text class="mono code" x="425" y="90" text-anchor="middle">/design-builder</text>
+  <text class="sans desc" x="425" y="110" text-anchor="middle">Options and a spec</text>
+
+  <rect class="card" x="570" y="40" width="160" height="96" rx="12"/>
+  <text class="sans title" x="650" y="70" text-anchor="middle">Review</text>
+  <text class="mono code" x="650" y="90" text-anchor="middle">/design-review</text>
+  <text class="sans desc" x="650" y="110" text-anchor="middle">Against your rules</text>
+
+  <rect class="card" x="780" y="40" width="160" height="96" rx="12"/>
+  <text class="sans title" x="860" y="70" text-anchor="middle">Your team</text>
+  <text class="sans desc" x="860" y="92" text-anchor="middle">decides, builds</text>
+  <text class="sans desc" x="860" y="110" text-anchor="middle">and ships</text>
+
+  <!-- Bottom row: what you know -->
+  <rect class="source" x="150" y="320" width="150" height="96" rx="12"/>
+  <text class="mono title" x="225" y="352" text-anchor="middle" font-size="15">product/</text>
+  <text class="sans desc" x="225" y="376" text-anchor="middle">users, jobs,</text>
+  <text class="sans desc" x="225" y="394" text-anchor="middle">decisions</text>
+
+  <rect class="source" x="340" y="320" width="170" height="96" rx="12"/>
+  <text class="mono title" x="425" y="352" text-anchor="middle" font-size="15">design-system/</text>
+  <text class="sans desc" x="425" y="376" text-anchor="middle">tokens, rules,</text>
+  <text class="sans desc" x="425" y="394" text-anchor="middle">components</text>
+
+  <rect class="card" x="570" y="320" width="160" height="96" rx="12"/>
+  <text class="sans title" x="650" y="350" text-anchor="middle">Promote</text>
+  <text class="mono code" x="650" y="370" text-anchor="middle">/promote-feedback</text>
+  <text class="sans desc" x="650" y="390" text-anchor="middle">owners decide</text>
+
+  <rect class="card" x="780" y="320" width="160" height="96" rx="12"/>
+  <text class="sans title" x="860" y="350" text-anchor="middle">Log</text>
+  <text class="mono code" x="860" y="370" text-anchor="middle">work/feedback.md</text>
+  <text class="sans desc" x="860" y="390" text-anchor="middle">what we learned</text>
+
+  <!-- Work flow -->
+  <line class="line" x1="120" y1="88" x2="146" y2="88" marker-end="url(#arrow)"/>
+  <line class="line" x1="300" y1="88" x2="336" y2="88" marker-end="url(#arrow)"/>
+  <line class="line" x1="510" y1="88" x2="566" y2="88" marker-end="url(#arrow)"/>
+  <line class="line" x1="730" y1="88" x2="776" y2="88" marker-end="url(#arrow)"/>
+
+  <!-- Reads -->
+  <line class="line" x1="225" y1="320" x2="225" y2="140" marker-end="url(#arrow)"/>
+  <text class="sans label" x="233" y="235">reads</text>
+  <line class="line" x1="425" y1="320" x2="425" y2="140" marker-end="url(#arrow)"/>
+  <text class="sans label" x="433" y="235">reads</text>
+
+  <!-- Into the log -->
+  <path class="line" d="M650,136 V228 H820 V316" marker-end="url(#arrow)"/>
+  <text class="sans label" x="660" y="220">findings</text>
+  <line class="line" x1="900" y1="136" x2="900" y2="316" marker-end="url(#arrow)"/>
+  <text class="sans label" x="892" y="196" text-anchor="end">real use</text>
+
+  <!-- Back to what you know -->
+  <line class="line" x1="780" y1="368" x2="734" y2="368" marker-end="url(#arrow)"/>
+  <text class="sans label" x="757" y="358" text-anchor="middle">weekly</text>
+  <line class="line" x1="570" y1="368" x2="514" y2="368" marker-end="url(#arrow)"/>
+  <text class="sans label" x="541" y="358" text-anchor="middle">design</text>
+  <path class="line" d="M650,416 V446 H225 V420" marker-end="url(#arrow)"/>
+  <text class="sans label" x="440" y="440" text-anchor="middle">product</text>
+</svg>

@@ -1,5 +1,7 @@
-# Changes to the design system, and to the files that govern it, need approval from these people.
+# Changes to the product context, the design system, and the files that govern them need approval from these people.
+# Put product owners on /product/ and design owners on /design-system/.
 # This only takes effect with branch protection's "Require review from Code Owners" turned on.
+/product/          @sadakoa
 /design-system/    @sadakoa
 /.claude/skills/   @sadakoa
 /scripts/          @sadakoa

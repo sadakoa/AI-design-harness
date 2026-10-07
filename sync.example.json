@@ -1,0 +1,18 @@
+{
+  "tokens": {
+    "from": "../my-app/src/app/globals.css",
+    "map": {
+      "color.surface.base": "--background",
+      "color.text.primary": "--foreground",
+      "color.action.primary": "--primary",
+      "color.text.on-action": "--primary-foreground",
+      "color.border.default": "--border",
+      "color.status.danger": "--destructive",
+      "radius.md": "--radius"
+    }
+  },
+  "components": {
+    "from": "../my-app/src/components/ui",
+    "extensions": [".tsx"]
+  }
+}

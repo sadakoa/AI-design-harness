@@ -1,6 +1,6 @@
 # Feedback log
 
-Everything we learn while building and reviewing goes here. An owner decides what becomes a rule; `promote-feedback` suggests how to sort it.
+Everything we learn — while building, while reviewing, and from how people actually use what we shipped — goes here. An owner decides what changes; `promote-feedback` suggests how to sort it.
 
 ## How to log
 
@@ -8,19 +8,24 @@ Give each entry an ID — `FB-01`, `FB-02` and so on. Never renumber. If you dro
 
 When you break a rule on purpose, put the ID on that line too: `/* FB-07 */` in CSS, `<!-- FB-07 -->` in HTML. `npm run check` skips tagged lines and makes sure the ID exists here.
 
+If an open row already covers what you found, add your feature to its Where instead of adding a new row.
+
 "Who" is a person's name or a skill name.
+
+**Layer** says where it would go: `product` (users, jobs, decisions — we built the wrong thing) or `design` (rules, tokens, components — we built it the wrong way).
 
 | Type | Meaning |
 |---|---|
 | deviation | We broke a rule on purpose |
-| missing | The design system didn't have it, so we built it in `work/` |
+| missing | `product/` or the design system doesn't have it (a job, a concept, a component, a token) |
 | bug | Something in the design system doesn't work |
 | insight | A review finding that probably applies to other screens too |
+| observation | Something seen in real use: support tickets, analytics, interviews. Link the source. |
 
 | Status | Meaning | Result column |
 |---|---|---|
 | open | No owner has decided yet | — |
-| adopted | It's in the design system now. Set this inside the PR that makes the change. | The decision ID (D-xx) |
+| adopted | It's in `product/` or `design-system/` now. Set this inside the PR that makes the change. | The decision ID: PD-xx for product, D-xx for design |
 | screen-only | It only applies to that one screen | Why |
 | dropped | We let it go | Why |
 
@@ -39,6 +44,6 @@ A mistake in the design system, or a missing token that affects every screen, ca
 
 <!-- replace: delete the (example) row and start at FB-01 -->
 
-| ID | Date | Type | What happened | Where | Who | Status | Result |
-|---|---|---|---|---|---|---|---|
-| FB-01 | (example) 2026-10-07 | insight | Two primary buttons side by side, and people hesitate | List, detail, settings | design-review | adopted | D-01 |
+| ID | Date | Layer | Type | What happened | Where | Who | Status | Result |
+|---|---|---|---|---|---|---|---|---|
+| FB-01 | (example) 2026-10-07 | design | insight | Two primary buttons side by side, and people hesitate | List, detail, settings | design-review | adopted | D-01 |

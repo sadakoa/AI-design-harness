@@ -2,7 +2,7 @@
 
 > Answers: Which file answers which question, and what should I read for this task?
 
-Every question has exactly one file. Read only what's marked for the task you're on.
+Every question has exactly one file. Read only what's marked for the task you're on. What to build and why lives in `product/` — see `product/INDEX.md`.
 
 ● always · ○ when it's relevant · blank: skip
 
@@ -15,8 +15,9 @@ Every question has exactly one file. Read only what's marked for the task you're
 | `foundations/rules.md` | What must we never do, and who catches it? | ● | ● | ● | ● | ● |
 | `foundations/writing.md` | How do we write UI text? | ● |  |  | ● | ○ |
 | `components/GUIDE.md` | Which component should I use? | ○ | ● |  |  | ○ |
+| `components/inventory.md` | Which components exist in our code? | ○ | ● |  |  |  |
 | `components/*.md` | How does this component behave? | ○ | ○ |  |  | ○ |
-| `patterns/GUIDE.md` | How do components come together into a screen? | ● |  | ● |  | ○ |
+| `patterns/GUIDE.md` | How do components come together into screens and flows? | ● |  | ● |  | ○ |
 | `screens/README.md` | What do the approved screens look like? | ● |  | ○ |  |  |
 | `decisions.md` | Why did we decide this? |  |  |  |  | ● |
 

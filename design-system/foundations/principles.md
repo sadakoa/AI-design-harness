@@ -2,14 +2,7 @@
 
 > Answers: What do we prioritize, and why?
 
-This file sets direction. Values live in `tokens/tokens.json`; hard limits live in `rules.md`.
-
-## Who it's for
-
-<!-- replace -->
-- **Users:** (example) Support agents who use the product all day. Some are very comfortable with software, some aren't.
-- **Context:** (example) On a desktop, moving between a list and a detail view, getting through a lot of items quickly.
-- **What matters most:** (example) Reading fast, avoiding mistakes, not getting tired.
+How screens should feel. Who the product is for and what it stands for are in `product/`. Values live in `tokens/tokens.json`; hard limits live in `rules.md`.
 
 ## Quality bar
 

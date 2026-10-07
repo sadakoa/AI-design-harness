@@ -1,6 +1,6 @@
 # Composition
 
-> Answers: How do components come together into a screen?
+> Answers: How do components come together into screens and flows?
 
 Decisions that only apply to one screen stay in `work/features/`. When the same arrangement shows up on two screens, promote it here through the feedback log.
 
@@ -40,3 +40,17 @@ Every screen needs these four on top of its normal state. In mockups, switch bet
 | Empty | Nothing to show | What's missing, and the first step (see `writing.md`) |
 | Error | Something failed | What happened and what to do. Never wipe what they typed. |
 | Done | Right after an action | What finished, and what they can do next |
+
+## Flows
+
+A flow is a few screens that do one job together, like list → detail → edit. When a change spans screens, decide these for the whole flow, not screen by screen:
+
+| Question | What to decide |
+|---|---|
+| Way in | Where does someone start, and from where can they get here? |
+| Way out | Where do they land when they finish, and when they cancel? |
+| Back | Does going back keep what they entered and where they were? |
+| Same thing, same place | Shared actions and information sit in the same spot on every screen |
+| One job per screen | If a screen does two jobs, split it; if two screens do one, merge them |
+
+In mockups, a flow is one HTML file per option, with `?screen=<name>` choosing the screen and real links between them.

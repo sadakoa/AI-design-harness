@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "check": "node scripts/check.mjs",
-    "tokens": "node scripts/build-tokens.mjs"
+    "tokens": "node scripts/build-tokens.mjs",
+    "sync": "node scripts/sync.mjs"
   },
   "engines": {
     "node": ">=20"
