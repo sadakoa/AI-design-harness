@@ -86,6 +86,12 @@ try {
   errors.push(`tokens.json: ${error.message}`);
 }
 
+const template = join(root, ".claude/skills/design-builder/templates/proposal.html");
+if (existsSync(template)) {
+  const missing = [...new Set([...read(template).matchAll(/var\(\s*(--[\w-]+)/g)].map((m) => m[1]))].filter((n) => !tokenNames.has(n));
+  if (missing.length) errors.push(`the proposal template uses ${missing.join(", ")}, which tokens.json no longer defines — keep those token names`);
+}
+
 const config = existsSync(join(root, "sync.json")) ? readConfig() : null;
 const syncCheck = (what, compare) => {
   try {
@@ -261,7 +267,7 @@ for (const file of walk(product).filter((f) => f.endsWith(".md") && !f.endsWith(
 const examples = [...walk(ds), ...walk(product), logFile]
   .filter((file) => file.endsWith(".md") && existsSync(file))
   .reduce((sum, file) => sum + (read(file).match(/\(example\)/g) ?? []).length, 0);
-if (examples) warnings.push(`${examples} "(example)" entries left — see docs/adopting.md`);
+if (examples) warnings.push(`${examples} "(example)" entries left — see https://github.com/sadakoa/AI-design-harness/blob/main/docs/adopting.md`);
 
 // --- Result ---
 for (const w of warnings) console.warn(`warning  ${w}`);

@@ -69,6 +69,20 @@ if (scriptDir === "scripts/harness") notes.push("Your scripts/ folder already ha
 const workflow = join(target, ".github/workflows/check.yml");
 copyFile(join(harness, ".github/workflows/check.yml"), existsSync(workflow) ? join(target, ".github/workflows/harness-check.yml") : workflow);
 
+const codeowners = join(target, ".github/CODEOWNERS");
+if (!existsSync(codeowners)) {
+  write(codeowners, [
+    "# Owners approve every change to these folders. Replace the names with GitHub usernames.",
+    "# It only takes effect with branch protection's \"Require review from Code Owners\" turned on.",
+    "# /product/          @product-owner",
+    "# /design-system/    @design-owner",
+    "",
+  ].join("\n"));
+  created.push(".github/CODEOWNERS");
+} else {
+  notes.push("You already have a .github/CODEOWNERS. Add owners for /product/ and /design-system/ to it.");
+}
+
 // 2. Codex reads skills from .agents/skills
 const agentsSkills = join(target, ".agents/skills");
 if (existsSync(agentsSkills)) {
@@ -135,5 +149,5 @@ console.log(`
 Next:
   1. Open ${basename(target)} in Claude Code and run: /bootstrap .
      (Restart the session first if /bootstrap isn't listed yet.)
-  2. Put your owners in .github/CODEOWNERS.
+  2. Put your owners in .github/CODEOWNERS (the lines are commented out until you do).
   3. Run: npm run ${existsSync(pkgPath) && JSON.parse(readFileSync(pkgPath, "utf8")).scripts?.["harness:check"] ? "harness:check" : "check"}`);

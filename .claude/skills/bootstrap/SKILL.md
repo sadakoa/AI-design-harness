@@ -19,7 +19,7 @@ This is the only skill that writes to `product/` and `design-system/` directly â
 1. **Look around, read-only.** The README and docs, `package.json`, styles (CSS variables, Tailwind config, theme files), the component folder, the main pages, and the text people see on them.
 
 2. **Design system.**
-   - **Tokens:** if the code has CSS variables, write `sync.json` (see `sync.example.json`) mapping them to the roles in `tokens.json`, then run `npm run sync`. If it doesn't, read the colors, fonts, spacing and corner radii actually used and put them in `tokens.json` yourself. Run `npm run tokens`.
+   - **Tokens:** keep the token names that are already in `tokens.json` (the proposal template and the check rely on them) and change their values; add new ones beside them. If the code has CSS variables, write `sync.json` (see `sync.example.json`) mapping them to the roles in `tokens.json`, then run `npm run sync`. If it doesn't, read the colors, fonts, spacing and corner radii actually used and put them in `tokens.json` yourself. Run `npm run tokens`.
    - **Components:** if there's a component folder, add it to `sync.json` so `components/inventory.md` lists them.
    - **Writing:** collect the words the UI already uses for the same things (buttons, statuses, empty states) into the table in `writing.md`. Where it's inconsistent, write down both and leave it for an owner.
    - **Principles and rules:** draft only what the code or docs clearly show. Leave the rest as `(example)`.

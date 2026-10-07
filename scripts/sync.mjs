@@ -1,6 +1,7 @@
 // One-way import from your product's code into the harness. No dependencies.
 // Configure it in sync.json (see sync.example.json):
-//   tokens:     copies CSS variables from your app's stylesheet into tokens.json
+//   tokens:     copies CSS variables from your app's stylesheets into tokens.json
+//               ("from" can be one file or a list; later files win, as in CSS)
 //   components: lists the component files in your code in components/inventory.md
 // The harness never writes back. Change the source, then run npm run sync again.
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -20,18 +21,23 @@ const source = (from) => {
   return path;
 };
 
-// CSS variables from the first :root block (or the whole file if there is none)
+// CSS variables from every :root block (or the whole file if there is none). Later ones win.
 export const cssVariables = (css) => {
-  const block = css.match(/:root\s*\{([^}]*)\}/);
-  const body = (block ? block[1] : css).replace(/\/\*[\s\S]*?\*\//g, "");
-  return Object.fromEntries([...body.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)].map(([, name, value]) => [name, value.trim()]));
+  const text = css.replace(/\/\*[\s\S]*?\*\//g, "");
+  const blocks = [...text.matchAll(/:root\s*\{([^}]*)\}/g)].map((m) => m[1]);
+  const vars = {};
+  for (const body of blocks.length ? blocks : [text]) {
+    for (const [, name, value] of body.matchAll(/(--[\w-]+)\s*:\s*([^;]+?)\s*(?:;|$)/g)) vars[name] = value.trim();
+  }
+  return vars;
 };
 
 export function syncedTokens(config, current) {
-  const vars = cssVariables(read(source(config.tokens.from)));
+  const files = [config.tokens.from].flat();
+  const vars = Object.assign({}, ...files.map((from) => cssVariables(read(source(from)))));
   const next = structuredClone(current);
   for (const [path, name] of Object.entries(config.tokens.map ?? {})) {
-    if (!(name in vars)) throw new Error(`${name} isn't defined in ${config.tokens.from}`);
+    if (!(name in vars)) throw new Error(`${name} isn't defined in ${files.join(", ")}`);
     const leaf = path.split(".").reduce((node, key) => (node[key] ??= {}), next);
     leaf.$value = vars[name];
     leaf.$extensions = { ...(leaf.$extensions ?? {}), harness: { source: name } };
@@ -67,7 +73,7 @@ export const readConfig = () => (existsSync(syncFile) ? JSON.parse(read(syncFile
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const config = readConfig();
   if (!config) {
-    console.log("No sync.json, so there's nothing to sync. See docs/adopting.md.");
+    console.log("No sync.json, so there's nothing to sync. See https://github.com/sadakoa/AI-design-harness/blob/main/docs/adopting.md");
     process.exit(0);
   }
   try {
@@ -75,7 +81,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       const tokens = syncedTokens(config, JSON.parse(read(tokensJson)));
       writeFileSync(tokensJson, JSON.stringify(tokens, null, 2) + "\n");
       writeFileSync(tokensCss, renderCss(tokens));
-      console.log(`Synced ${Object.keys(config.tokens.map ?? {}).length} tokens from ${config.tokens.from}`);
+      console.log(`Synced ${Object.keys(config.tokens.map ?? {}).length} tokens from ${[config.tokens.from].flat().join(", ")}`);
     }
     if (config.components) {
       const inventory = syncedInventory(config);
