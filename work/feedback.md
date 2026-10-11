@@ -12,12 +12,12 @@ If an open row already covers what you found, add your feature to its Where inst
 
 "Who" is a person's name or a skill name.
 
-**Layer** says where it would go: `product` (users, jobs, decisions — we built the wrong thing) or `design` (rules, tokens, components — we built it the wrong way).
+**Layer** says where it would go: `product` (users, jobs, places, decisions — we built the wrong thing) or `design` (rules, tokens, components — we built it the wrong way).
 
 | Type | Meaning |
 |---|---|
 | deviation | We broke a rule on purpose |
-| missing | `product/` or the design system doesn't have it (a job, a concept, a component, a token) |
+| missing | `product/` or the design system doesn't have it (a job, a concept, a place, a component, a token) |
 | bug | Something in the design system doesn't work |
 | insight | A review finding that probably applies to other screens too |
 | observation | Something seen in real use: support tickets, analytics, interviews. Link the source. |

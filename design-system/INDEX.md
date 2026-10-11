@@ -13,7 +13,7 @@ Every question has exactly one file. Read only what's marked for the task you're
 | `INDEX.md` | Which file answers which question, and what should I read for this task? | — | ● | ● | ● | ● | ● |
 | `tokens/tokens.css` | Which CSS variables can I use? | surface | ● | ● | ○ |  |  |
 | `tokens/tokens.json` | Which exact values do we use? | surface |  |  |  |  | ○ |
-| `foundations/principles.md` | What do we prioritize, and why? | all | ● | ● | ● | ○ | ● |
+| `foundations/principles.md` | What do we prioritize, and why? | structure, skeleton, surface | ● | ● | ● | ○ | ● |
 | `foundations/rules.md` | What must we never do, and who catches it? | skeleton, surface | ● | ● | ● | ● | ● |
 | `foundations/writing.md` | How do we write UI text? | skeleton | ● |  |  | ● | ○ |
 | `components/GUIDE.md` | Which component should I use? | skeleton | ○ | ● |  |  | ○ |
@@ -21,7 +21,7 @@ Every question has exactly one file. Read only what's marked for the task you're
 | `components/*.md` | How does this component behave? | skeleton | ○ | ○ |  |  | ○ |
 | `patterns/GUIDE.md` | How do components come together into screens and flows? | structure, skeleton | ● |  | ● |  | ○ |
 | `screens/README.md` | What do the approved screens look like? | skeleton, surface | ● |  | ○ |  |  |
-| `decisions.md` | Why did we decide this? | all |  |  |  |  | ● |
+| `decisions.md` | Why did we decide this? | structure, skeleton, surface |  |  |  |  | ● |
 
 ## When you write here
 

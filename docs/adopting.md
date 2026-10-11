@@ -62,10 +62,10 @@ Everything else can stay as `(example)` until you need it. The agent says when i
 
 - `users.md` and `jobs.md`: at least the users and the one or two jobs your next feature is for.
 - `decisions.md`: the decisions people keep asking about again.
-- `sources.md`: where your plans, research and PRDs live, and who owns them.
+- `product/sources.md`: where your plans, research and PRDs live, and who owns them.
 - Change `hypothesis` to `fact` only where you've seen it.
 
-If your PRDs and decisions live in Notion or a wiki, list them in `sources.md` and keep only the parts designs cite in the other files. Don't copy whole docs. `structure.md`, the map of your product's places, can wait until you design your first flow.
+If your PRDs and decisions live in Notion or a wiki, list them in `product/sources.md`, and keep a short version of what work gets checked against in the other files. Don't copy whole docs. `product/structure.md`, the map of your product's places, can wait until you design your first flow.
 
 ## 4. Set up owners
 

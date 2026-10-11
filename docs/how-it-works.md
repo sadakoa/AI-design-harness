@@ -28,9 +28,9 @@ Don't split by length. Split when something is said twice, when you can't name t
 
 ![The five planes of user experience, and where each one comes from](images/planes.svg)
 
-The files follow the five planes of user experience, from abstract at the bottom to concrete at the top: strategy, scope, structure, skeleton and surface. Both INDEX files have a Plane column.
+The files follow the five planes of user experience from Jesse James Garrett's *The Elements of User Experience*, abstract at the bottom and concrete at the top: strategy, scope, structure, skeleton and surface. The picture shows each file at its main plane; the Plane column in both INDEX files has the full list.
 
-- **Strategy and scope** usually have their own docs already: plans, research, PRDs. The harness doesn't copy them. `product/` keeps only what designs cite by ID (users, jobs, principles, constraints, decisions) with where each came from, and `product/sources.md` lists the full docs. So `product/` changes when the facts change, not every time a doc is edited. A feature's PRD is copied into its folder when it's framed, so the design keeps the version it was based on.
+- **Strategy and scope** usually have their own docs already: plans, research, PRDs. The harness doesn't copy them. `product/` keeps a short version, with an ID, of each user, job, principle, constraint and decision that work gets checked against, and `product/sources.md` lists the full docs. So `product/` changes when the facts change, not every time a doc is edited. A feature's PRD is copied into its folder when it's framed, so the design keeps the version it was based on.
 - **Skeleton and surface** come from your code: `npm run sync` brings in the tokens and the list of components. Rules, writing and layouts are written here.
 - **Structure** rarely has a home anywhere else, so it lives here: `product/concepts.md` for the things and their names, `product/structure.md` for the places and how people move between them, and `design-system/patterns/` for how screens and flows are put together.
 

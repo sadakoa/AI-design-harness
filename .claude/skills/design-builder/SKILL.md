@@ -53,7 +53,7 @@ Never write to `product/` or `design-system/`.
 
 5. **Explore.** Build about three options that differ in structure, not just in color — list-first or detail-first, batch or one at a time, show everything or reveal gradually. For a flow, they differ in how the screens split the job: separate pages, one page with a side panel, step by step.
    - Each option is one working HTML file in `options/`, loading tokens with `<link rel="stylesheet" href="../../../../design-system/tokens/tokens.css">`.
-   - For a flow, the file holds every screen: `?screen=<name>` picks one, and the buttons and links move between them for real. Follow the Flows table in `patterns/GUIDE.md`.
+   - For a flow, the file holds every screen: `?screen=<name>` picks one, and the buttons and links move between them for real. Follow the Flows table in `patterns/GUIDE.md`, and start and end at the places the framing lists.
    - Use what `components/inventory.md` lists before inventing anything. Follow R-01 for values. If you need something the design system doesn't have, build it, tag the line with an FB ID and log it as `missing` or `deviation`.
    - Support the four screen states in `patterns/GUIDE.md` through `?state=` in the URL, without showing a switcher on screen (R-05).
    - Write real copy, following `writing.md` and the words in `product/concepts.md`.

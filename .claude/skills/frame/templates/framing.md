@@ -4,7 +4,7 @@
 - **Scope:** {{screen / flow}}
 - **PRD:** `_inputs/{{file}}`
 - **Context:** {{"product/ is real" — or which files still hold (example) content}}
-- **Sources:** {{the docs from sources.md you opened — or "summaries in product/ only"}}
+- **Sources:** {{the docs from product/sources.md you opened — or "summaries in product/ only"}}
 
 ## Who it's for, and the job
 
@@ -21,6 +21,7 @@
 - **Decisions:** {{PD-xx — supports or goes against, and why}}
 - **Constraints:** {{CON-xx — what it means for the design}}
 - **Concepts:** {{the ones it uses; new names; new concepts}}
+- **Places:** {{places in product/structure.md it uses, changes or adds}}
 
 ## Screens
 

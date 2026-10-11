@@ -43,7 +43,7 @@ Every screen needs these four on top of its normal state. In mockups, switch bet
 
 ## Flows
 
-A flow is a few screens that do one job together, like list → detail → edit. When a change spans screens, decide these for the whole flow, not screen by screen:
+A flow is a few screens that do one job together, like list → detail → edit. Which places the product has, and how they connect, is in `product/structure.md`. When a change spans screens, decide these for the whole flow, not screen by screen:
 
 | Question | What to decide |
 |---|---|

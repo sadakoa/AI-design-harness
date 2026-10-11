@@ -9,3 +9,5 @@ All names, companies and requests are made up. They describe Helpline, the imagi
 | [`framing/hand-off.md`](framing/hand-off.md) | Framing for `prd/hand-off.md`: **decide first** (a flow of four screens). No job covers its main goal, and it clashes with the inbox's order. |
 | [`framing/community-forum.md`](framing/community-forum.md) | Framing for `prd/community-forum.md`: **stop**. Customer log-ins go against PD-01, and public posts break CON-02. |
 | [`framing/log.md`](framing/log.md) | What frame logged for a product owner along the way |
+
+These were made before `product/sources.md` and `product/structure.md` existed, so the framings have no Sources or Places line. The "Inbox" that `framing/log.md` says has no home is now a place in `product/structure.md`.

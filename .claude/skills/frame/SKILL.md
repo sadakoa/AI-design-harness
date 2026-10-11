@@ -18,7 +18,7 @@ Never edit `product/`. If something there is missing or out of date, log it.
 
 1. **Start the feature folder.** Create `work/features/<yyyymmdd>-<slug>/` (design-builder uses the same folder later) and copy the PRD into `_inputs/`. Pasted text goes to `_inputs/prd.md`.
 
-2. **Read** the Frame column of `product/INDEX.md`. If you can open the docs in `sources.md` that the PRD relies on, read the parts it touches; if you can't, work from the summaries in `product/`. Skim `design-system/screens/README.md` to see which screens exist, and the `framing.md` of other open features in `work/features/`, so PRDs that pull against each other get caught.
+2. **Read** the Frame column of `product/INDEX.md`. If you can open the docs in `product/sources.md` that the PRD relies on, read the parts it touches; if you can't, work from the summaries in `product/`. Skim `design-system/screens/README.md` to see which screens exist, and the `framing.md` of other open features in `work/features/`, so PRDs that pull against each other get caught.
 
 3. **Match the PRD to the product.**
    - Who: which users (U-xx).

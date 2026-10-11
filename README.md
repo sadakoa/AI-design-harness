@@ -61,8 +61,8 @@ Skills are saved instructions for the agent. `npm run check` runs on every pull 
 ## What's inside
 
 ```
-product/            what to build and why: users, jobs, concepts, structure, constraints,
-                    decisions, and where the full docs live
+product/            what to build and why: users, jobs, principles, concepts, structure,
+                    constraints, decisions, and where the full docs live
 design-system/      how it looks and behaves: tokens, rules, writing, components, layouts
 work/features/      one folder per idea: framing, mockups, proposal, review
 work/feedback.md    what we've learned, waiting for an owner
@@ -70,6 +70,8 @@ work/feedback.md    what we've learned, waiting for an owner
 scripts/            check, sync, build-tokens
 examples/           sample PRDs and a full example run
 ```
+
+Plans, research and PRDs stay where they already are. `product/` keeps a short version of each, with an ID, and links to the rest ([why](docs/how-it-works.md#what-lives-here-and-what-stays-elsewhere)).
 
 IDs you'll see: `U-` user, `J-` job, `PP-` product principle, `PD-` product decision, `CON-` constraint, `P-` design principle, `R-` design rule, `D-` design decision, `FB-` feedback entry. They're never renumbered.
 
