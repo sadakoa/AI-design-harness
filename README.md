@@ -61,7 +61,8 @@ Skills are saved instructions for the agent. `npm run check` runs on every pull 
 ## What's inside
 
 ```
-product/            what to build and why: users, jobs, concepts, constraints, decisions
+product/            what to build and why: users, jobs, concepts, structure, constraints,
+                    decisions, and where the full docs live
 design-system/      how it looks and behaves: tokens, rules, writing, components, layouts
 work/features/      one folder per idea: framing, mockups, proposal, review
 work/feedback.md    what we've learned, waiting for an owner

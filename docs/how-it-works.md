@@ -24,6 +24,18 @@ Here every question gets one file, and each folder's `INDEX.md` is the map: [pro
 
 Don't split by length. Split when something is said twice, when you can't name the one place to change it, or when team-wide rules and one-screen decisions are tangled up.
 
+## What lives here, and what stays elsewhere
+
+![The five planes of user experience, and where each one comes from](images/planes.svg)
+
+The files follow the five planes of user experience, from abstract at the bottom to concrete at the top: strategy, scope, structure, skeleton and surface. Both INDEX files have a Plane column.
+
+- **Strategy and scope** usually have their own docs already: plans, research, PRDs. The harness doesn't copy them. `product/` keeps only what designs cite by ID (users, jobs, principles, constraints, decisions) with where each came from, and `product/sources.md` lists the full docs. So `product/` changes when the facts change, not every time a doc is edited. A feature's PRD is copied into its folder when it's framed, so the design keeps the version it was based on.
+- **Skeleton and surface** come from your code: `npm run sync` brings in the tokens and the list of components. Rules, writing and layouts are written here.
+- **Structure** rarely has a home anywhere else, so it lives here: `product/concepts.md` for the things and their names, `product/structure.md` for the places and how people move between them, and `design-system/patterns/` for how screens and flows are put together.
+
+Decisions on each plane depend on the ones below it. That's why `/frame` checks strategy and scope before anything is designed, and why "decide first" exists.
+
 ## Build wide, review narrow
 
 ![Building reads to explore options; reviewing checks one area at a time](images/build-vs-review.svg)

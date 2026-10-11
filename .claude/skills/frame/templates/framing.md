@@ -4,6 +4,7 @@
 - **Scope:** {{screen / flow}}
 - **PRD:** `_inputs/{{file}}`
 - **Context:** {{"product/ is real" — or which files still hold (example) content}}
+- **Sources:** {{the docs from sources.md you opened — or "summaries in product/ only"}}
 
 ## Who it's for, and the job
 

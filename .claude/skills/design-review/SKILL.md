@@ -28,7 +28,7 @@ Review the path you were given. If there isn't one, ask.
    | Area | Look for |
    |---|---|
    | Components | The right component for the job? Its states covered? Values that break R-01? |
-   | Layout | One main thing? Levels and layout as in `patterns/GUIDE.md`? All four screen states? In line with approved screens? For a flow: way in, way out, back, and the same thing in the same place on every screen. |
+   | Layout | One main thing? Levels and layout as in `patterns/GUIDE.md`? All four screen states? In line with approved screens? For a flow: way in, way out, back, and the same thing in the same place on every screen; do the ways in and out match `product/structure.md`? |
    | Copy | Words from the table in `writing.md` and the concepts in `product/concepts.md`? Patterns followed? Anything that shouldn't be on screen? |
 
 6. **Write it down.** Findings go in `review.md` in the same feature folder. If the target isn't in `work/features/`, just return them.
