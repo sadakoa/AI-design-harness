@@ -8,27 +8,26 @@ Give each entry an ID — `FB-01`, `FB-02` and so on. Never renumber. If you dro
 
 When you break a rule on purpose, put the ID on that line too: `/* FB-07 */` in CSS, `<!-- FB-07 -->` in HTML. `npm run check` skips tagged lines and makes sure the ID exists here.
 
-If an open row already covers what you found, add your feature to its Where instead of adding a new row.
+If an open row already covers what you found, add where you saw it (a feature, a screen or a source) to its Where instead of adding a new row.
 
-"Who" is a person's name or a skill name.
+Date is the day you log it. Who is a person's name, a role (Sales, Legal) or a skill name.
 
-**Layer** says where it would go: `product` (users, jobs, places, decisions — we built the wrong thing) or `design` (rules, tokens, components — we built it the wrong way).
-
-**Plane** says which of the five planes it's about: `strategy` (who and why), `scope` (what we build), `structure` (how it's organized), `skeleton` (components, layout, words) or `surface` (the look). It has to fit the layer: `product` goes with strategy, scope or structure, and `design` with structure, skeleton or surface. When in doubt, pick the lowest plane the problem reaches: a screen that's hard to use because the job was wrong is a strategy problem, not a skeleton one.
+**Layer** says where it would go: `product` (users, jobs, places, decisions — we built the wrong thing) or `design` (rules, tokens, components — we built it the wrong way). When in doubt, look for the deepest cause: a screen that's hard to use because it serves the wrong job is a `product` problem.
 
 | Type | Meaning |
 |---|---|
 | deviation | We broke a rule on purpose |
 | missing | `product/` or the design system doesn't have it (a job, a concept, a place, a component, a token) |
+| outdated | Something in `product/` or the design system no longer looks true (a decision's reason, a job's measure, a source) |
 | bug | Something in the design system doesn't work |
 | insight | A review finding that probably applies to other screens too |
-| observation | Something seen in real use: support tickets, analytics, interviews. Link the source. |
+| observation | Something seen in real use: support tickets, analytics, interviews, a note from Sales or Legal. Say where it came from in What happened, with a link if there is one. |
 
 | Status | Meaning | Result column |
 |---|---|---|
 | open | No owner has decided yet | — |
 | adopted | It's in `product/` or `design-system/` now. Set this inside the PR that makes the change. | The decision ID: PD-xx for product, D-xx for design |
-| screen-only | It only applies to that one screen | Why |
+| screen-only | It only applies to that one screen or feature | Why |
 | dropped | We let it go | Why |
 
 ## When to promote
@@ -36,16 +35,18 @@ If an open row already covers what you found, add your feature to its Where inst
 <!-- replace with your own -->
 Promote an entry when (1) or (2) is true, and (3) is true:
 
-1. The same thing came up on two or more screens.
+1. The same thing came up on two or more screens, or more than once in real use (each support ticket counts).
 2. We broke the same rule twice.
 3. You can name the one file that should answer it.
 
-A mistake in the design system, or a missing token that affects every screen, can be promoted right away. An owner always makes the final call.
+Some can be promoted right away: a mistake in the design system, a missing token that affects every screen, and a fact from outside the team (a legal limit, research, data, a plan) that changes an entry in `product/`.
+
+If the design system already answers it, it isn't a new rule: mark it `screen-only` and say which rule the screen breaks. An owner always makes the final call.
 
 ## Log
 
 <!-- replace: delete the (example) row and start at FB-01 -->
 
-| ID | Date | Layer | Plane | Type | What happened | Where | Who | Status | Result |
-|---|---|---|---|---|---|---|---|---|---|
-| FB-01 | (example) 2026-10-07 | design | skeleton | insight | Two primary buttons side by side, and people hesitate | List, detail, settings | design-review | adopted | D-01 |
+| ID | Date | Layer | Type | What happened | Where | Who | Status | Result |
+|---|---|---|---|---|---|---|---|---|
+| FB-01 | (example) 2026-10-07 | design | insight | Two primary buttons side by side, and people hesitate | List, detail, settings | design-review | adopted | D-01 |

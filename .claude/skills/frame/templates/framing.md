@@ -13,7 +13,7 @@
 | | ID | Confidence | How this PRD helps |
 |---|---|---|---|
 | User | {{U-xx}} | {{fact / hypothesis / open}} | {{}} |
-| Job | {{J-xx or none}} | {{fact / hypothesis / open}} | {{}} |
+| Job | {{J-xx or none}} | {{fact / hypothesis / open, or — for none}} | {{}} |
 
 ## How it fits
 

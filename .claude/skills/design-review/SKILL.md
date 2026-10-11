@@ -33,7 +33,7 @@ Review the path you were given. If there isn't one, ask.
 
 6. **Write it down.** Findings go in `review.md` in the same feature folder. If the target isn't in `work/features/`, just return them.
 
-7. **Log what applies beyond this screen.** Anything likely to come up on other screens, or that `product/` or the design system had no answer for, goes into `work/feedback.md` as `open`, with layer `product` (wrong thing) or `design` (wrong way) and the plane it's about. List the new IDs at the end of `review.md`.
+7. **Log what applies beyond this screen.** Anything likely to come up on other screens, or that `product/` or the design system had no answer for, goes into `work/feedback.md` as `open`, with layer `product` (wrong thing) or `design` (wrong way). List the new IDs at the end of `review.md`.
 
 ## Findings
 

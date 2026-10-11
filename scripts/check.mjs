@@ -1,7 +1,7 @@
 // Checks that the harness still holds together. No dependencies.
 // 1. Every file in product/ and design-system/ is in its INDEX.md, with the same "Answers" line
 // 2. tokens.css matches tokens.json, and (with sync.json) both match your code
-// 3. IDs aren't duplicated, decisions and the feedback log say a valid plane, and IDs cited in work/features/ exist
+// 3. IDs aren't duplicated, the feedback log is valid, and IDs cited in work/features/ exist
 //    A proposal's recommendation should name the job it serves (J-xx)
 // 4. CSS in screens and options has no hard-coded colors or unknown variables (R-01)
 //    Errors in design-system/screens/, warnings in work/features/. Lines tagged with an FB ID are skipped.
@@ -127,21 +127,13 @@ const headingIds = (file, prefix) =>
 const ids = {
   P: headingIds(join(ds, "foundations/principles.md"), "P"),
   R: tableIds(join(ds, "foundations/rules.md"), "R").map((r) => r.id),
-  D: tableIds(join(ds, "decisions.md"), "D"),
+  D: tableIds(join(ds, "decisions.md"), "D").map((r) => r.id),
   PP: headingIds(join(product, "principles.md"), "PP"),
   U: tableIds(join(product, "users.md"), "U"),
   J: tableIds(join(product, "jobs.md"), "J"),
   CON: tableIds(join(product, "constraints.md"), "CON").map((r) => r.id),
-  PD: tableIds(join(product, "decisions.md"), "PD"),
+  PD: tableIds(join(product, "decisions.md"), "PD").map((r) => r.id),
 };
-// Each layer covers some of the five planes; structure is shared
-const PLANES = { product: ["strategy", "scope", "structure"], design: ["structure", "skeleton", "surface"] };
-for (const [prefix, file, layer] of [["PD", "product/decisions.md", "product"], ["D", "design-system/decisions.md", "design"]]) {
-  for (const { id, cells } of ids[prefix]) {
-    if (!PLANES[layer].includes(cells[1])) errors.push(`${id} in ${file} has plane "${cells[1]}" — use ${PLANES[layer].join(", ")}`);
-  }
-  ids[prefix] = ids[prefix].map((r) => r.id);
-}
 const CONFIDENCE = ["fact", "hypothesis", "open"];
 for (const [prefix, file] of [["U", "users.md"], ["J", "jobs.md"]]) {
   for (const { id, cells } of ids[prefix]) {
@@ -152,7 +144,7 @@ for (const [prefix, file] of [["U", "users.md"], ["J", "jobs.md"]]) {
   ids[prefix] = ids[prefix].map((r) => r.id);
 }
 
-const log = tableIds(logFile, "FB").map(({ id, cells }) => ({ id, layer: cells[1], plane: cells[2], type: cells[3], status: cells[7], result: cells[8] }));
+const log = tableIds(logFile, "FB").map(({ id, cells }) => ({ id, layer: cells[1], type: cells[2], status: cells[6], result: cells[7] }));
 const defined = new Set([...Object.values(ids).flat(), ...log.map((r) => r.id)]);
 
 for (const [prefix, list] of [...Object.entries(ids), ["FB", log.map((r) => r.id)]]) {
@@ -164,11 +156,10 @@ for (const [prefix, list] of [...Object.entries(ids), ["FB", log.map((r) => r.id
 }
 
 const LAYERS = ["product", "design"];
-const TYPES = ["deviation", "missing", "bug", "insight", "observation"];
+const TYPES = ["deviation", "missing", "outdated", "bug", "insight", "observation"];
 const STATUSES = ["open", "adopted", "screen-only", "dropped"];
-for (const { id, layer, plane, type, status, result } of log) {
+for (const { id, layer, type, status, result } of log) {
   if (!LAYERS.includes(layer)) errors.push(`${id} in work/feedback.md has layer "${layer}" — use ${LAYERS.join(" or ")}`);
-  else if (!PLANES[layer].includes(plane)) errors.push(`${id} in work/feedback.md has plane "${plane}" — with layer ${layer}, use ${PLANES[layer].join(", ")}`);
   if (!TYPES.includes(type)) errors.push(`${id} in work/feedback.md has type "${type}" — use one of: ${TYPES.join(", ")}`);
   if (!STATUSES.includes(status)) {
     errors.push(`${id} in work/feedback.md has status "${status}" — use one of: ${STATUSES.join(", ")}`);

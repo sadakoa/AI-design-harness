@@ -24,9 +24,9 @@ Never edit `product/`. If something there is missing or out of date, log it.
    - Who: which users (U-xx).
    - Job: which jobs (J-xx), with their confidence. If no job covers the PRD's main goal, write "none" and say what the missing job would be. Don't invent one.
    - Concepts: which ones it touches. A new name for something already in `concepts.md` only needs logging. A new concept — something the product doesn't have yet — affects the verdict.
-   - Places in `structure.md` it changes, and any it adds.
+   - Places in `structure.md` it changes, and any it adds. New places go in the framing, not the log.
    - Constraints (CON-xx) it touches.
-   - Decisions (PD-xx) it supports or goes against.
+   - Decisions (PD-xx) it supports or goes against, and any whose Why the PRD's premise changes (say, a decision made for small teams when the PRD plans for large ones).
    - Principles (PP-xx) that pull for or against it.
 
 4. **Decide the scope.** `screen` (one screen) or `flow` (several screens doing one job together). For a flow, list the screens, whether each is approved in `design-system/screens/`, whether it's live in the product today, and how someone moves between them. `structure.md` says which places exist and how they connect.
@@ -38,6 +38,6 @@ Never edit `product/`. If something there is missing or out of date, log it.
 
 6. **Write** `framing.md` from `templates/framing.md`. Cite IDs; don't restate what they say. If `product/` still has `(example)` content, say so in the Context line.
 
-7. **Log** anything that should change `product/` — a missing job, a new name or concept, a place `structure.md` doesn't have, a decision that looks out of date, two PRDs that disagree — in `work/feedback.md` with layer `product`, the plane it's about, and status `open`. If an open row already covers it, add this feature to that row's Where instead.
+7. **Log** anything that should change `product/` — a missing job, a new name or concept, a place the PRD says exists that `structure.md` doesn't have or calls something else, a decision that looks out of date, two PRDs that disagree — in `work/feedback.md` with layer `product` and status `open`. If an open row already covers it, add this feature to that row's Where instead.
 
 For a small change to a known job, keep it short: name the user, the job and the scope, and say go.

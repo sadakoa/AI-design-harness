@@ -4,7 +4,7 @@
 
 `product/` says what to build and why. `design-system/` says how it should look and behave. Read only what's marked for the task you're on.
 
-The files are grouped by the five planes of user experience, from Jesse James Garrett's *The Elements of User Experience*: strategy (why, and for whom), scope (what we build and don't), structure (how it's organized), skeleton and surface. The last two live in `design-system/`. A file that spans two planes sits under its main one; the rows inside `sources.md` and `decisions.md` each say their own plane.
+The files are grouped by the five planes of user experience, from Jesse James Garrett's *The Elements of User Experience*: strategy (why, and for whom), scope (what we build and don't), structure (how it's organized), skeleton and surface. The last two live in `design-system/`. A file that spans two planes sits under its main one.
 
 Strategy and scope usually have full docs elsewhere. Keep a short version here of each user, job, principle, constraint and decision that work gets checked against, and list the full docs in `sources.md`.
 

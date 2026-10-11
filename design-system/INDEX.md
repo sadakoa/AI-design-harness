@@ -4,7 +4,7 @@
 
 Every question has exactly one file. Read only what's marked for the task you're on. What to build and why lives in `product/` — see `product/INDEX.md`.
 
-The files are grouped by the planes they're about. `design-system/` covers the top three of the five planes of user experience: structure (how screens and flows fit together), skeleton (components, layout, words) and surface (the look). Strategy, scope and the product's own map of places are in `product/`. A file that spans planes sits under its main one; each row in `decisions.md` says its own plane.
+The files are grouped by the planes they're about. `design-system/` covers the top three of the five planes of user experience: structure (how screens and flows fit together), skeleton (components, layout, words) and surface (the look). Strategy, scope and the product's own map of places are in `product/`. A file that spans planes sits under its main one.
 
 ● always · ○ when it's relevant · blank: skip
 

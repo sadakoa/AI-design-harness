@@ -11,7 +11,7 @@ Anyone, person or agent, can prepare it. An owner merges it.
 1. Copy the chosen option to `screens/<name>/index.html`. Leave the original in `work/features/`.
 2. Change the token path to `../../tokens/tokens.css`. Keep the `?state=` switch.
 3. Copy the spec section of the proposal into `screens/<name>/README.md`.
-4. Add a row below.
+4. Add a row below. If the screen is a new place, add it to `product/structure.md` in the same PR.
 5. Run `npm run check` and open a PR. In this folder, hard-coded colors and unknown CSS variables are errors, and any FB tag must be `adopted` or `screen-only` in the log.
 
 ## Screens
