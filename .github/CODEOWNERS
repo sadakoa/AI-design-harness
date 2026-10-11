@@ -3,6 +3,8 @@
 # This only takes effect with branch protection's "Require review from Code Owners" turned on.
 /product/          @sadakoa
 /design-system/    @sadakoa
+# Structure is shared: list both product and design owners here.
+/product/structure.md    @sadakoa
 /.claude/skills/   @sadakoa
 /scripts/          @sadakoa
 /.github/          @sadakoa

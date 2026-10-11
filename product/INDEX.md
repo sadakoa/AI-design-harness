@@ -4,21 +4,38 @@
 
 `product/` says what to build and why. `design-system/` says how it should look and behave. Read only what's marked for the task you're on.
 
-**Plane** is where a file sits among the five planes of user experience, from Jesse James Garrett's *The Elements of User Experience*: strategy (why, and for whom), scope (what we build and don't), structure (how it's organized), skeleton and surface. The last two live in `design-system/`. Strategy and scope usually have full docs elsewhere. Keep a short version here of each user, job, principle, constraint and decision that work gets checked against, and list the full docs in `sources.md`.
+The files are grouped by the five planes of user experience, from Jesse James Garrett's *The Elements of User Experience*: strategy (why, and for whom), scope (what we build and don't), structure (how it's organized), skeleton and surface. The last two live in `design-system/`. A file that spans two planes sits under its main one; the rows inside `sources.md` and `decisions.md` each say their own plane.
+
+Strategy and scope usually have full docs elsewhere. Keep a short version here of each user, job, principle, constraint and decision that work gets checked against, and list the full docs in `sources.md`.
 
 ● always · ○ only the entries the framing cites · blank: skip
 
-| File | Answers | Plane | Frame | Build | Review | Promote |
-|---|---|---|---|---|---|---|
-| `INDEX.md` | Which product file answers which question, and what should I read for this task? | — | ● | ● | ● | ● |
-| `sources.md` | Where do the full strategy and requirements docs live, and who owns them? | strategy, scope | ● |  |  | ○ |
-| `users.md` | Who uses the product? | strategy | ● | ○ | ○ | ● |
-| `jobs.md` | What are they trying to get done? | strategy | ● | ○ | ● | ● |
-| `principles.md` | What does the product stand for, and how do we make trade-offs? | strategy | ● | ○ | ○ | ● |
-| `constraints.md` | What limits what we can build? | scope | ● | ○ | ○ | ● |
-| `decisions.md` | Which product decisions have we made, and why? | strategy, scope | ● |  |  | ● |
-| `concepts.md` | What are the core things in our domain, and what do we call them? | structure | ● | ○ | ○ | ○ |
-| `structure.md` | What places does the product have, and how do people move between them? | structure | ● | ○ | ○ | ○ |
+| File | Answers | Frame | Build | Review | Promote |
+|---|---|---|---|---|---|
+| `INDEX.md` | Which product file answers which question, and what should I read for this task? | ● | ● | ● | ● |
+
+### Strategy: why, and for whom
+
+| File | Answers | Frame | Build | Review | Promote |
+|---|---|---|---|---|---|
+| `users.md` | Who uses the product? | ● | ○ | ○ | ● |
+| `jobs.md` | What are they trying to get done? | ● | ○ | ● | ● |
+| `principles.md` | What does the product stand for, and how do we make trade-offs? | ● | ○ | ○ | ● |
+| `sources.md` | Where do the full strategy and requirements docs live, and who owns them? | ● |  |  | ○ |
+
+### Scope: what we build, and what we don't
+
+| File | Answers | Frame | Build | Review | Promote |
+|---|---|---|---|---|---|
+| `constraints.md` | What limits what we can build? | ● | ○ | ○ | ● |
+| `decisions.md` | Which product decisions have we made, and why? | ● |  |  | ● |
+
+### Structure: how it's organized
+
+| File | Answers | Frame | Build | Review | Promote |
+|---|---|---|---|---|---|
+| `concepts.md` | What are the core things in our domain, and what do we call them? | ● | ○ | ○ | ○ |
+| `structure.md` | What places does the product have, and how do people move between them? | ● | ○ | ○ | ○ |
 
 ## When you write here
 

@@ -76,6 +76,8 @@ if (!existsSync(codeowners)) {
     "# It only takes effect with branch protection's \"Require review from Code Owners\" turned on.",
     "# /product/          @product-owner",
     "# /design-system/    @design-owner",
+    "# Structure is shared, so it needs both:",
+    "# /product/structure.md    @product-owner @design-owner",
     "",
   ].join("\n"));
   created.push(".github/CODEOWNERS");

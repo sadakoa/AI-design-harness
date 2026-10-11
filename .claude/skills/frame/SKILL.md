@@ -38,6 +38,6 @@ Never edit `product/`. If something there is missing or out of date, log it.
 
 6. **Write** `framing.md` from `templates/framing.md`. Cite IDs; don't restate what they say. If `product/` still has `(example)` content, say so in the Context line.
 
-7. **Log** anything that should change `product/` — a missing job, a new name or concept, a place `structure.md` doesn't have, a decision that looks out of date, two PRDs that disagree — in `work/feedback.md` with layer `product` and status `open`. If an open row already covers it, add this feature to that row's Where instead.
+7. **Log** anything that should change `product/` — a missing job, a new name or concept, a place `structure.md` doesn't have, a decision that looks out of date, two PRDs that disagree — in `work/feedback.md` with layer `product`, the plane it's about, and status `open`. If an open row already covers it, add this feature to that row's Where instead.
 
 For a small change to a known job, keep it short: name the user, the job and the scope, and say go.

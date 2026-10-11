@@ -25,7 +25,7 @@ This is the only skill that writes to `product/` and `design-system/` directly â
    - **Principles and rules:** draft only what the code or docs clearly show. Leave the rest as `(example)`.
    - **No design system at all?** That's fine. The colors, type and words the product already uses are enough to start.
 
-3. **Product.** Draft users, jobs, concepts and constraints from the README, docs and the product itself. Mark each `hypothesis` unless a document states it, and cite the source. Leave decisions empty unless they're written down somewhere.
+3. **Product.** Draft users, jobs, concepts and constraints from the README, docs and the product itself. Mark each `hypothesis` unless a document states it, and cite the source. Leave decisions empty unless they're written down somewhere; each one you add needs its plane.
    - **Sources:** list every doc you drew from, and any strategy docs, research or PRDs the README or the person points to, in `product/sources.md`. Link them; don't copy them.
    - **Structure:** draft `structure.md` from the main pages or routes and the links between them.
 

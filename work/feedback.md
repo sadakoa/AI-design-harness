@@ -14,6 +14,8 @@ If an open row already covers what you found, add your feature to its Where inst
 
 **Layer** says where it would go: `product` (users, jobs, places, decisions — we built the wrong thing) or `design` (rules, tokens, components — we built it the wrong way).
 
+**Plane** says which of the five planes it's about: `strategy` (who and why), `scope` (what we build), `structure` (how it's organized), `skeleton` (components, layout, words) or `surface` (the look). It has to fit the layer: `product` goes with strategy, scope or structure, and `design` with structure, skeleton or surface. When in doubt, pick the lowest plane the problem reaches: a screen that's hard to use because the job was wrong is a strategy problem, not a skeleton one.
+
 | Type | Meaning |
 |---|---|
 | deviation | We broke a rule on purpose |
@@ -44,6 +46,6 @@ A mistake in the design system, or a missing token that affects every screen, ca
 
 <!-- replace: delete the (example) row and start at FB-01 -->
 
-| ID | Date | Layer | Type | What happened | Where | Who | Status | Result |
-|---|---|---|---|---|---|---|---|---|
-| FB-01 | (example) 2026-10-07 | design | insight | Two primary buttons side by side, and people hesitate | List, detail, settings | design-review | adopted | D-01 |
+| ID | Date | Layer | Plane | Type | What happened | Where | Who | Status | Result |
+|---|---|---|---|---|---|---|---|---|---|
+| FB-01 | (example) 2026-10-07 | design | skeleton | insight | Two primary buttons side by side, and people hesitate | List, detail, settings | design-review | adopted | D-01 |

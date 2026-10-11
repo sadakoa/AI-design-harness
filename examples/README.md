@@ -10,4 +10,4 @@ All names, companies and requests are made up. They describe Helpline, the imagi
 | [`framing/community-forum.md`](framing/community-forum.md) | Framing for `prd/community-forum.md`: **stop**. Customer log-ins go against PD-01, and public posts break CON-02. |
 | [`framing/log.md`](framing/log.md) | What frame logged for a product owner along the way |
 
-These were made before `product/sources.md` and `product/structure.md` existed, so the framings have no Sources or Places line. The "Inbox" that `framing/log.md` says has no home is now a place in `product/structure.md`.
+These were made before `product/sources.md`, `product/structure.md` and the Plane column existed, so the framings have no Sources or Places line and the log has no Plane column. The support-inbox recommendation also doesn't name its job, which `npm run check` now warns about in `work/features/`. The "Inbox" that `framing/log.md` says has no home is now a place in `product/structure.md`.
