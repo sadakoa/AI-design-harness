@@ -5,7 +5,7 @@
 {{Five plain sentences at most, with no IDs: what you found, what's blocked and why, who decides, and what can happen now. Don't promise a date.}}
 
 - **Verdict:** {{go / decide first / stop}}
-- **Scope:** {{screen / flow}}
+- **Scope:** {{screen / flow / words}}
 - **PRD:** `_inputs/{{file}}`
 - **Context:** {{"product/ is real" — or which files still hold (example) content}}
 - **Sources:** {{the docs from product/sources.md you opened, and any the PRD names that aren't listed — or "none needed"}}
@@ -42,7 +42,7 @@
 
 <!-- decide first: each question with the assumption to design on if the person who asked says go ahead anyway. stop: only what would have to change first and who can change it, with no assumptions. Delete if the verdict is go and there are none. -->
 
-| # | Question | If we go ahead anyway, assume |
+| # | Question | If we go ahead anyway, assume (for a stop: who can change it) |
 |---|---|---|
 | 1 | {{}} | {{}} |
 

@@ -58,7 +58,7 @@ Never write to `product/` or `design-system/`.
    - Support the four screen states in `patterns/GUIDE.md` through `?state=` in the URL, without showing a switcher on screen (R-05).
    - Write real copy, following `writing.md` and the words in `product/concepts.md`.
 
-6. **Recommend.** Pick one option. Tie the reason to the job (J-xx) and to a principle (P-xx or PP-xx). Say what the others were missing. Then write the spec: structure (for a flow, the screens and how they connect), behavior in each state, copy, edge cases, open questions.
+6. **Recommend.** Pick one option. Tie the reason to the job (J-xx) and to a principle (P-xx or PP-xx). If the framing found no job, write "no job yet" and cite the log row that asks for one (FB-xx). Say what the others were missing. Then write the spec: structure (for a flow, the screens and how they connect), behavior in each state, copy, edge cases, open questions.
 
 7. **Write it up.** Copy `templates/proposal.html` to `proposal.html` and fill in every `{{ }}`.
 

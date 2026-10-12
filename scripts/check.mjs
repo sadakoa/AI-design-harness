@@ -2,7 +2,7 @@
 // 1. Every file in product/ and design-system/ is in its INDEX.md, with the same "Answers" line
 // 2. tokens.css matches tokens.json, and (with sync.json) both match your code
 // 3. IDs aren't duplicated, the feedback log is valid, and IDs cited in work/features/ exist
-//    A proposal's recommendation should name the job it serves (J-xx)
+//    A proposal's recommendation should name the job it serves (J-xx), or say "no job yet"
 // 4. CSS in screens and options has no hard-coded colors or unknown variables (R-01)
 //    Errors in design-system/screens/, warnings in work/features/. Lines tagged with an FB ID are skipped.
 // 5. product/ files have been reviewed in the last 90 days
@@ -224,8 +224,8 @@ const scan = (dir, bucket, approved) => {
     }
     if (/\/proposal\.html$/.test(path)) {
       const pick = read(file).match(/<h2>[^<]*Recommendation[\s\S]*?(?=<h2|$)/);
-      if (pick && !/\{\{/.test(pick[0]) && !/\bJ-\d+\b/.test(pick[0])) {
-        warnings.push(`${path}: the recommendation doesn't name the job it serves (J-xx)`);
+      if (pick && !/\{\{/.test(pick[0]) && !/\bJ-\d+\b|no job yet/i.test(pick[0])) {
+        warnings.push(`${path}: the recommendation doesn't name the job it serves (J-xx), or say "no job yet"`);
       }
     }
     if (!/\.(html|css)$/.test(file)) continue;

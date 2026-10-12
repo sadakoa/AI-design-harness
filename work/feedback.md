@@ -10,7 +10,7 @@ When you break a rule on purpose, put the ID on that line too: `/* FB-07 */` in 
 
 If an open row already covers what you found, add where you saw it (a feature, a screen or a source) to its Where instead of adding a new row.
 
-Date is the day you log it. Who is a person's name, a role (Sales, Legal) or a skill name.
+Date is the day you log it. Who is whoever raised it: a person's name, a role (Sales, Legal) or a skill name.
 
 **Layer** says where it would go: `product` (users, jobs, places, decisions — we built the wrong thing) or `design` (rules, tokens, components — we built it the wrong way). When in doubt, look for the deepest cause: a screen that's hard to use because it serves the wrong job is a `product` problem.
 
@@ -45,7 +45,7 @@ If the design system already answers it, it isn't a new rule: mark it `screen-on
 
 ## Log
 
-<!-- replace: when you start using the harness, delete the (example) row; your first entry is FB-01 -->
+<!-- replace: when you start using the harness, delete the (example) row; your first entry is FB-01. Until then, number after it. -->
 
 | ID | Date | Layer | Type | What happened | Where | Who | Status | Result |
 |---|---|---|---|---|---|---|---|---|
