@@ -16,4 +16,4 @@ A place is where someone goes to do part of a job, like a list, one item or a se
 
 ## When you change it
 
-A new place that a design adds is listed in its framing. Add it here in the same pull request that merges its screen into `design-system/screens/`, not when it's first proposed. When a PRD says a place exists that isn't here, or calls one by another name, `frame` logs it.
+A new place that a design adds is listed in its framing. Add it here, or update the place it changes, in the same pull request that merges its screen into `design-system/screens/`, not when it's first proposed. When a PRD says a place exists that isn't here, or calls one by another name, `frame` logs it.

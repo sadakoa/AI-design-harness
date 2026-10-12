@@ -16,7 +16,7 @@ Starting a new product instead? Use this repo as a template, have a look at `exa
 
 ## 2. Let bootstrap draft the first version
 
-Open your repo in Claude Code (restart the session if `/bootstrap` isn't listed yet) and run:
+Open your repo in Claude Code and ask it to set the harness up for this repo, or run this (restart the session if `/bootstrap` isn't listed yet):
 
 ```
 /bootstrap .
@@ -40,7 +40,7 @@ Your code stays the source; the harness only reads it. Bootstrap writes `sync.js
 }
 ```
 
-- `from` can be one stylesheet or a list of them; it reads every top-level `:root` block, and later ones win, as in CSS. Blocks inside `@media`, like a dark theme, are skipped: `tokens.json` holds one theme for now.
+- `from` can be one stylesheet or a list of them; it reads every top-level `:root` block, and later ones win, as in CSS. Blocks inside `@media`, like a dark theme, are skipped: `tokens.json` holds one theme for now. Supporting a second one is a change to `tokens.json` and `scripts/build-tokens.mjs`, which owners decide through `/promote-feedback`.
 - `npm run sync` copies the values into `tokens.json` and lists your components in `design-system/components/inventory.md`. It never writes to your code.
 - When your code changes, `npm run check` fails until you run `npm run sync` again. In CI, where your app isn't checked out next to the harness, it only warns.
 - Rules, writing and layouts don't sync. Bootstrap drafts them; after that, owners edit them here.
@@ -75,10 +75,10 @@ Keep the rule IDs `R-01` to `R-05` (reword them freely); the skills and the chec
 
 ## 5. Try one screen
 
-Write a short PRD for one screen: who uses it, what job they're doing, what's wrong today, what has to be on it. Then:
+Write a short PRD for one screen: who uses it, what job they're doing, what's wrong today, what has to be on it. Then ask the agent to design it, in your own words, or run:
 
 ```
 /design-builder work/prd/your-screen.md
 ```
 
-It frames the PRD first. If the framing says go, it asks up to five questions, builds about three options, recommends one and reviews it. Open `work/features/<date>-<name>/proposal.html` in a browser.
+It checks the PRD against the product first and answers in plain words. If it's a go, or you say go ahead, it asks up to five questions, builds about three options, recommends one and reviews it. Open `work/features/<date>-<name>/proposal.html` in a browser.

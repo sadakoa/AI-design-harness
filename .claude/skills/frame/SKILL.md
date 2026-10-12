@@ -1,6 +1,6 @@
 ---
 name: frame
-description: Check a PRD against the product before anyone designs it — who it's for, which job it serves, whether it clashes with past decisions or constraints, and whether it's one screen or a flow. Use for "should we build this", "frame this PRD", and before design-builder.
+description: Check a PRD against the product before anyone designs it — who it's for, which job it serves, whether it clashes with past decisions or constraints, and whether it's one screen or a flow. Use whenever someone, in any language, asks whether something should be built or brings an idea, a PRD or a request from Sales or a PM ("can we add…", "should we build this"), and before design-builder.
 argument-hint: <path to PRD>
 ---
 
@@ -8,7 +8,7 @@ argument-hint: <path to PRD>
 
 Answer "should we build this, and what exactly?" before any design work. A clean UI for the wrong problem is the most expensive mistake this harness can make.
 
-- **In:** a PRD, as a path or pasted text.
+- **In:** a PRD or any request to build something, as a path or pasted text. Only a name or a link with no goal? Ask what problem it solves first.
 - **Out:** `framing.md` in a new feature folder, with a verdict: **go**, **decide first** or **stop**.
 - **Asks:** only when the PRD can't be matched to a user, or to a job when it needs one (a fix to a place that exists today may not; see step 5). If nobody answers, write the question under "Questions for a product owner" and carry on.
 
@@ -29,17 +29,17 @@ Never edit `product/`. If something there is missing or out of date, log it.
    - Decisions (PD-xx) it supports or goes against, and any whose Why the PRD's premise changes (say, a decision made for small teams when the PRD plans for large ones).
    - Principles (PP-xx) that pull for or against it.
 
-4. **Decide the scope.** `screen` (one screen), `flow` (several screens doing one job together) or `words` (only text on screen changes). For a flow, list the screens, whether each is approved in `design-system/screens/`, whether it's live in the product today, and how someone moves between them. `structure.md` says which places exist and how they connect.
+4. **Decide the scope.** `screen` (one screen), `flow` (several screens doing one job together), `words` (only text on screen changes) or `look` (how the whole product looks: colors, type, a theme). For a flow, list the screens, whether each is approved in `design-system/screens/`, whether it's live in the product today, and how someone moves between them. `structure.md` says which places exist and how they connect.
 
 5. **Give a verdict.** Check in this order; the first that matches wins.
    1. **stop** — it goes against a product decision or breaks a constraint. Say which, and what would have to change first (usually a new decision by a product owner). If the clash depends on how you read an unclear PRD, say which reading, and how the PRD could be changed to avoid it.
    2. **decide first** — no job covers the main goal (unless it's a fix to a place that exists today, backed by a principle or constraint and by evidence from real use you can name, like support tickets or analytics, not just a claim in the PRD: that's a go, and you log the missing job); or the main job is only a hypothesis and the work is big (a flow or a new screen); or it brings in a new concept. List the questions for a product owner, and for each, the assumption to design on if they say go ahead anyway.
    3. **go** — none of the above.
 
-6. **Write** `framing.md` from `templates/framing.md`. Start with the reply for the person who asked, in their words rather than IDs; a PM or someone from Sales should be able to stop reading there. Below it, cite IDs and don't restate what they say. If `product/` still has `(example)` content, say so in the Context line. For a stop, keep it short: skip the Screens table, and list only what would have to change. For scope `words`, keep only the reply, the verdict lines, Who and the job, and the Concepts and Design system lines.
+6. **Write** `framing.md` from `templates/framing.md`. Start with the reply for the person who asked, in their language and their words rather than IDs; a PM or someone from Sales should be able to stop reading there. Below it, cite IDs and don't restate what they say. If `product/` still has `(example)` content, say so in the Context line. For a stop, keep it short: skip the Screens table, and list only what would have to change. For scope `words`, keep only the reply, the verdict lines, Who and the job, and the Concepts and Design system lines.
 
 7. **Log** anything that should change `product/` — a missing job, a new concept, a place the PRD says exists that `structure.md` doesn't have or calls something else, a decision that looks out of date, two PRDs that disagree — in `work/feedback.md` with layer `product` and status `open`. A word on screen that people disagree about goes in with layer `design`, with `design-system/foundations/writing.md` as its home, unless the word names a concept in `concepts.md`: then it's layer `product`. If an open row already covers it, add this feature to that row's Where instead.
 
-Then answer the person who asked with the reply at the top of the framing, as it is.
+If you ran on your own, answer the person who asked with the reply at the top of the framing, as it is. If `design-builder` called you, it sends one reply at the end instead.
 
-For a small change to a known job, keep it short: name the user, the job and the scope, and say go. If the change is only words on screen, there's nothing to design: log it for `promote-feedback` and say so in the reply. If the person who asked is waiting, run `promote-feedback` up to its Ask step now.
+For a small change to a known job, keep it short: name the user, the job and the scope, and say go. If the scope is `words` or `look`, there's nothing to design here: it's a design-system change. Log it with layer `design` for `promote-feedback`, and say so in the reply. If the person who asked is waiting, run `promote-feedback` up to its Ask step now.

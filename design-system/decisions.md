@@ -2,7 +2,7 @@
 
 > Answers: Why did we decide this?
 
-Add a row whenever the design system changes. Point to what changed instead of copying the rule here. Never renumber. If you reverse a decision, add a new row ("changes D-03") rather than editing the old one.
+Add a row whenever a rule, token, component or pattern changes. Approved screens are recorded in `screens/README.md` instead. Point to what changed instead of copying the rule here. Never renumber. If you reverse a decision, add a new row ("changes D-03") rather than editing the old one.
 
 <!-- replace: delete the (example) row and start at D-01 -->
 

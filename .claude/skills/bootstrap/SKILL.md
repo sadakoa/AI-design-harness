@@ -1,6 +1,6 @@
 ---
 name: bootstrap
-description: Set up the harness for an existing product, with or without a design system. Reads the product's code and docs and drafts product/ and design-system/ for an owner to confirm. Use for "set this up for my repo", "bootstrap the harness", "import our design system".
+description: Set up the harness for an existing product, with or without a design system. Reads the product's code and docs and drafts product/ and design-system/ for an owner to confirm. Use whenever someone, in any language, asks to set the harness up for a repo or import their design system ("set this up for our repo").
 argument-hint: <path to your product's repo>
 ---
 

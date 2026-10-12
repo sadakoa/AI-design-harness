@@ -48,17 +48,19 @@ Either way, an owner reads the drafts before anyone relies on them. [Adopting it
 
 ## Day to day
 
-| When | Who | Run | You get |
-|---|---|---|---|
-| There's a new idea | Product owner | `/frame path/to/prd.md` | `framing.md`: go, decide first, or stop |
-| Sales, support or a PM asks for something | Anyone | `/frame` with their message | A plain reply for them at the top of `framing.md`, then the verdict |
-| A word on screen should change | Anyone | `/frame` with the request | A short framing and a row in the log for `/promote-feedback` |
-| It's a go, or you said go ahead on the framing's assumptions | Anyone | `/design-builder path/to/prd.md` | A reviewed proposal for a screen or a flow |
-| A screen was made some other way | Anyone | `/design-review path/to/page.html` | `review.md`, plus entries in the log |
-| Something comes up in real use | Anyone | Add a row to `work/feedback.md` | An observation in the log |
-| Once a week | Owners | `/promote-feedback` | Pull requests against `product/` or `design-system/` |
+You don't need to remember any commands. Tell the agent what you want in your own words and language: "can we add a customer history?", "check this page before Friday", "here's what five team leads told us". It works out the next step and does the bookkeeping. The commands in brackets are there if you want to be explicit.
 
-Skills are saved instructions for the agent. `npm run check` runs on every pull request and catches broken links between all of these.
+| You say or share | The agent | You get |
+|---|---|---|
+| An idea, a PRD, a request from Sales or a PM | Checks it against the product (`/frame`), then designs it if it's a go or you say go ahead (`/design-builder`) | A plain answer first; then a reviewed proposal |
+| Feedback on a proposal | Revises it next to the first round | A second round that says what changed |
+| "Check this page" | Reviews it against your rules (`/design-review`) | The fixes in order, the important ones first |
+| A word on screen should change | Logs it for your word list | A row for the owners' weekly sort |
+| Research, data, something from real use | Logs it with its source | Observations for the owners' weekly sort |
+| "This design is approved" | Prepares it for `design-system/screens/` | A pull request for an owner |
+| Once a week (owners) | Sorts the log (`/promote-feedback`) | Pull requests against `product/` or `design-system/` |
+
+`npm run check` runs on every pull request and catches broken links between all of these. Run `npm run check -- path/to/page.html` to check a page built some other way.
 
 ## What's inside
 

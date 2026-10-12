@@ -4,11 +4,12 @@
 // 3. IDs aren't duplicated, the feedback log is valid, and IDs cited in work/features/ exist
 //    A proposal's recommendation should name the job it serves (J-xx), or say "no job yet"
 //    Mockups only exist when the framing says go, or someone said go ahead on a decide first
-// 4. CSS in screens and options has no hard-coded colors or unknown variables (R-01)
+// 4. CSS in screens and options has no hard-coded colors, unknown variables or primitive color tokens (R-01)
 //    Errors in design-system/screens/, warnings in work/features/. Lines tagged with an FB ID are skipped.
+//    npm run check -- <file or folder> checks any other page too, for example one built without a design.
 // 5. product/ files have been reviewed in the last 90 days
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { join, relative, sep } from "node:path";
+import { join, relative, resolve, sep } from "node:path";
 import { renderCss, root, tokensCss, tokensJson } from "./build-tokens.mjs";
 import { MissingSource, inventoryFile, readConfig, syncedInventory, syncedTokens } from "./sync.mjs";
 
@@ -22,7 +23,9 @@ const read = (path) => readFileSync(path, "utf8").replace(/\r\n/g, "\n");
 const rel = (path, base = root) => relative(base, path).split(sep).join("/");
 const SKIP_DIRS = new Set([".git", "node_modules", "_inputs", "research"]);
 const walk = (dir) =>
-  existsSync(dir)
+  existsSync(dir) && statSync(dir).isFile()
+    ? [dir]
+    : existsSync(dir)
     ? readdirSync(dir).flatMap((name) => {
         if (SKIP_DIRS.has(name)) return [];
         const path = join(dir, name);
@@ -165,9 +168,12 @@ for (const { id, layer, type, status, result } of log) {
   if (!STATUSES.includes(status)) {
     errors.push(`${id} in work/feedback.md has status "${status}" — use one of: ${STATUSES.join(", ")}`);
   } else if (status === "adopted") {
-    const decision = layer === "product" ? ids.PD : ids.D;
-    if (!decision.includes(result)) {
-      const where = layer === "product" ? "a PD-xx from product/decisions.md" : "a D-xx from design-system/decisions.md";
+    // A decision, or for evidence only (a confidence, a baseline, a source) the entry it updated
+    const ok = layer === "product" ? [...ids.PD, ...ids.U, ...ids.J, ...ids.CON, "sources.md"] : ids.D;
+    if (!ok.includes(result)) {
+      const where = layer === "product"
+        ? "a PD-xx from product/decisions.md, or the U-, J- or CON- entry (or sources.md) it added evidence to"
+        : "a D-xx from design-system/decisions.md";
       errors.push(`${id} in work/feedback.md is adopted, so its result should be ${where}`);
     }
   }
@@ -252,6 +258,9 @@ const scan = (dir, bucket, approved) => {
       if (COLOR.test(bare)) {
         bucket.push(`${path}:${lineNo} ${decl.prop}: ${value} — hard-coded color (R-01; tag the line with an FB ID if it's on purpose)`);
       }
+      for (const [, name] of value.matchAll(/var\(\s*(--color-primitive-[\w-]+)/g)) {
+        warnings.push(`${path}:${lineNo} ${name} is a primitive; use a color role (color.surface, color.text…) so the meaning carries over`);
+      }
       for (const [, name] of value.matchAll(/var\(\s*(--[\w-]+)/g)) {
         if (!tokenNames.has(name) && !localNames.has(name)) {
           bucket.push(`${path}:${lineNo} ${name} isn't in tokens.css`);
@@ -262,6 +271,11 @@ const scan = (dir, bucket, approved) => {
 };
 scan(join(ds, "screens"), errors, true);
 scan(join(root, "work/features"), warnings, false);
+for (const target of process.argv.slice(2)) {
+  const path = resolve(process.cwd(), target);
+  if (!existsSync(path)) errors.push(`can't find ${target}`);
+  else scan(path, warnings, false);
+}
 
 const featuresDir = join(root, "work/features");
 for (const name of existsSync(featuresDir) ? readdirSync(featuresDir) : []) {

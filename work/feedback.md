@@ -26,7 +26,7 @@ Date is the day you log it. Who is whoever raised it: a person's name, a role (S
 | Status | Meaning | Result column |
 |---|---|---|
 | open | No owner has decided yet | — |
-| adopted | It's in `product/` or `design-system/` now. Set this inside the PR that makes the change. | The decision ID: PD-xx for product, D-xx for design |
+| adopted | It's in `product/` or `design-system/` now. Set this inside the PR that makes the change. | The decision ID: PD-xx for product, D-xx for design. If it only added evidence or a source, the entry it updated (U-xx, J-xx, CON-xx) or `sources.md` |
 | screen-only | It only applies to that one screen or feature | Why |
 | dropped | We let it go | Why |
 
@@ -45,7 +45,7 @@ If the design system already answers it, it isn't a new rule: mark it `screen-on
 
 ## Log
 
-<!-- replace: when you start using the harness, delete the (example) row; your first entry is FB-01. Until then, number after it. -->
+<!-- replace: bootstrap deletes the (example) row, and your first entry is FB-01. If it's still here, number after it. -->
 
 | ID | Date | Layer | Type | What happened | Where | Who | Status | Result |
 |---|---|---|---|---|---|---|---|---|

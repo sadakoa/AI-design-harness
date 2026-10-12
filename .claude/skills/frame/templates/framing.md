@@ -2,10 +2,10 @@
 
 ## For the person who asked
 
-{{About 90 words, in plain words, ready to send as your answer: what you found, what's blocked and why, who decides, and what can happen now. No IDs and no harness words (frame, PRD, log, verdict). Don't promise a date.}}
+{{About 90 words (about 250 characters in Japanese), in the language they wrote in, ready to send as your answer: what you found, what's blocked and why, who decides, and what can happen now. No IDs, @handles or harness words (frame, PRD, log, verdict). Don't promise a date. For decide first, end with the main assumption you'd design on, and ask whether to go ahead.}}
 
 - **Verdict:** {{go / decide first / stop}}
-- **Scope:** {{screen / flow / words}}
+- **Scope:** {{screen / flow / words / look}}
 - **PRD:** `_inputs/{{file}}`
 - **Context:** {{"product/ is real" — or which files still hold (example) content}}
 - **Sources:** {{the docs from product/sources.md you opened, and any the PRD names that aren't listed — or "none needed"}}
@@ -40,7 +40,7 @@
 
 ## Questions for a product owner
 
-<!-- Keep the table for your verdict and delete the other. Delete both if the verdict is go and there are no questions. -->
+<!-- Keep the table for your verdict and delete the other. A go with open questions uses the first table with an empty assume column. Delete both if there are no questions. -->
 
 Decide first: each question, with the assumption to design on if the person who asked says go ahead anyway.
 
