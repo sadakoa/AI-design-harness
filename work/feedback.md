@@ -39,13 +39,13 @@ Promote an entry when (1) or (2) is true, and (3) is true:
 2. We broke the same rule twice.
 3. You can name the one file that should answer it.
 
-Some can be promoted right away: a mistake in the design system, a missing token that affects every screen, and a fact from outside the team (a legal limit, research, data, a plan) that changes an entry in `product/`.
+Some can be promoted right away: a mistake in the design system, a missing token that affects every screen, a fact from outside the team (a legal limit, research, data, a plan) that changes an entry in `product/`, and a word people disagree about (`writing.md` says to add a row whenever they do).
 
 If the design system already answers it, it isn't a new rule: mark it `screen-only` and say which rule the screen breaks. An owner always makes the final call.
 
 ## Log
 
-<!-- replace: delete the (example) row and start at FB-01 -->
+<!-- replace: when you start using the harness, delete the (example) row; your first entry is FB-01 -->
 
 | ID | Date | Layer | Type | What happened | Where | Who | Status | Result |
 |---|---|---|---|---|---|---|---|---|

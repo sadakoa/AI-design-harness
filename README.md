@@ -51,7 +51,9 @@ Either way, an owner reads the drafts before anyone relies on them. [Adopting it
 | When | Who | Run | You get |
 |---|---|---|---|
 | There's a new idea | Product owner | `/frame path/to/prd.md` | `framing.md`: go, decide first, or stop |
-| It's a go | Anyone | `/design-builder path/to/prd.md` | A reviewed proposal for a screen or a flow |
+| Sales, support or a PM asks for something | Anyone | `/frame` with their message | A plain reply for them at the top of `framing.md`, then the verdict |
+| A word on screen should change | Anyone | `/frame` with the request | A short framing and a row in the log for `/promote-feedback` |
+| It's a go, or you said go ahead on the framing's assumptions | Anyone | `/design-builder path/to/prd.md` | A reviewed proposal for a screen or a flow |
 | A screen was made some other way | Anyone | `/design-review path/to/page.html` | `review.md`, plus entries in the log |
 | Something comes up in real use | Anyone | Add a row to `work/feedback.md` | An observation in the log |
 | Once a week | Owners | `/promote-feedback` | Pull requests against `product/` or `design-system/` |

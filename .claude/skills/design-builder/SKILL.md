@@ -42,8 +42,8 @@ Never write to `product/` or `design-system/`.
 
 1. **Frame it first.** If there's no `framing.md` for this PRD, run `frame`.
    - **stop:** don't design. Pass on the framing's reason and its questions.
-   - **decide first:** show the questions and the assumptions the framing lists for each, and ask whether to go ahead on those assumptions. Write the answer into `framing.md`.
-   - **go:** carry on.
+   - **decide first:** show the questions and the assumptions the framing lists for each, and ask the person who asked whether to go ahead on those assumptions. Their yes is enough: the product owner's answers can come later, and the proposal lists those questions as open. Write who said go into the Go-ahead line of `framing.md`. If nobody answers, stop here and hand back the questions.
+   - **go:** carry on. If the framing says the change is only words, there's nothing to design; stop and point to the log row.
 
 2. **Define the problem.** In one or two sentences, from the framing: whose job (U-xx, J-xx), on which screen or flow, gets better how.
 

@@ -10,7 +10,7 @@ A design can follow every rule and still be the wrong thing to build. So before 
 - **Decisions** it supports or goes against, and **constraints** it would break.
 - **Scope:** one screen, or a flow of several.
 
-It answers **go**, **decide first** (a product owner has questions to answer) or **stop** (it goes against a decision or breaks a constraint). Only a go reaches design. Try `/frame examples/prd/community-forum.md` to see a stop.
+It answers **go**, **decide first** (a product owner has questions to answer) or **stop** (it goes against a decision or breaks a constraint). A go reaches design. So does a decide first, if whoever asked says to go ahead on the assumptions the framing lists; the questions stay open in the proposal. The framing opens with a plain reply for the person who asked, so a PM or someone in Sales can read it without knowing the IDs. Try `/frame examples/prd/community-forum.md` to see a stop.
 
 `product/` keeps facts and guesses apart. Every user and job is marked `fact`, `hypothesis` or `open`, with a source, so a confident-sounding PRD built on a guess gets caught.
 

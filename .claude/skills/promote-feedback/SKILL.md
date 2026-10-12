@@ -17,7 +17,7 @@ Turn what reviews and real use taught us into changes to `product/` or `design-s
 
 4. **Find the home.** Pick the one file in that layer's INDEX that answers the question, even if you don't suggest changing it. The INDEX heading it sits under is the group's plane. For a new entry, give the next free ID (CON-04, PD-03). If it's about how a skill works, the home is that skill's `SKILL.md`. If you can't settle on one file, the question is fuzzy or a new file is needed — say which.
 
-5. **Ask.** Start with one line that counts the open rows by plane ("5 of 12 are strategy") and what that suggests. Then show the table below and ask what to go ahead with. **Change nothing until you have an answer.**
+5. **Ask.** Start with one line that counts the open rows by plane ("5 of 12 are strategy") and what that suggests. Then show the table below and ask what to go ahead with. If nobody can answer now, save it as `work/promote-<yyyymmdd>.md` so it isn't lost. **Change nothing until you have an answer.**
 
 6. **Do what was approved.**
    - `screen-only` or `dropped`: update the status and reason in the log straight away.
