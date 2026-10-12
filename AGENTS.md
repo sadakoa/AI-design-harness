@@ -27,6 +27,7 @@ People won't name a skill or a file. They'll say what they want, in their own wo
 | Only a name or a link, no goal | Ask what problem it solves before anything else |
 | "Set this up for our repo" | `bootstrap` |
 | "Go through the feedback" | `promote-feedback` |
+| The harness got in the way: "too many questions", "this step is pointless" | Log it in `work/feedback.md` with layer `harness`, naming the skill or script, and carry on with what they asked |
 
 ## Rules
 

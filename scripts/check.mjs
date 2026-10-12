@@ -159,7 +159,7 @@ for (const [prefix, list] of [...Object.entries(ids), ["FB", log.map((r) => r.id
   }
 }
 
-const LAYERS = ["product", "design"];
+const LAYERS = ["product", "design", "harness"];
 const TYPES = ["deviation", "missing", "outdated", "bug", "insight", "observation"];
 const STATUSES = ["open", "adopted", "screen-only", "dropped"];
 for (const { id, layer, type, status, result } of log) {
@@ -170,10 +170,10 @@ for (const { id, layer, type, status, result } of log) {
   } else if (status === "adopted") {
     // A decision, or for evidence only (a confidence, a baseline, a source) the entry it updated
     const ok = layer === "product" ? [...ids.PD, ...ids.U, ...ids.J, ...ids.CON, "sources.md"] : ids.D;
-    if (!ok.includes(result)) {
+    if (layer === "harness" ? !/\S/.test(result.replace(/^—$/, "")) : !ok.includes(result)) {
       const where = layer === "product"
         ? "a PD-xx from product/decisions.md, or the U-, J- or CON- entry (or sources.md) it added evidence to"
-        : "a D-xx from design-system/decisions.md";
+        : layer === "harness" ? "the file that changed" : "a D-xx from design-system/decisions.md";
       errors.push(`${id} in work/feedback.md is adopted, so its result should be ${where}`);
     }
   }

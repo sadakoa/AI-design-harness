@@ -9,7 +9,7 @@ Turn what reviews and real use taught us into changes to `product/` or `design-s
 
 ## Steps
 
-1. **Read.** Every `open` row in `work/feedback.md`, and the files in the Promote column of `product/INDEX.md` (layer `product`) or `design-system/INDEX.md` (layer `design`). Check both `decisions.md` files so you don't bring back something that was already rejected, unless there's a new reason.
+1. **Read.** Every `open` row in `work/feedback.md`, and the files in the Promote column of `product/INDEX.md` (layer `product`) or `design-system/INDEX.md` (layer `design`); for layer `harness`, the skill, template or script it names. Check both `decisions.md` files so you don't bring back something that was already rejected, unless there's a new reason.
 
 2. **Group.** Merge rows that say the same thing and keep all their IDs. If a group would end up with different outcomes, split it. If a design finding is really a product problem (we built the wrong thing), move it to layer `product`
 
