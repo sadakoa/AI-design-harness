@@ -8,7 +8,7 @@ Give each entry an ID — `FB-01`, `FB-02` and so on. Never renumber. If you dro
 
 When you break a rule on purpose, put the ID on that line too: `/* FB-07 */` in CSS, `<!-- FB-07 -->` in HTML. `npm run check` skips tagged lines and makes sure the ID exists here.
 
-If an open row already covers what you found, add where you saw it (a feature, a screen or a source) to its Where instead of adding a new row.
+Log what could matter beyond this one feature, one row per thing; group small related gaps (several missing components, say) in one row. If an open row already covers what you found, add where you saw it (a feature, a screen or a source) to its Where instead of adding a new row.
 
 Date is the day you log it. Who is whoever raised it: a person's name, a role (Sales, Legal) or a skill name.
 

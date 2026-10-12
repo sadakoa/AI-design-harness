@@ -2,7 +2,7 @@
 
 ## For the person who asked
 
-{{Five plain sentences at most, with no IDs: what you found, what's blocked and why, who decides, and what can happen now. Don't promise a date.}}
+{{About 90 words, in plain words, ready to send as your answer: what you found, what's blocked and why, who decides, and what can happen now. No IDs and no harness words (frame, PRD, log, verdict). Don't promise a date.}}
 
 - **Verdict:** {{go / decide first / stop}}
 - **Scope:** {{screen / flow / words}}
@@ -40,9 +40,17 @@
 
 ## Questions for a product owner
 
-<!-- decide first: each question with the assumption to design on if the person who asked says go ahead anyway. stop: only what would have to change first and who can change it, with no assumptions. Delete if the verdict is go and there are none. -->
+<!-- Keep the table for your verdict and delete the other. Delete both if the verdict is go and there are no questions. -->
 
-| # | Question | If we go ahead anyway, assume (for a stop: who can change it) |
+Decide first: each question, with the assumption to design on if the person who asked says go ahead anyway.
+
+| # | Question | If we go ahead anyway, assume |
+|---|---|---|
+| 1 | {{}} | {{}} |
+
+Stop: only what would have to change first, and who can change it.
+
+| # | What has to change | Who decides |
 |---|---|---|
 | 1 | {{}} | {{}} |
 

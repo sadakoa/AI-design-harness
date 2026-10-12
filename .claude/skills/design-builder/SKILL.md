@@ -56,6 +56,7 @@ Never write to `product/` or `design-system/`.
    - For a flow, the file holds every screen: `?screen=<name>` picks one, and the buttons and links move between them for real. Follow the Flows table in `patterns/GUIDE.md`, and start and end at the places the framing lists.
    - Use what `components/inventory.md` lists before inventing anything. Follow R-01 for values. If you need something the design system doesn't have, build it, tag the line with an FB ID and log it as `missing` or `deviation`.
    - Support the four screen states in `patterns/GUIDE.md` through `?state=` in the URL, without showing a switcher on screen (R-05).
+   - Changing a screen that exists today? Change only what the framing asks for and keep the rest as it is. List anything else you removed, moved or renamed in the spec.
    - Write real copy, following `writing.md` and the words in `product/concepts.md`.
 
 6. **Recommend.** Pick one option. Tie the reason to the job (J-xx) and to a principle (P-xx or PP-xx). If the framing found no job, write "no job yet" and cite the log row that asks for one (FB-xx). Say what the others were missing. Then write the spec: structure (for a flow, the screens and how they connect), behavior in each state, copy, edge cases, open questions.

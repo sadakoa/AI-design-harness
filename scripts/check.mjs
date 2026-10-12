@@ -3,6 +3,7 @@
 // 2. tokens.css matches tokens.json, and (with sync.json) both match your code
 // 3. IDs aren't duplicated, the feedback log is valid, and IDs cited in work/features/ exist
 //    A proposal's recommendation should name the job it serves (J-xx), or say "no job yet"
+//    Mockups only exist when the framing says go, or someone said go ahead on a decide first
 // 4. CSS in screens and options has no hard-coded colors or unknown variables (R-01)
 //    Errors in design-system/screens/, warnings in work/features/. Lines tagged with an FB ID are skipped.
 // 5. product/ files have been reviewed in the last 90 days
@@ -224,7 +225,7 @@ const scan = (dir, bucket, approved) => {
     }
     if (/\/proposal\.html$/.test(path)) {
       const pick = read(file).match(/<h2>[^<]*Recommendation[\s\S]*?(?=<h2|$)/);
-      if (pick && !/\{\{/.test(pick[0]) && !/\bJ-\d+\b|no job yet/i.test(pick[0])) {
+      if (pick && !/\{\{/.test(pick[0]) && !/\bJ-\d+\b|\bno job\b/i.test(pick[0])) {
         warnings.push(`${path}: the recommendation doesn't name the job it serves (J-xx), or say "no job yet"`);
       }
     }
@@ -261,6 +262,20 @@ const scan = (dir, bucket, approved) => {
 };
 scan(join(ds, "screens"), errors, true);
 scan(join(root, "work/features"), warnings, false);
+
+const featuresDir = join(root, "work/features");
+for (const name of existsSync(featuresDir) ? readdirSync(featuresDir) : []) {
+  const dir = join(featuresDir, name);
+  const framing = join(dir, "framing.md");
+  if (!existsSync(join(dir, "options")) || !existsSync(framing)) continue;
+  const text = read(framing);
+  const verdict = text.match(/^- \*\*Verdict:\*\* (.+)$/m)?.[1].trim();
+  const goAhead = text.match(/^- \*\*Go-ahead:\*\* (.+)$/m)?.[1] ?? "";
+  if (verdict === "stop") warnings.push(`work/features/${name} has mockups, but its framing says stop`);
+  if (verdict === "decide first" && (!goAhead || /waiting|\{\{/i.test(goAhead))) {
+    warnings.push(`work/features/${name} has mockups, but its framing says decide first and nobody has said go ahead (the Go-ahead line)`);
+  }
+}
 
 // --- 5. Product context freshness ---
 const DAY = 24 * 60 * 60 * 1000;
