@@ -40,7 +40,7 @@ Your code stays the source; the harness only reads it. Bootstrap writes `sync.js
 }
 ```
 
-- `from` can be one stylesheet or a list of them; it reads every `:root` block, and later ones win, as in CSS.
+- `from` can be one stylesheet or a list of them; it reads every top-level `:root` block, and later ones win, as in CSS. Blocks inside `@media`, like a dark theme, are skipped: `tokens.json` holds one theme for now.
 - `npm run sync` copies the values into `tokens.json` and lists your components in `design-system/components/inventory.md`. It never writes to your code.
 - When your code changes, `npm run check` fails until you run `npm run sync` again. In CI, where your app isn't checked out next to the harness, it only warns.
 - Rules, writing and layouts don't sync. Bootstrap drafts them; after that, owners edit them here.

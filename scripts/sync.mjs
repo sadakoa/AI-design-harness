@@ -21,10 +21,12 @@ const source = (from) => {
   return path;
 };
 
-// CSS variables from every :root block (or the whole file if there is none). Later ones win.
+// CSS variables from every top-level :root block (or the whole file if there is none). Later ones win.
+// :root blocks inside @media or other at-rules are skipped: a dark theme there would overwrite the light values.
 export const cssVariables = (css) => {
   const text = css.replace(/\/\*[\s\S]*?\*\//g, "");
-  const blocks = [...text.matchAll(/:root\s*\{([^}]*)\}/g)].map((m) => m[1]);
+  const depthAt = (index) => [...text.slice(0, index)].reduce((d, c) => d + (c === "{") - (c === "}"), 0);
+  const blocks = [...text.matchAll(/:root\s*\{([^}]*)\}/g)].filter((m) => depthAt(m.index) === 0).map((m) => m[1]);
   const vars = {};
   for (const body of blocks.length ? blocks : [text]) {
     for (const [, name, value] of body.matchAll(/(--[\w-]+)\s*:\s*([^;]+?)\s*(?:;|$)/g)) vars[name] = value.trim();
