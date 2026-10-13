@@ -19,6 +19,8 @@ Using Codex, or want everything inside your repo? Run the installer from a clone
 node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
 ```
 
+In Codex, if it doesn't pick the right step on its own, ask for it by name: "run frame on work/prd/your-screen.md".
+
 ## 2. Set it up in your repo
 
 Open your product's repo and ask the agent to set the design harness up for this repo. It makes a branch and starts small: the files framing and review need (users, jobs, constraints, decisions and sources in `product/`; tokens, rules, words, layouts, decisions and the component list in `design-system/`; the feedback log). More pieces (product principles, structure, component guidance, approved screens) come when you ask; the agent says when a task could have used one. Ask for everything up front if you'd rather. It also adds the check, sync and token scripts, `AGENTS.md`, a CI check, and `check`, `tokens` and `sync` in your `package.json`. It never overwrites anything: if a file already exists it's skipped and listed, and if a name is taken it uses another one (`AGENTS.harness.md`, `scripts/harness/`, `npm run harness:check`) and tells you. `.harness.json` records which files came from the harness, so asking it to update the harness later only touches those.
@@ -85,3 +87,26 @@ Write a short PRD for one screen: who uses it, what job they're doing, what's wr
 ```
 
 It checks the PRD against the product first and answers in plain words. If it's a go, or you say go ahead, it asks up to five questions, builds about three options, recommends one and reviews it. Open `work/features/<date>-<name>/proposal.html` in a browser.
+
+## Keeping it up to date
+
+Turn on auto-update for the marketplace in `/plugin`, or run `/plugin update design-harness@ai-design-harness`. Then ask the agent to update the harness in your repo. That refreshes the few files copied into it: the scripts, `AGENTS.md` and the CI check. `product/`, `design-system/` and `work/` are never touched. If your team edited one of the copied files, the new version lands next to it as `.harness-new` for you to compare.
+
+`npm run check` runs on every pull request and catches broken links between the notes. Run `npm run check -- path/to/page.html` to check a page built some other way.
+
+## If you'd rather be explicit
+
+Nobody needs commands: the agent works out the step from what you say. If you want to name one anyway:
+
+| Command | What it does |
+|---|---|
+| `/discover` | Looks into a request or a problem: your docs, chats and tickets, and other products for bigger work. Drafts a PRD if there isn't one. |
+| `/frame` | Checks a request against your users, jobs and decisions: go, decide first, or stop. |
+| `/design-builder` | Designs it: rough directions for bigger work, then about three options, a recommendation, a spec and a review. Also revises a proposal. |
+| `/design-review` | Reviews a page or a proposal against your rules, fixes in order. |
+| `/promote-feedback` | Sorts the log with an owner, and turns what's agreed into pull requests. |
+| `/bootstrap` | Sets the harness up, updates it, or adds a piece. |
+
+## IDs you'll see
+
+`U-` user, `J-` job, `PP-` product principle, `PD-` product decision, `CON-` constraint, `P-` design principle, `R-` design rule, `D-` design decision, `FB-` feedback entry. They let the agent point to the reason behind a choice, and they're never renumbered.
