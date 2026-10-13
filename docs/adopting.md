@@ -65,7 +65,7 @@ Everything else can stay as `(example)` until you need it. The agent says when i
 - `product/sources.md`: where your plans, research and PRDs live, and who owns them.
 - Change `hypothesis` to `fact` only where you've seen it.
 
-If your PRDs and decisions live in Notion or a wiki, list them in `product/sources.md`, and keep a short version of what work gets checked against in the other files. Don't copy whole docs. `product/structure.md`, the map of your product's places, can wait until you design your first flow.
+Connect the tools those docs live in (Notion, Slack, Google Drive…) to Claude Code, so `/discover` can search them. If your PRDs and decisions live in Notion or a wiki, list them in `product/sources.md`, and keep a short version of what work gets checked against in the other files. Don't copy whole docs. `product/structure.md`, the map of your product's places, can wait until you design your first flow.
 
 ## 4. Set up owners
 

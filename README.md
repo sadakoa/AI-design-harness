@@ -2,14 +2,15 @@
 
 A template repo for teams that design with AI agents (Claude Code or Codex) — with or without a designer, and with or without a design system.
 
-Before anyone writes code, it does two things:
+Before anyone writes code, it does three things:
 
-1. **Checks you're building the right thing.** A PRD is matched against your users, the jobs they're trying to get done and the decisions you've already made. If it clashes, it stops there.
-2. **Designs it the way your team would.** The agent drafts a few clickable options, recommends one, writes the spec and reviews it against your rules.
+1. **Finds out what's already known.** It searches your docs, chats and tickets, and looks at other products for bigger work. No PRD yet? It drafts one.
+2. **Checks you're building the right thing.** The request is matched against your users, the jobs they're trying to get done and the decisions you've already made. If it clashes, it stops there.
+3. **Designs it the way your team would.** For bigger work it first sketches rough directions for you to pick from. Then it drafts a few clickable options, recommends one, writes the spec and reviews it against your rules.
 
 What it learns along the way goes back into your product and design notes, so the next round starts from there.
 
-![How it fits together: frame, build, review, then your team ships; what you learn is promoted back into product/ and design-system/](docs/images/flow.svg)
+![How it fits together: discover, frame, build, review, then your team ships; what you learn is promoted back into product/ and design-system/](docs/images/flow.svg)
 
 ## See it (2 minutes)
 
@@ -33,18 +34,24 @@ You need Claude Code or Codex, Node 20 or later, and git.
 
 ## Use it on your product
 
-Start with one product and one screen. Install it into your repo with one command. It never overwrites anything; your README and existing files are left alone.
+Start with one product and one screen. You set it up once; after that, you just talk to the agent.
 
-```bash
-node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
-```
+1. **Install it.** Open your product's repo in Claude Code and ask: "Make a branch and install the harness from path/to/AI-design-harness." Or run the installer yourself. It never overwrites anything; your README and existing files are left alone.
 
-Then open your repo in Claude Code and run `/bootstrap .`. What it does depends on what you have:
+   ```bash
+   node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
+   ```
 
-- **You have a design system or a component library.** Bootstrap points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
-- **You don't.** Bootstrap still drafts a starting point from the colors, type and words your product already uses. You need less than you'd think.
+2. **Reopen Claude Code** in your repo, so it picks up the new skills.
+3. **Ask it to set the harness up for this repo** (or run `/bootstrap .`). What it does depends on what you have:
+   - **You have a design system or a component library.** Bootstrap points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
+   - **You don't.** Bootstrap still drafts a starting point from the colors, type and words your product already uses. You need less than you'd think.
+4. **Check the drafts and merge.** Read `work/bootstrap-report.md`, fix the users, jobs and decisions in `product/` where they're wrong, and merge the branch.
+5. **Connect your team's tools** to Claude Code, like Notion, Slack or Google Drive, so the agent can look things up itself. List where things live in `product/sources.md`.
 
-Either way, an owner reads the drafts before anyone relies on them. [Adopting it](docs/adopting.md) has the details.
+After that, for each feature: ask the agent to make a branch, say what you want in your own words, and ask for a pull request when you're happy. The proposal and its notes live in `work/`. Merge them too, so the next round can see what's already in flight. Engineers build from the proposal's spec as usual; the harness doesn't write production code.
+
+[Adopting it](docs/adopting.md) has the details.
 
 ## Day to day
 
@@ -52,7 +59,8 @@ You don't need to remember any commands. Tell the agent what you want in your ow
 
 | You say or share | The agent | You get |
 |---|---|---|
-| An idea, a PRD, a request from Sales or a PM | Checks it against the product (`/frame`), then designs it if it's a go or you say go ahead (`/design-builder`) | A plain answer first; then a reviewed proposal |
+| An idea, a PRD, a request from Sales or a PM | Looks into it unless it's small (`/discover`), checks it against the product (`/frame`), then designs it if it's a go or you say go ahead (`/design-builder`) | A plain answer first; for bigger work, rough directions to pick from; then a reviewed proposal |
+| A problem to look into, with or without a PRD | Searches your docs, chats and tickets, and other products for bigger work (`/discover`) | A short brief with sources, and a PRD draft if there wasn't one |
 | Feedback on a proposal | Revises it next to the first round | A second round that says what changed |
 | "Check this page" | Reviews it against your rules (`/design-review`) | The fixes in order, the important ones first |
 | A word on screen should change | Logs it for your word list | A row for the owners' weekly sort |
@@ -68,9 +76,9 @@ You don't need to remember any commands. Tell the agent what you want in your ow
 product/            what to build and why: users, jobs, principles, concepts, structure,
                     constraints, decisions, and where the full docs live
 design-system/      how it looks and behaves: tokens, rules, writing, components, layouts
-work/features/      one folder per idea: framing, mockups, proposal, review
+work/features/      one folder per idea: brief, framing, mockups, proposal, review
 work/feedback.md    what we've learned, waiting for an owner
-.claude/skills/     bootstrap, frame, design-builder, design-review, promote-feedback
+.claude/skills/     bootstrap, discover, frame, design-builder, design-review, promote-feedback
 scripts/            check, sync, build-tokens
 examples/           sample PRDs and a full example run
 ```

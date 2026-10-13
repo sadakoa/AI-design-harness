@@ -5,8 +5,9 @@
 {{About 90 words (about 250 characters in Japanese), in the language they wrote in, ready to send as your answer: what you found, what's blocked and why, who decides, and what can happen now. No IDs, @handles or harness words (frame, PRD, log, verdict). Don't promise a date. For decide first, end with the main assumption you'd design on, and ask whether to go ahead.}}
 
 - **Verdict:** {{go / decide first / stop}}
+- **Size:** {{small / medium / large — from the brief, or yours}}
 - **Scope:** {{screen / flow / words / look}}
-- **PRD:** `_inputs/{{file}}`
+- **PRD:** `_inputs/{{file}}`{{, a draft from discover if there wasn't one}}
 - **Context:** {{"product/ is real" — or which files still hold (example) content}}
 - **Sources:** {{the docs from product/sources.md you opened, and any the PRD names that aren't listed — or "none needed"}}
 - **Go-ahead:** {{for decide first: who said to go ahead on the assumptions below, and when — or "waiting". Delete for go or stop.}}

@@ -5,7 +5,7 @@
 
 Strategy decks, research, roadmaps and PRDs usually live somewhere else: a wiki, Notion, a shared drive. Don't copy them into `product/`. List them here, so people and agents can find the original, and so the Source columns in `users.md`, `jobs.md` and `constraints.md` point to something.
 
-If the agent can open these links, through a Notion or Google Drive connector for example, `frame` reads the parts a PRD relies on (see step 2 of its SKILL.md).
+If the agent can open these links, through a Notion, Google Drive or Slack connector for example, `discover` starts its search here and `frame` reads the parts a PRD relies on. Say where to search in the Where column, like a Notion page or a Slack channel.
 
 <!-- replace: one row per doc. Plane is strategy (why, and for whom) or scope (what we build and don't). -->
 

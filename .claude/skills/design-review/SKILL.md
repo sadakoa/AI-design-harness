@@ -6,7 +6,7 @@ argument-hint: <path to an HTML file or proposal.html>
 
 # design-review
 
-Find where a design drifts from its intent and from the rules. Report, don't fix — unless you're asked to. Being called from step 8 of design-builder counts as being asked.
+Find where a design drifts from its intent and from the rules. Report, don't fix — unless you're asked to. Being called from step 9 of design-builder counts as being asked.
 
 - **In:** an HTML page, including one someone built without a design, or a `proposal.html` (then review its recommended option).
 - **Out:** `review.md` with findings, new rows in `work/feedback.md` for anything that applies beyond this screen, and one reply to the person who asked.

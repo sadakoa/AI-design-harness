@@ -8,7 +8,7 @@ argument-hint: <path to PRD>
 
 Answer "should we build this, and what exactly?" before any design work. A clean UI for the wrong problem is the most expensive mistake this harness can make.
 
-- **In:** a PRD or any request to build something, as a path or pasted text. Only a name or a link with no goal? Ask what problem it solves first.
+- **In:** a PRD or any request to build something, as a path or pasted text, or the draft PRD `discover` wrote. Only a name or a link with no goal? Ask what problem it solves first.
 - **Out:** `framing.md` in a new feature folder, with a verdict: **go**, **decide first** or **stop**.
 - **Asks:** only when the PRD can't be matched to a user, or to a job when it needs one (a fix to a place that exists today may not; see step 5). If nobody answers, write the question under "Questions for a product owner" and carry on.
 
@@ -16,9 +16,9 @@ Never edit `product/`. If something there is missing or out of date, log it.
 
 ## Steps
 
-1. **Start the feature folder.** Create `work/features/<yyyymmdd>-<slug>/` (design-builder uses the same folder later) and copy the PRD into `_inputs/`. Pasted text goes to `_inputs/prd.md`.
+1. **Start the feature folder.** If `discover` already made one, use it. Otherwise create `work/features/<yyyymmdd>-<slug>/` (design-builder uses the same folder later) and copy the PRD into `_inputs/`. Pasted text goes to `_inputs/prd.md`. A medium or large request with no `research/brief.md` should go through `discover` first.
 
-2. **Read** the Frame column of `product/INDEX.md`. If you can open the docs in `product/sources.md` that the PRD relies on, read the parts it touches; if you can't, work from the summaries in `product/`. If the PRD names a doc that isn't listed there, say so in the Sources line and log it. For a change to a screen or to words that exist today, also skim `design-system/foundations/rules.md`, `design-system/components/GUIDE.md` and `design-system/foundations/writing.md`, so you see what the design system already says. Skim `design-system/screens/README.md` to see which screens exist, and the `framing.md` of other open features in `work/features/`, so PRDs that pull against each other get caught.
+2. **Read** `research/brief.md` if there is one, then the Frame column of `product/INDEX.md`. If you can open the docs in `product/sources.md` that the PRD relies on, read the parts it touches; if you can't, work from the summaries in `product/`. If the PRD names a doc that isn't listed there, say so in the Sources line and log it. For a change to a screen or to words that exist today, also skim `design-system/foundations/rules.md`, `design-system/components/GUIDE.md` and `design-system/foundations/writing.md`, so you see what the design system already says. Skim `design-system/screens/README.md` to see which screens exist, and the `framing.md` of other open features in `work/features/`, so PRDs that pull against each other get caught.
 
 3. **Match the PRD to the product.**
    - Who: which users (U-xx).

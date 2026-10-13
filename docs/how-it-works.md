@@ -2,6 +2,16 @@
 
 ![How it fits together](images/flow.svg)
 
+## Look before you check
+
+Some requests arrive as a PRD, some as one line in Slack, and some as a problem nobody has written up yet. `/discover` sizes the work first:
+
+- **Small**, like a word or a small fix to a screen you have: there's nothing to look up, so it goes straight to the next step.
+- **Medium**, like a change to a place you have: it searches your own docs, chats, tickets and numbers for what's already known, in about ten minutes.
+- **Large**, like a new screen or flow, a new concept, or a goal nobody has written down: it also looks at how other products handle the same job.
+
+It writes a short brief in which every finding has a source and says how sure it is: seen, said or guessed. If there was no PRD, it drafts one for someone to correct. Connect the tools your team uses to Claude Code so it can look for itself; `product/sources.md` says where to start.
+
 ## Check the problem first
 
 A design can follow every rule and still be the wrong thing to build. So before any design work, `/frame` reads the PRD against `product/`:
@@ -39,6 +49,8 @@ Decisions on each plane depend on the ones below it. That's why `/frame` checks 
 ## Build wide, review narrow
 
 ![Building reads to explore options; reviewing checks one area at a time](images/build-vs-review.svg)
+
+For large work, building starts with five to eight rough directions on one page. The person who asked picks one to three, and only those become working options, so nobody polishes a direction nobody wanted.
 
 Building and reviewing are different jobs, so they read different things. Building pulls in principles, rules, writing, layouts and approved screens, then spreads out into a few real options. Reviewing first asks whether the design does the job from the framing, then checks one area at a time — components, layout, copy — and only re-reads the files for that area. Each finding names the job, principle or rule it's based on, or says plainly that it's a matter of taste.
 

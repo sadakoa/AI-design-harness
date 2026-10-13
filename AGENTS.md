@@ -10,13 +10,15 @@ People won't name a skill or a file. They'll say what they want, in their own wo
 - Ask one or two questions at a time, in plain words, and only ones that change what you'd do.
 - Reply in the language they wrote in, in about 90 words (about 250 characters in Japanese). No IDs, @handles or harness words unless they used them first.
 - Any clear yes is a go-ahead: "sure", "go for it", "進めて".
+- Size the work yourself (small, medium or large; see `discover`) and say it in one line. They can change it.
 - At the end, send one reply, not one per skill.
 
 ## When someone asks…
 
 | They say or share something like | Do this |
 |---|---|
-| An idea, a PRD, "can we build…", a request from Sales or a PM | `frame` it, then `design-builder` if it's a go or they say go ahead |
+| An idea, a PRD, "can we build…", a request from Sales or a PM | `discover` it at the size it needs (small skips this), `frame` it, then `design-builder` if it's a go or they say go ahead |
+| "Look into…", "what do we know about…", a problem with no PRD | `discover` it; it drafts a PRD when there isn't one |
 | "Check this page", a screen someone built | `design-review` it; no framing needed |
 | Feedback on a proposal: "change B so…" | `design-builder`, revising (see "Revising a proposal" there) |
 | A word or label should change | `frame` it (short), then log it for `promote-feedback` |
@@ -31,6 +33,7 @@ People won't name a skill or a file. They'll say what they want, in their own wo
 
 ## Rules
 
+- Before framing a medium or large request, look into it: `discover` finds what the team already knows.
 - Before designing anything, frame it: `frame` checks the request against `product/`.
 - Entries in `product/` marked `hypothesis` or `open` aren't facts. Say so whenever you rely on one.
 - `design-system/tokens/tokens.json` is the only source for values. If anything disagrees with it, trust the tokens and log the mismatch in `work/feedback.md`.
@@ -41,6 +44,7 @@ People won't name a skill or a file. They'll say what they want, in their own wo
 | Task | Skill |
 |---|---|
 | Set the harness up for an existing product | `bootstrap` |
+| Find out what's already known, with or without a PRD | `discover` |
 | Check a request before anyone designs it | `frame` |
 | Design a screen or a flow, or revise a proposal | `design-builder` |
 | Review a screen, flow or proposal | `design-review` |
