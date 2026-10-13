@@ -4,8 +4,8 @@
 //               ("from" can be one file or a list; later files win, as in CSS)
 //   components: lists the component files in your code in components/inventory.md
 // The harness never writes back. Change the source, then run npm run sync again.
-import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { join, relative, resolve, sep } from "node:path";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { dirname, join, relative, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 import { renderCss, root, tokensCss, tokensJson } from "./build-tokens.mjs";
 
@@ -21,15 +21,32 @@ const source = (from) => {
   return path;
 };
 
-// CSS variables from every top-level :root block (or the whole file if there is none). Later ones win.
-// :root blocks inside @media or other at-rules are skipped: a dark theme there would overwrite the light values.
+// CSS variables from every plain :root block, at the top level or inside @layer (as shadcn writes them).
+// Blocks inside @media or @supports, and .dark or [data-theme] blocks, are skipped: tokens.json holds one theme.
+// A file with no blocks at all is read as a plain list of variables. Later values win.
+// Bare HSL channels ("222.2 84% 4.9%", the shadcn style) are wrapped in hsl() so they're real colors.
+const HSL_CHANNELS = /^-?\d*\.?\d+(deg)?\s+\d*\.?\d+%\s+\d*\.?\d+%(\s*\/\s*\d*\.?\d+%?)?$/;
 export const cssVariables = (css) => {
   const text = css.replace(/\/\*[\s\S]*?\*\//g, "");
-  const depthAt = (index) => [...text.slice(0, index)].reduce((d, c) => d + (c === "{") - (c === "}"), 0);
-  const blocks = [...text.matchAll(/:root\s*\{([^}]*)\}/g)].filter((m) => depthAt(m.index) === 0).map((m) => m[1]);
+  const blocks = [];
+  const stack = [];
+  let last = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "{") {
+      stack.push({ header: text.slice(last, i).split(/[;}]/).pop().trim(), start: i + 1 });
+      last = i + 1;
+    } else if (text[i] === "}") {
+      const block = stack.pop();
+      if (block?.header === ":root" && stack.every((b) => b.header.startsWith("@layer"))) blocks.push(text.slice(block.start, i));
+      last = i + 1;
+    }
+  }
   const vars = {};
-  for (const body of blocks.length ? blocks : [text]) {
-    for (const [, name, value] of body.matchAll(/(--[\w-]+)\s*:\s*([^;]+?)\s*(?:;|$)/g)) vars[name] = value.trim();
+  for (const body of blocks.length ? blocks : text.includes("{") ? [] : [text]) {
+    for (const [, name, raw] of body.matchAll(/(--[\w-]+)\s*:\s*([^;{}]+?)\s*(?:;|$)/g)) {
+      const value = raw.trim();
+      vars[name] = HSL_CHANNELS.test(value) ? `hsl(${value})` : value;
+    }
   }
   return vars;
 };
@@ -37,6 +54,14 @@ export const cssVariables = (css) => {
 export function syncedTokens(config, current) {
   const files = [config.tokens.from].flat();
   const vars = Object.assign({}, ...files.map((from) => cssVariables(read(source(from)))));
+  // Follow var() aliases inside the synced files, so a role like --surface: var(--white) gets a real value
+  const resolve = (value, seen = new Set()) =>
+    value.replace(/var\(\s*(--[\w-]+)\s*(?:,\s*([^)]+))?\)/g, (all, name, fallback) => {
+      if (seen.has(name)) return all;
+      if (name in vars) return resolve(vars[name], new Set([...seen, name]));
+      return fallback ? fallback.trim() : all;
+    });
+  for (const name of Object.keys(vars)) vars[name] = resolve(vars[name]);
   const next = structuredClone(current);
   for (const [path, name] of Object.entries(config.tokens.map ?? {})) {
     if (!(name in vars)) throw new Error(`${name} isn't defined in ${files.join(", ")}`);
@@ -49,7 +74,7 @@ export function syncedTokens(config, current) {
 
 export function syncedInventory(config) {
   const dir = source(config.components.from);
-  const extensions = config.components.extensions ?? [".tsx", ".jsx", ".vue", ".svelte", ".astro"];
+  const extensions = config.components.extensions ?? [".tsx", ".jsx", ".js", ".vue", ".svelte", ".astro"];
   const files = readdirSync(dir)
     .filter((file) => extensions.some((ext) => file.endsWith(ext)) && !/\.(test|spec|stories)\./.test(file))
     .sort();
@@ -87,6 +112,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     }
     if (config.components) {
       const inventory = syncedInventory(config);
+      mkdirSync(dirname(inventoryFile), { recursive: true });
       writeFileSync(inventoryFile, inventory);
       console.log(`Listed ${inventory.split("\n").filter((l) => l.startsWith("| ") && !l.startsWith("| Component")).length} components from ${config.components.from}`);
     }

@@ -75,8 +75,8 @@ You don't need to remember any commands. Tell the agent what you want in your ow
 | A problem to look into, with or without a PRD | Searches your docs, chats and tickets, and other products for bigger work (`/discover`) | A short brief with sources, and a PRD draft if there wasn't one |
 | Feedback on a proposal | Revises it next to the first round | A second round that says what changed |
 | "Check this page" | Reviews it against your rules (`/design-review`) | The fixes in order, the important ones first |
-| A word on screen should change | Logs it for your word list | A row for the owners' weekly sort |
-| Research, data, something from real use | Logs it with its source | Observations for the owners' weekly sort |
+| A word on screen should change | Logs it for your word list | A row to sort when the feature merges |
+| Research, data, something from real use | Logs it with its source | Observations for the next sort |
 | "This design is approved" | Prepares it for `design-system/screens/` | A pull request for an owner |
 | A feature's pull request merges, and once a week (owners) | Sorts the log (`/promote-feedback`), oldest first | Pull requests against `product/` or `design-system/` |
 

@@ -32,15 +32,15 @@ const targetArg = args.find((a, i) => !a.startsWith("--") && (addIndex < 0 || i 
 // Content added when a task first needs it. A first setup without --full copies only the starter set.
 const PIECES = {
   principles: ["product/principles.md"],
-  sources: ["product/sources.md"],
   structure: ["product/concepts.md", "product/structure.md"],
-  components: ["design-system/components"],
+  components: ["design-system/components/GUIDE.md", "design-system/components/_template.md"],
   patterns: ["design-system/patterns"],
   screens: ["design-system/screens"],
 };
 const STARTER = [
-  "product/INDEX.md", "product/users.md", "product/jobs.md", "product/constraints.md", "product/decisions.md",
+  "product/INDEX.md", "product/users.md", "product/jobs.md", "product/constraints.md", "product/decisions.md", "product/sources.md",
   "design-system/INDEX.md", "design-system/tokens", "design-system/foundations", "design-system/decisions.md",
+  "design-system/components/inventory.md",
   "work",
 ];
 
@@ -103,14 +103,27 @@ const files = (path) =>
     : lstatSync(path).isDirectory()
     ? readdirSync(path).flatMap((name) => (name === ".DS_Store" ? [] : files(join(path, name))))
     : [path];
-const copyContent = (rel) => {
+// A piece added to a product that's already set up comes without the Helpline examples
+const blank = (text) => {
+  const out = [];
+  let skipping = false;
+  for (const line of text.split("\n")) {
+    if (/^#{2,3} /.test(line)) skipping = /\(example\)/.test(line);
+    if (skipping) continue;
+    if (/^\|/.test(line) && /\(example\)/.test(line)) continue;
+    out.push(line.replace(/^> Reviewed: .*/, `> Reviewed: ${new Date().toISOString().slice(0, 10)}`));
+  }
+  return out.join("\n");
+};
+const copyContent = (rel, { examples = true } = {}) => {
   for (const from of files(join(harness, rel))) {
     const to = join(target, relative(harness, from));
     if (existsSync(to)) skipped.push(show(to));
     else {
       if (!dryRun) {
         mkdirSync(dirname(to), { recursive: true });
-        copyFileSync(from, to);
+        if (examples || !from.endsWith(".md")) copyFileSync(from, to);
+        else writeFileSync(to, blank(readFileSync(from, "utf8")));
       }
       created.push(show(to));
     }
@@ -183,7 +196,7 @@ if (setup) {
 if (pieces.length) {
   const wanted = pieces.includes("all") ? Object.keys(PIECES) : pieces;
   for (const piece of wanted) {
-    for (const rel of PIECES[piece]) copyContent(rel);
+    for (const rel of PIECES[piece]) copyContent(rel, { examples: false });
     const rows = PIECES[piece].flatMap((rel) => files(join(harness, rel)).map((f) => relative(harness, f).split(sep).join("/")));
     for (const folder of ["product", "design-system"]) {
       const mine = rows.filter((r) => r.startsWith(`${folder}/`)).map((r) => r.slice(folder.length + 1));
@@ -201,10 +214,19 @@ const agentsFile = manifest?.agentsFile ?? (existsSync(join(target, "AGENTS.md")
 const workflowFile =
   manifest?.workflowFile ?? (existsSync(join(target, ".github/workflows/check.yml")) ? ".github/workflows/harness-check.yml" : ".github/workflows/check.yml");
 
+const pkgPath = join(target, "package.json");
+const ownCheck = `node ${scriptDir}/check.mjs`;
+const theirs = existsSync(pkgPath) ? JSON.parse(readFileSync(pkgPath, "utf8")).scripts ?? {} : {};
+const checkScript = manifest?.checkScript ?? (theirs.check && theirs.check !== ownCheck ? "harness:check" : "check");
+const workflowText = readFileSync(join(harness, ".github/workflows/check.yml"), "utf8").replace("npm run check", `npm run ${checkScript}`);
+const templatePath = existsSync(join(target, ".github/pull_request_template.md")) && !manifest?.files?.[".github/pull_request_template.md"] ? null : ".github/pull_request_template.md";
+if (!templatePath && setup) notes.push("You already have a pull request template. Add a line to it: \"Sorted this feature's rows in work/feedback.md\".");
+
 const harnessFiles = [
   ...SCRIPTS.map((f) => [`${scriptDir}/${f}`, join(harness, "scripts", f)]),
   [agentsFile, join(harness, "AGENTS.md")],
-  [workflowFile, join(harness, ".github/workflows/check.yml")],
+  [workflowFile, Buffer.from(workflowText)],
+  ...(templatePath ? [[templatePath, join(harness, ".github/pull_request_template.md")]] : []),
   ["sync.example.json", join(harness, "sync.example.json")],
   ...(plugin ? [] : files(join(harness, "skills")).map((from) => [`.claude/skills/${relative(join(harness, "skills"), from).split(sep).join("/")}`, from])),
 ];
@@ -214,7 +236,7 @@ if (setup || update) {
   for (const key of Object.keys(record)) delete record[key];
   for (const [path, from] of harnessFiles) {
     const to = join(target, path);
-    const next = readFileSync(from);
+    const next = Buffer.isBuffer(from) ? from : readFileSync(from);
     const nextHash = hash(next);
     if (!existsSync(to)) {
       write(to, next);
@@ -291,8 +313,7 @@ if (setup) {
 }
 
 // --- npm scripts, in case they went missing ---
-const scripts = { check: `node ${scriptDir}/check.mjs`, tokens: `node ${scriptDir}/build-tokens.mjs`, sync: `node ${scriptDir}/sync.mjs` };
-const pkgPath = join(target, "package.json");
+const scripts = { check: ownCheck, tokens: `node ${scriptDir}/build-tokens.mjs`, sync: `node ${scriptDir}/sync.mjs` };
 if (!existsSync(pkgPath)) {
   write(pkgPath, JSON.stringify({ name: basename(target).toLowerCase().replace(/[^a-z0-9-]+/g, "-"), private: true, scripts }, null, 2) + "\n");
   created.push("package.json");
@@ -316,7 +337,7 @@ if (!existsSync(pkgPath)) {
 
 const profile = setup ? (flag("--full") ? "full" : "starter") : manifest.profile ?? "full";
 const added = [...new Set([...(manifest?.added ?? []), ...(pieces.includes("all") ? Object.keys(PIECES) : pieces)])];
-write(manifestPath, JSON.stringify({ source, commit, mode: plugin ? "plugin" : "copy", profile, added, updated: new Date().toISOString().slice(0, 10), scriptDir, agentsFile, workflowFile, files: record }, null, 2) + "\n");
+write(manifestPath, JSON.stringify({ source, commit: pieces.length ? manifest.commit : commit, mode: plugin ? "plugin" : "copy", profile, added, updated: new Date().toISOString().slice(0, 10), scriptDir, agentsFile, workflowFile, checkScript, files: record }, null, 2) + "\n");
 
 // --- Report ---
 const list = (title, items) => items.length && console.log(`\n${title} (${items.length})\n${items.map((i) => `  ${i}`).join("\n")}`);
@@ -330,7 +351,7 @@ list("Skipped because they already exist", skipped);
 for (const n of notes) console.log(`\nNote: ${n}`);
 if (setup && profile === "starter") {
   const rest = Object.keys(PIECES).join(", ");
-  console.log(`\nStarted small: the files framing and review need. The agent adds the rest when a task first needs them (${rest}).`);
+  console.log(`\nStarted small: the files framing and review need. Add more pieces when you want them (${rest}): ask the agent, or run --add.`);
 }
 if (setup) {
   console.log(`

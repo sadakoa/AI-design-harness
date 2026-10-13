@@ -18,7 +18,7 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
 
 ## Steps
 
-1. **Start the feature folder.** If `discover` already made one, use it. Otherwise create `work/features/<yyyymmdd>-<slug>/` (design-builder uses the same folder later) and copy the PRD into `_inputs/`. Pasted text goes to `_inputs/prd.md`. A medium or large request with no `research/brief.md` should go through `discover` first.
+1. **Start the feature folder.** If `discover` already made one, use it. Otherwise create `work/features/<yyyymmdd>-<slug>/` (design-builder uses the same folder later) and copy the PRD into `_inputs/`. Pasted text goes to `_inputs/prd.md`. A medium or large request with no `research/brief.md` should go through `discover` first, unless there's nothing to look in beyond this repo. If `npm run check` names old rows that touch this request, mention them.
 
 2. **Read** `research/brief.md` if there is one, then the Frame column of `product/INDEX.md`. If you can open the docs in `product/sources.md` that the PRD relies on, read the parts it touches; if you can't, work from the summaries in `product/`. If the PRD names a doc that isn't listed there, say so in the Sources line and log it. For a change to a screen or to words that exist today, also skim `design-system/foundations/rules.md`, `design-system/components/GUIDE.md` and `design-system/foundations/writing.md`, so you see what the design system already says. Skim `design-system/screens/README.md` to see which screens exist, and the `framing.md` of other open features in `work/features/`, so PRDs that pull against each other get caught.
 
@@ -28,15 +28,17 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
    - Concepts: which ones it touches. A new name for something already in `concepts.md` only needs logging. A new concept — something the product doesn't have yet, or a new value for one it has, like a fourth priority — affects the verdict.
    - Places in `structure.md` it changes, and any it adds. New places go in the framing, not the log.
    - Constraints (CON-xx) it touches.
-   - Decisions (PD-xx) it supports or goes against, and any whose Why the PRD's premise changes (say, a decision made for small teams when the PRD plans for large ones). If you find one that was clearly made but never written down, log it as a decision to confirm. Until an owner confirms it, it can make the verdict decide first, not stop.
+   - Decisions (PD-xx) it supports or goes against, and any whose Why the PRD's premise changes (say, a decision made for small teams when the PRD plans for large ones). If you find one that was clearly made but never written down, log it as type `decision`, quoting its source.
    - Principles (PP-xx) that pull for or against it.
 
 4. **Decide the scope.** `screen` (one screen), `flow` (several screens doing one job together), `words` (only text on screen changes) or `look` (how the whole product looks: colors, type, a theme). For a flow, list the screens, whether each is approved in `design-system/screens/`, whether it's live in the product today, and how someone moves between them. `structure.md` says which places exist and how they connect.
 
 5. **Give a verdict.** Check in this order; the first that matches wins.
    1. **stop** — it goes against a product decision or breaks a constraint. Say which, and what would have to change first (usually a new decision by a product owner). If the clash depends on how you read an unclear PRD, say which reading, and how the PRD could be changed to avoid it.
-   2. **decide first** — no job covers the main goal (unless it's a fix to a place that exists today, backed by a principle or constraint and by evidence from real use you can name, like support tickets or analytics, not just a claim in the PRD: that's a go, and you log the missing job); or the main job is only a hypothesis and the work is big (a flow or a new screen); or it brings in a new concept. List the questions for a product owner, and for each, the assumption to design on if they say go ahead anyway.
+   2. **decide first** — no job covers the main goal (unless it's a fix to a place that exists today, backed by a principle or constraint and by evidence from real use you can name, like support tickets or analytics, not just a claim in the PRD: that's a go, and you log the missing job); or the main job is only a hypothesis and the work is big (a flow or a new screen); or it brings in a new concept; or it goes against a decision that was made but isn't written down yet (name it and its source). List the questions for a product owner, and for each, the assumption to design on if they say go ahead anyway.
    3. **go** — none of the above.
+
+   If one part clashes and the rest doesn't, you can split it: give the rest its verdict, and name the part that's out, with why, in the reply and the questions.
 
 6. **Write** `framing.md` from `templates/framing.md`. Start with the reply for the person who asked, in their language and their words rather than IDs; a PM or someone from Sales should be able to stop reading there. Below it, cite IDs and don't restate what they say. If `product/` still has `(example)` content, say so in the Context line. For a stop, keep it short: skip the Screens table, and list only what would have to change. For scope `words`, keep only the reply, the verdict lines, Who and the job, and the Concepts and Design system lines.
 

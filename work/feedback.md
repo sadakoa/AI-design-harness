@@ -12,6 +12,8 @@ Log what could matter beyond this one feature, one row per thing; group small re
 
 Date is the day you log it. Who is whoever raised it: a person's name, a role (Sales, Legal) or a skill name.
 
+Harness rows use `observation` (what got in the way) or `missing` (a request the harness has no path for).
+
 **Layer** says where it would go: `product` (users, jobs, places, decisions — we built the wrong thing), `design` (rules, tokens, components — we built it the wrong way) or `harness` (a skill, a template or a script got in the way). When in doubt, look for the deepest cause: a screen that's hard to use because it serves the wrong job is a `product` problem.
 
 | Type | Meaning |
@@ -19,14 +21,15 @@ Date is the day you log it. Who is whoever raised it: a person's name, a role (S
 | deviation | We broke a rule on purpose |
 | missing | `product/` or the design system doesn't have it (a job, a concept, a place, a component, a token) |
 | outdated | Something in `product/` or the design system no longer looks true (a decision's reason, a job's measure, a source) |
+| decision | A decision that was made but never written down. Quote where it was made; an owner confirms it into a `decisions.md` |
 | bug | Something in the design system doesn't work |
 | insight | A review finding that probably applies to other screens too |
 | observation | Something seen in real use: support tickets, analytics, interviews, a note from Sales or Legal. Say where it came from in What happened, with a link if there is one. |
 
 | Status | Meaning | Result column |
 |---|---|---|
-| open | No owner has decided yet | — |
-| adopted | It's in `product/` or `design-system/` now. Set this inside the PR that makes the change. | The decision ID: PD-xx for product, D-xx for design. If it only added evidence or a source, the entry it updated (U-xx, J-xx, CON-xx) or `sources.md`. For harness, the file that changed |
+| open | No owner has decided yet. To keep one open on purpose, write `revisit YYYY-MM-DD` as its result; the check won't call it stale before then | — or `revisit YYYY-MM-DD` |
+| adopted | It's in `product/` or `design-system/` now. Set this inside the PR that makes the change. | The decision ID: PD-xx for product, D-xx for design. If it only added evidence, a source, a concept or a place, the entry or file it updated (U-xx, J-xx, CON-xx, `sources.md`, `structure.md`). For harness, the file that changed |
 | screen-only | It only applies to that one screen or feature | Why |
 | dropped | We let it go | Why |
 | sent | Layer `harness` only: sent to the harness repo as an issue | The issue link |

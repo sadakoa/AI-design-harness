@@ -8,16 +8,16 @@ People won't name a skill or a file. They'll say what they want, in their own wo
 
 - Keep the bookkeeping to yourself. Framings, log rows, IDs and paths are for you and the owners. In the conversation, give the person what they need: an answer, a recommendation, or one question.
 - Ask one or two questions at a time, in plain words, and only ones that change what you'd do.
-- Reply in the language they wrote in, in about 90 words (about 250 characters in Japanese). No IDs, @handles or harness words unless they used them first.
+- Reply in the language they wrote in, and keep it short: about 90 words (about 250 characters in Japanese). A list they'll work through, like fixes in order, can run longer. No IDs, @handles or harness words unless they used them first.
 - Any clear yes is a go-ahead: "sure", "go for it", "進めて".
-- Size the work yourself (small, medium or large; see `discover`) and say it in one line. They can change it.
+- When someone asks for something to be built, size it yourself (small, medium or large; see `discover`). Say so in one line when it changes how long things take; they can change it.
 - At the end, send one reply, not one per skill.
 
 ## When someone asks…
 
 | They say or share something like | Do this |
 |---|---|
-| An idea, a PRD, "can we build…", a request from Sales or a PM | `discover` it at the size it needs (small skips this), `frame` it, then `design-builder` if it's a go or they say go ahead |
+| An idea, a PRD, "can we build…", a request from Sales or a PM | `discover` it at the size it needs (small skips this) and `frame` it. Then `design-builder` if the team designs here and it's a go or they say go ahead; otherwise end with the framing, and offer a review once it's built |
 | "Look into…", "what do we know about…", a problem with no PRD | `discover` it; it drafts a PRD when there isn't one |
 | "Check this page", a screen someone built | `design-review` it; no framing needed |
 | Feedback on a proposal: "change B so…" | `design-builder`, revising (see "Revising a proposal" there) |
@@ -37,9 +37,9 @@ People won't name a skill or a file. They'll say what they want, in their own wo
 
 These always hold.
 
-- Change `product/` and `design-system/` only on a new branch, as a pull request an owner merges: `bootstrap`'s drafts, the changes `promote-feedback` got a yes for, and an approved screen going into `design-system/screens/`. Everything else you make goes in `work/`, except options built with the product's own components, which go in a sandbox page or stories on the feature branch and never ship. Owners are listed in `.github/CODEOWNERS`.
+- Change `product/` and `design-system/` only on a new branch, as a pull request an owner merges: `bootstrap`'s drafts, the changes `promote-feedback` got a yes for, and an approved screen going into `design-system/screens/`. Everything else you make goes in `work/`, or on a branch that never merges. Owners are listed in `.github/CODEOWNERS`.
 - `design-system/tokens/tokens.json` is the only source for values. If anything disagrees with it, trust the tokens and log the mismatch. Tokens and components that `sync.json` maps come from the product's code: change them there and run `npm run sync`.
-- Don't add components, colors or words to the design system yourself. If you need something that isn't there, build it in `work/`, tag the line with a feedback ID and log it.
+- Don't add components, colors or words to the design system yourself, outside `bootstrap`'s first draft and the changes `promote-feedback` got a yes for. If you need something that isn't there, build it in `work/`, tag the line with a feedback ID and log it.
 - Say where every claim comes from. Entries marked `hypothesis` or `open` aren't facts, and neither are your guesses: say which is which, and what you couldn't check or open.
 - Keep customer and personal details where they are. Never copy them into the repo, a URL or anything public, like an issue on the harness repo.
 - Don't promise dates or decisions that belong to someone else.
@@ -49,13 +49,13 @@ These always hold.
 
 The skills describe the usual path: look into bigger requests first, frame before designing, explore a few options, keep replies short. Their numbers, like three options, five questions or about 90 words, are starting points. When a request calls for something else, do that instead and say why in one line. Don't make people learn the harness: never ask them to run a skill, open a file or look up an ID.
 
-A repo may have started small (`.harness.json` says `"profile": "starter"`), with only what framing and review need. When a task needs a file that isn't there yet, add it: `node <harness>/scripts/install.mjs . --add <piece>`, where the harness is two folders above any skill's folder and the pieces are principles, sources, structure, components, patterns and screens. Say so in one line.
+A repo may have started small (`.harness.json` says `"profile": "starter"`). If a file a skill names isn't there, work without it and say so in one line; if it would have changed the result, log it as `missing`. More pieces (product principles, structure, component guidance, layouts, approved screens) come when an owner asks for them: `bootstrap` adds them on their own branch, without the example content.
 
 ## Notice things
 
-When you learn something nobody asked about, in the product, the design system or the harness itself, say so in one line and log it where it belongs. A pattern across requests, a decision that was made but never written down, a decision whose reason no longer holds, a step that didn't help: that's how the harness and the product get better.
+When you learn something nobody asked about, in the product, the design system or the harness itself, say so in one line and log it where it belongs. A pattern across requests, a decision that was made but never written down (log it as type `decision`, with its source), a decision whose reason no longer holds, a step that didn't help: that's how the harness and the product get better.
 
-The log only helps if it gets sorted. When `npm run check` names rows that have been open for over 30 days, say so in one line when you start work, and offer to sort them.
+The log only helps if it gets sorted. When `npm run check` names rows that have been open for over 30 days, mention it to an owner, or when the request touches those rows, and offer to sort them.
 
 ## Skills
 

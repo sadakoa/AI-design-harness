@@ -8,7 +8,7 @@ argument-hint: <path to an HTML file or proposal.html>
 
 Find where a design drifts from its intent and from the rules. Report, don't fix — unless you're asked to. Being called from step 9 of design-builder counts as being asked.
 
-- **In:** an HTML page, including one someone built without a design, or a `proposal.html` (then review its recommended option).
+- **In:** an HTML page (including one someone built without a design), a route in a running app, or a `proposal.html` (then review its recommended option).
 - **Out:** `review.md` with findings, new rows in `work/feedback.md` for anything that applies beyond this screen, and one reply to the person who asked.
 
 Review the path you were given. If there isn't one, ask.
@@ -17,11 +17,11 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
 
 ## Steps
 
-1. **Know the intent.** Which screen or flow, whose job? If there's a `framing.md` next to it, read it and the `product/` entries it cites. If there isn't, don't frame it: a review gives no verdict. Write a short intent note at the top of `review.md` (who uses it, which job, which place in `product/structure.md`) from what you were told or can see, and mark what you guessed. If the page is outside `work/features/`, make `work/features/<yyyymmdd>-<slug>/`, copy the page into its `_inputs/`, and work there.
+1. **Know the intent.** Which screen or flow, whose job? If there's a `framing.md` next to it, read it and the `product/` entries it cites. If there isn't, don't frame it: a review gives no verdict. Write a short intent note at the top of `review.md` (who uses it, which job, which place in `product/structure.md`) from what you were told or can see, and mark what you guessed. If the page is outside `work/features/`, make `work/features/<yyyymmdd>-<slug>/` for the review and note the page's path in it; review the page where it is, since a copy can lose its links. A route in a running app gets reviewed at its dev-server URL.
 
-2. **Run the automatic checks first.** `npm run check`, plus `npm run check -- <path to the page>` for a page outside `work/features/`, so its CSS is checked too.
+2. **Run the automatic checks first.** `npm run check`, plus `npm run check -- <path to the page>` for a page outside `work/features/`, so its CSS is checked too. The check reads `.html` and `.css` only; for anything else, say the values weren't checked by machine.
 
-3. **Look at it rendered.** If you can open a browser, capture it 1280px and 768px wide, in each `?state=`, and for a flow, each `?screen=`. Watch the console for errors, and make sure hidden things are actually hidden. The iframes in `proposal.html` come out blank in full-page captures, so open the files in `options/` directly. Keep captures in the feature folder's `captures/`, or delete them; never write outside the repo.
+3. **Look at it rendered.** If you can open a browser, capture it 1280px and 768px wide, in each `?state=` if it has them, and for a flow, each `?screen=`. Watch the console for errors, and make sure hidden things are actually hidden. The iframes in `proposal.html` come out blank in full-page captures, so open the files in `options/` directly. Keep captures in the feature folder's `captures/`, or delete them; never write outside the repo.
 
 4. **Does it do the job?** Does it make the job in the framing (J-xx) easier, and does it keep to the constraints (CON-xx)? Then look at the whole screen with the quality bar in `principles.md`.
 

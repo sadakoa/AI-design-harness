@@ -7,7 +7,7 @@ The map of this product: the places people go, what each one shows, and how they
 
 A place is where someone goes to do part of a job, like a list, one item or a settings area. The Place column is the one home for place names; name what each place shows with the words in `concepts.md`. How screens are laid out in any product is in `design-system/patterns/GUIDE.md`, and what the approved screens look like is in `design-system/screens/`.
 
-<!-- replace: start with the places that exist today. It can stay as (example) until you design your first flow. -->
+<!-- replace: start with the places that exist today. It can stay empty until you design your first flow. -->
 
 | Place | What it shows | Jobs | Way in | Leads to |
 |---|---|---|---|---|

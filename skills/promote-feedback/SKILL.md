@@ -7,7 +7,7 @@ description: Sort the feedback log and draft changes to product/ or the design s
 
 Turn what reviews and real use taught us into changes to `product/` or `design-system/`. You propose; an owner of that folder (listed in `.github/CODEOWNERS`) decides.
 
-Sort small and often. When a feature's pull request merges, sort that feature's rows then, while people remember them; a weekly pass catches the rest. Rows that have been open for over 30 days come first.
+Sort small and often. When a feature's pull request merges, sort that feature's rows then, while people remember them (the pull request template has a box for it); a weekly pass catches the rest. A `decision` row, once confirmed, becomes a row in the matching `decisions.md`. Rows that have been open for over 30 days come first.
 
 These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
 
@@ -17,7 +17,7 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
 
 2. **Group.** Merge rows that say the same thing and keep all their IDs. If a group would end up with different outcomes, split it. If a design finding is really a product problem (we built the wrong thing), move it to layer `product`
 
-3. **Suggest.** Give each group `adopted`, `screen-only`, `dropped` or `keep open` (not enough evidence yet: say what would settle it), using "When to promote" in the log, with a one-line reason. When in doubt, `keep open`. A claim from one person usually stays open.
+3. **Suggest.** Give each group `adopted`, `screen-only`, `dropped` or `keep open` (not enough evidence yet: say what would settle it, and write `revisit YYYY-MM-DD` as the result), using "When to promote" in the log, with a one-line reason. When in doubt, `keep open`. A claim from one person usually stays open.
 
 4. **Find the home.** Pick the one file in that layer's INDEX that answers the question, even if you don't suggest changing it. The INDEX heading it sits under is the group's plane. For a new entry, give the next free ID (CON-04, PD-03). If it's about how a skill or a script works, the home is that skill's `SKILL.md` or the script. If you can't settle on one file, the question is fuzzy or a new file is needed — say which.
 

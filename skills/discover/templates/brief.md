@@ -4,6 +4,8 @@
 
 {{About 90 words (about 250 characters in Japanese), in the language they wrote in: what you found, what's still unknown, and what you'd do next. No IDs, @handles or harness words.}}
 
+## About this brief
+
 - **Size:** {{small / medium / large}}, because {{}}
 - **PRD:** {{`_inputs/<file>` — or "none; draft in `_inputs/prd-draft.md`"}}
 - **Looked in:** {{this repo; the tools and channels you searched; outside (large only)}}

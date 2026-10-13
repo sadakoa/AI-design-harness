@@ -64,7 +64,7 @@ Some work is one screen. Some is a flow: a few screens doing one job together, l
 
 Anything that could matter beyond one screen goes into [the feedback log](../work/feedback.md): review findings, and observations from real use like support tickets or analytics. Each entry has a layer: `product` if we built the wrong thing, `design` if we built it the wrong way.
 
-Once a week an owner runs `/promote-feedback`, which groups the entries and suggests what to do with each. The owner decides:
+Sort small and often: when a feature's pull request merges, sort that feature's rows (the pull request template has a box for it), and let an owner run `/promote-feedback` once a week for the rest. `npm run check` counts what's open and names rows that have sat for over 30 days. The skill groups the entries and suggests what to do with each. The owner decides:
 
 - **adopted** — `product/` or `design-system/` changes, in a pull request, and the matching `decisions.md` gets a row
 - **screen-only** — it stays a decision for that one screen
@@ -76,7 +76,7 @@ The rules for when to promote are in `work/feedback.md`.
 
 Owners are the people listed in `.github/CODEOWNERS`: product owners for `product/`, design owners for `design-system/`.
 
-For the first few months, only owners change those folders. Collect findings in the log and decide once a week until the output feels steady. Then let others open pull requests too; the UI text rules in `writing.md` are a good place to start.
+For the first few months, only owners change those folders. Collect findings in the log and sort them as features merge until the output feels steady. Then let others open pull requests too; the UI text rules in `writing.md` are a good place to start.
 
 Once there are two or more owners, turn on branch protection with "Require review from Code Owners". GitHub won't let you approve your own pull request, and some plans don't offer branch protection on private repos. Until then, wait a day, then reread the diff before merging your own pull request.
 

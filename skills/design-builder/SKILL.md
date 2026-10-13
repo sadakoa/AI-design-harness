@@ -10,7 +10,7 @@ Walk through what a designer does in their head — check the problem, ask, rese
 
 - **In:** a PRD (product requirements doc) or a request for one screen or a flow — a path, or pasted text — or feedback on an earlier proposal.
 - **Out:** `proposal.html`, three clickable mockups (in `options/`, or built with the product's own components), `review.md`, and new rows in the feedback log if anything came up.
-- **Asks:** up to five questions, one at a time. Questions already in the framing don't count.
+- **Asks:** up to five questions, one or two at a time. Questions already in the framing don't count.
 - **Works best with:** web access for research and a browser tool for checking the mockups. Neither is required.
 
 Use the PRD at the path you were given. If there isn't one, ask for a path or pasted text.
@@ -49,14 +49,14 @@ Never write to `product/` or `design-system/`.
 
 2. **Define the problem.** In one or two sentences, from the framing: whose job (U-xx, J-xx), on which screen or flow, gets better how.
 
-3. **Ask, one question at a time.** Only ask what would change the design, five questions at most. If nobody answers, write down your assumption and mark it "open (assumed)".
+3. **Ask, one or two questions at a time.** Only ask what would change the design, five questions at most. If nobody answers, write down your assumption and mark it "open (assumed)".
 
 4. **Research.** If `research/brief.md` exists, start from it and only add what the options need. Inside: the closest screens in `design-system/screens/` ("none" if it's empty). Outside: two to four products that solve the same job. Save screenshots in `research/` and write the source, what you noticed and what to borrow in `research/sources.md`. Copy why it works, not how it looks. Offline? Write what you know and mark the source "unverified".
 
 5. **Agree on a direction first** (large tasks only; the framing's Size line says). Put five to eight rough directions on one page, `options/rough.html`: grey boxes and real words, no styling beyond the tokens, each with a name, one line on the idea and what it bets on. Ask the person who asked which one to three to take forward. Agreeing on the direction is the point, so wait for an answer; if nobody answers, stop and hand back the page. Note the picked directions in the proposal's Axes section.
 
 6. **Explore.** Build about three options that differ in structure, not just in color — list-first or detail-first, batch or one at a time, show everything or reveal gradually. For a flow, they differ in how the screens split the job: separate pages, one page with a side panel, step by step.
-   - Build with what the team builds with. If the product has components you can use here (a component folder in `design-system/components/inventory.md` or `sync.json`, web components, or an app you can run with its dev server or Storybook), build the options with them: a sandbox page or stories on the feature branch that never ships, linked from the proposal. Say where they are.
+   - Build with what the team builds with. If the product has components you can use here (a component folder in `design-system/components/inventory.md` or `sync.json`, web components, or an app you can run with its dev server or Storybook), build the options with them, where the product's build already leaves them out: stories, or a route that only exists in development. One story or one URL per state stands in for `?state=`. Keep them on a `<slug>-sandbox` branch that never merges, save a screenshot of each option and state in `options/`, and link the branch from the proposal.
    - Otherwise, each option is one working HTML file in `options/`, loading tokens with `<link rel="stylesheet" href="../../../../design-system/tokens/tokens.css">`.
    - For a flow, the file holds every screen: `?screen=<name>` picks one, and the buttons and links move between them for real. Follow the Flows table in `patterns/GUIDE.md`, and start and end at the places the framing lists.
    - Use what `components/inventory.md` lists before inventing anything. Follow R-01 for values. If you need something the design system doesn't have, build it, tag the line with an FB ID and log it as `missing` or `deviation`. Gaps of the same kind share one row: several missing components are one row, not five.
@@ -81,16 +81,9 @@ When someone wants changes to a proposal you made:
 3. If they'd already picked an option, you don't need three new structures. Revise the picked one, and add up to two variants that answer the new concern. Say in the proposal which earlier option each comes from, so "B" never means two things.
 4. Open the proposal with "What changed since <old folder>", then follow steps 7 to 10.
 
-## Done when
+## Usually done when
 
-- [ ] The framing says go, or a person said to go ahead
-- [ ] For a large task, a person picked the directions from `options/rough.html`
-- [ ] The problem names the user and the job (U-xx, J-xx)
-- [ ] Research has sources, or says "unverified"
-- [ ] The options differ in structure, not just color (when revising: they answer the new concern)
-- [ ] The recommendation is tied to the job and a principle (for a screen unlike anything the product has, a comparison is enough)
-- [ ] The normal state and all four `?state=` views work; for a flow, every `?screen=` too
-- [ ] `npm run check` shows nothing for this feature
-- [ ] `review.md` exists and has no open must-fix items
-- [ ] Every rule you broke is tagged and logged
-- [ ] Nothing in `product/` or `design-system/` changed
+- The framing says go, or the person who asked said to go ahead (for a large task, they also picked the directions)
+- The recommendation names the job it serves, or says there's no job yet, and a principle
+- Every option works in its states (and for a flow, its screens), and the review has no open must-fix items
+- Nothing in `product/` or `design-system/` changed, and anything new is tagged and logged

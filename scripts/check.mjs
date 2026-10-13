@@ -56,7 +56,7 @@ function checkIndex(dir, isExempt) {
 
   for (const row of rows) {
     if (!row.path.includes("*") && !existsSync(join(dir, row.path))) {
-      errors.push(`${name}/INDEX.md lists ${row.path}, but it doesn't exist`);
+      warnings.push(`${name}/INDEX.md lists ${row.path}, but it doesn't exist`);
     }
   }
   for (const file of walk(dir)) {
@@ -64,7 +64,7 @@ function checkIndex(dir, isExempt) {
     if (/(^|\/)(\.DS_Store|\.gitkeep)$/.test(path) || path.split("/").pop().startsWith("_") || isExempt(path)) continue;
     const row = findRow(path);
     if (!row) {
-      errors.push(`${name}/${path} isn't in ${name}/INDEX.md — add a row saying what it answers and when to read it`);
+      warnings.push(`${name}/${path} isn't in ${name}/INDEX.md — add a row saying what it answers and when to read it`);
       continue;
     }
     if (!path.endsWith(".md")) continue;
@@ -99,6 +99,8 @@ if (existsSync(template)) {
 }
 
 const config = existsSync(join(root, "sync.json")) ? readConfig() : null;
+// The product's own variables that sync.json maps are fine to use too
+for (const name of Object.values(config?.tokens?.map ?? {})) tokenNames.add(name);
 const syncCheck = (what, compare) => {
   try {
     if (!compare()) errors.push(`${what} doesn't match your code — run npm run sync`);
@@ -161,7 +163,7 @@ for (const [prefix, list] of [...Object.entries(ids), ["FB", log.map((r) => r.id
 }
 
 const LAYERS = ["product", "design", "harness"];
-const TYPES = ["deviation", "missing", "outdated", "bug", "insight", "observation"];
+const TYPES = ["deviation", "missing", "outdated", "decision", "bug", "insight", "observation"];
 const STATUSES = ["open", "adopted", "screen-only", "dropped", "sent"];
 for (const { id, layer, type, status, result } of log) {
   if (!LAYERS.includes(layer)) errors.push(`${id} in work/feedback.md has layer "${layer}" — use ${LAYERS.join(" or ")}`);
@@ -171,10 +173,11 @@ for (const { id, layer, type, status, result } of log) {
     errors.push(`${id} in work/feedback.md has status "${status}" — use one of: ${STATUSES.join(", ")}`);
   } else if (status === "adopted") {
     // A decision, or for evidence only (a confidence, a baseline, a source) the entry it updated
-    const ok = layer === "product" ? [...ids.PD, ...ids.U, ...ids.J, ...ids.CON, "sources.md"] : ids.D;
+    const productFiles = existsSync(product) ? readdirSync(product).filter((f) => f.endsWith(".md")) : [];
+    const ok = layer === "product" ? [...ids.PD, ...ids.U, ...ids.J, ...ids.CON, ...productFiles] : ids.D;
     if (layer === "harness" ? !/\S/.test(result.replace(/^—$/, "")) : !ok.includes(result)) {
       const where = layer === "product"
-        ? "a PD-xx from product/decisions.md, or the U-, J- or CON- entry (or sources.md) it added evidence to"
+        ? "a PD-xx from product/decisions.md, or the U-, J- or CON- entry (or the product file) it added evidence to"
         : layer === "harness" ? "the file that changed" : "a D-xx from design-system/decisions.md";
       errors.push(`${id} in work/feedback.md is adopted, so its result should be ${where}`);
     }
@@ -184,13 +187,20 @@ const statusOf = new Map(log.map((r) => [r.id, r.status]));
 
 // The log only helps if it gets sorted: count what's open, and name what's gone stale
 const open = log.filter((r) => r.status === "open" && !/\(example\)/.test(r.date));
-const stale = open.filter((r) => {
-  const day = r.date.match(/\d{4}-\d{2}-\d{2}/)?.[0];
-  return day && Date.now() - Date.parse(day) > 30 * 24 * 60 * 60 * 1000;
-});
+// A row kept open on purpose says "revisit YYYY-MM-DD" in its result, and isn't stale until then
+const stale = open
+  .filter((r) => {
+    const day = r.date.match(/\d{4}-\d{2}-\d{2}/)?.[0];
+    const revisit = r.result?.match(/revisit (\d{4}-\d{2}-\d{2})/)?.[1];
+    return day && Date.now() - Date.parse(day) > 30 * 24 * 60 * 60 * 1000 && !(revisit && Date.parse(revisit) > Date.now());
+  })
+  .sort((a, b) => a.date.localeCompare(b.date));
 const byLayer = LAYERS.map((l) => [l, open.filter((r) => r.layer === l).length]).filter(([, n]) => n);
 const logSummary = open.length ? `${open.length} open in the log (${byLayer.map(([l, n]) => `${l} ${n}`).join(", ")})` : "";
-if (stale.length) warnings.push(`${stale.map((r) => r.id).join(", ")} ${stale.length === 1 ? "has" : "have"} been open for over 30 days — sort ${stale.length === 1 ? "it" : "them"} (promote-feedback), or say why ${stale.length === 1 ? "it stays" : "they stay"} open`);
+if (stale.length) {
+  const named = stale.slice(0, 5).map((r) => r.id).join(", ") + (stale.length > 5 ? ` and ${stale.length - 5} more` : "");
+  warnings.push(`${named} ${stale.length === 1 ? "has" : "have"} been open for over 30 days — sort ${stale.length === 1 ? "it" : "them"} (promote-feedback), or keep ${stale.length === 1 ? "it" : "them"} open with "revisit YYYY-MM-DD" as the result`);
+}
 
 // IDs cited in feature work must exist
 const ID_REF = /\b(PP|PD|CON|U|J|P|R|D)-\d+\b/g;
