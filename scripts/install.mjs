@@ -1,15 +1,19 @@
-// Sets the harness up in another repo, or updates it there. No dependencies.
+// Sets the harness up in another repo, adds to it, or updates it. No dependencies.
 //
-//   node path/to/AI-design-harness/scripts/install.mjs <your-repo> [--plugin] [--update] [--dry-run]
+//   node path/to/AI-design-harness/scripts/install.mjs <your-repo>                  set up, starting small
+//   node path/to/AI-design-harness/scripts/install.mjs <your-repo> --full           set up with every file
+//   node path/to/AI-design-harness/scripts/install.mjs <your-repo> --add <piece>…   add files when a task first needs them
+//   node path/to/AI-design-harness/scripts/install.mjs <your-repo> --update         refresh the harness's own files
 //
 //   --plugin   the skills come from the Claude Code plugin, so don't copy them
-//   --update   refresh the harness's own files; never touches product/, design-system/ or work/
+//   --dry-run  show what would happen
 //
 // Two kinds of files:
-// - Content (product/, design-system/, work/) is copied once and then belongs to your team.
-// - Harness files (scripts, AGENTS.md, the CI workflow, and the skills unless --plugin) are
-//   recorded in .harness.json, so --update can replace them. If you changed one, the new version
-//   is saved next to it as <file>.harness-new instead.
+// - Content (product/, design-system/, work/) is copied once and then belongs to your team. A first setup
+//   copies only what framing and review need; --add brings in the rest, a piece at a time.
+// - Harness files (scripts, AGENTS.md, the CI workflow, and the skills unless --plugin) are recorded in
+//   .harness.json, so --update can replace them. If you changed one, the new version is saved next to it
+//   as <file>.harness-new instead.
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, symlinkSync, writeFileSync } from "node:fs";
@@ -18,12 +22,31 @@ import { fileURLToPath } from "node:url";
 
 const harness = join(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
-const dryRun = args.includes("--dry-run");
-const update = args.includes("--update");
-const targetArg = args.find((a) => !a.startsWith("--"));
+const flag = (name) => args.includes(name);
+const dryRun = flag("--dry-run");
+const update = flag("--update");
+const addIndex = args.indexOf("--add");
+const pieces = addIndex >= 0 ? args.slice(addIndex + 1).filter((a) => !a.startsWith("--")).flatMap((a) => a.split(",")) : [];
+const targetArg = args.find((a, i) => !a.startsWith("--") && (addIndex < 0 || i < addIndex));
 
-if (!targetArg) {
-  console.log("Usage: node scripts/install.mjs <your-repo> [--plugin] [--update] [--dry-run]");
+// Content added when a task first needs it. A first setup without --full copies only the starter set.
+const PIECES = {
+  principles: ["product/principles.md"],
+  sources: ["product/sources.md"],
+  structure: ["product/concepts.md", "product/structure.md"],
+  components: ["design-system/components"],
+  patterns: ["design-system/patterns"],
+  screens: ["design-system/screens"],
+};
+const STARTER = [
+  "product/INDEX.md", "product/users.md", "product/jobs.md", "product/constraints.md", "product/decisions.md",
+  "design-system/INDEX.md", "design-system/tokens", "design-system/foundations", "design-system/decisions.md",
+  "work",
+];
+
+if (!targetArg || (addIndex >= 0 && !pieces.length)) {
+  console.log("Usage: node scripts/install.mjs <your-repo> [--full | --add <piece>… | --update] [--plugin] [--dry-run]");
+  console.log(`Pieces: ${Object.keys(PIECES).join(", ")}, all`);
   process.exit(1);
 }
 const target = resolve(targetArg);
@@ -38,16 +61,22 @@ if (target === resolve(harness)) {
 
 const manifestPath = join(target, ".harness.json");
 const manifest = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : null;
-if (update && !manifest) {
-  console.error("error  the harness isn't set up here yet (no .harness.json) — run without --update first");
+const setup = !update && addIndex < 0;
+if (!setup && !manifest) {
+  console.error("error  the harness isn't set up here yet (no .harness.json) — set it up first");
   process.exit(1);
 }
-if (!update && manifest) {
-  console.error("error  the harness is already set up here — run with --update to refresh it");
+if (setup && manifest) {
+  console.error("error  the harness is already set up here — use --update to refresh it, or --add to add a piece");
+  process.exit(1);
+}
+const unknown = pieces.filter((p) => p !== "all" && !PIECES[p]);
+if (unknown.length) {
+  console.error(`error  unknown piece: ${unknown.join(", ")} — use ${Object.keys(PIECES).join(", ")} or all`);
   process.exit(1);
 }
 
-const plugin = update ? manifest.mode === "plugin" : args.includes("--plugin");
+const plugin = setup ? flag("--plugin") : manifest.mode === "plugin";
 const pluginJson = join(harness, ".claude-plugin/plugin.json");
 const source = (existsSync(pluginJson) && JSON.parse(readFileSync(pluginJson, "utf8")).repository) || "https://github.com/sadakoa/AI-design-harness";
 let commit = "unknown";
@@ -68,26 +97,98 @@ const write = (path, content) => {
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, content);
 };
-const files = (dir) =>
-  readdirSync(dir).flatMap((name) => {
-    if (name === ".DS_Store") return [];
-    const path = join(dir, name);
-    return lstatSync(path).isDirectory() ? files(path) : [path];
-  });
-
-// --- Content: copied once, never overwritten ---
-if (!update) {
-  for (const dir of ["product", "design-system", "work"]) {
-    for (const from of files(join(harness, dir))) {
-      const to = join(target, relative(harness, from));
-      if (existsSync(to)) skipped.push(show(to));
-      else {
-        if (!dryRun) {
-          mkdirSync(dirname(to), { recursive: true });
-          copyFileSync(from, to);
-        }
-        created.push(show(to));
+const files = (path) =>
+  !existsSync(path)
+    ? []
+    : lstatSync(path).isDirectory()
+    ? readdirSync(path).flatMap((name) => (name === ".DS_Store" ? [] : files(join(path, name))))
+    : [path];
+const copyContent = (rel) => {
+  for (const from of files(join(harness, rel))) {
+    const to = join(target, relative(harness, from));
+    if (existsSync(to)) skipped.push(show(to));
+    else {
+      if (!dryRun) {
+        mkdirSync(dirname(to), { recursive: true });
+        copyFileSync(from, to);
       }
+      created.push(show(to));
+    }
+  }
+};
+
+// --- INDEX rows: an INDEX lists only the files that are there ---
+const ROW = /^\|\s*`([^`]+)`\s*\|/;
+const rowExists = (folder, path) => (path.includes("*") ? existsSync(join(target, folder, dirname(path))) : existsSync(join(target, folder, path)));
+// Drop rows for files that aren't there, and headings whose table ends up empty
+function trimIndex(folder) {
+  const indexPath = join(target, folder, "INDEX.md");
+  if (dryRun || !existsSync(indexPath)) return;
+  const lines = readFileSync(indexPath, "utf8").split("\n");
+  const kept = lines.filter((line) => !(ROW.test(line) && !rowExists(folder, line.match(ROW)[1])));
+  const out = [];
+  for (let i = 0; i < kept.length; i++) {
+    const isHeading = /^### /.test(kept[i]);
+    if (isHeading) {
+      let j = i + 1;
+      while (j < kept.length && kept[j].trim() === "") j++;
+      const header = /^\| File \|/.test(kept[j] ?? "") && /^\|---/.test(kept[j + 1] ?? "");
+      if (header && !ROW.test(kept[j + 2] ?? "")) {
+        i = j + 1; // skip the heading, the blank lines, the header and the separator
+        while (i + 1 < kept.length && kept[i + 1].trim() === "") i++;
+        continue;
+      }
+    }
+    out.push(kept[i]);
+  }
+  writeFileSync(indexPath, out.join("\n"));
+}
+// Put back the harness's row for a file that was just added, under the same heading
+function addIndexRows(folder, paths) {
+  const indexPath = join(target, folder, "INDEX.md");
+  if (dryRun || !existsSync(indexPath)) return;
+  const source = readFileSync(join(harness, folder, "INDEX.md"), "utf8").split("\n");
+  let lines = readFileSync(indexPath, "utf8").split("\n");
+  for (const path of paths) {
+    const at = source.findIndex((l) => ROW.test(l) && l.match(ROW)[1] === path);
+    if (at < 0 || lines.some((l) => ROW.test(l) && l.match(ROW)[1] === path)) continue;
+    let h = at;
+    while (h >= 0 && !/^### /.test(source[h])) h--;
+    const heading = h >= 0 ? source[h] : null;
+    const header = source.slice(0, at).reverse().find((l) => /^\| File \|/.test(l));
+    const sepLine = source[source.indexOf(header) + 1];
+    const mine = heading ? lines.indexOf(heading) : -1;
+    if (mine >= 0) {
+      let end = mine + 1;
+      while (end < lines.length && (lines[end].trim() === "" || /^\|/.test(lines[end]))) end++;
+      while (end > mine && lines[end - 1].trim() === "") end--;
+      lines.splice(end, 0, source[at]);
+    } else {
+      const before = lines.findIndex((l) => /^## When you write here/.test(l));
+      const block = [heading ?? "### More", "", header, sepLine, source[at], ""].filter((l, i) => heading || i > 0);
+      lines.splice(before >= 0 ? before : lines.length, 0, ...block);
+    }
+  }
+  writeFileSync(indexPath, lines.join("\n"));
+}
+
+// --- Content ---
+if (setup) {
+  for (const rel of flag("--full") ? ["product", "design-system", "work"] : STARTER) copyContent(rel);
+  if (!flag("--full")) {
+    trimIndex("product");
+    trimIndex("design-system");
+  }
+}
+if (pieces.length) {
+  const wanted = pieces.includes("all") ? Object.keys(PIECES) : pieces;
+  for (const piece of wanted) {
+    for (const rel of PIECES[piece]) copyContent(rel);
+    const rows = PIECES[piece].flatMap((rel) => files(join(harness, rel)).map((f) => relative(harness, f).split(sep).join("/")));
+    for (const folder of ["product", "design-system"]) {
+      const mine = rows.filter((r) => r.startsWith(`${folder}/`)).map((r) => r.slice(folder.length + 1));
+      const listed = mine.flatMap((r) => [r, r.replace(/[^/]+\.md$/, "*.md")]);
+      if (mine.length) addIndexRows(folder, [...new Set(listed)]);
     }
   }
 }
@@ -108,39 +209,42 @@ const harnessFiles = [
   ...(plugin ? [] : files(join(harness, "skills")).map((from) => [`.claude/skills/${relative(join(harness, "skills"), from).split(sep).join("/")}`, from])),
 ];
 
-const record = {};
-for (const [path, from] of harnessFiles) {
-  const to = join(target, path);
-  const next = readFileSync(from);
-  const nextHash = hash(next);
-  if (!existsSync(to)) {
-    write(to, next);
-    created.push(path);
-    record[path] = nextHash;
-    continue;
+const record = { ...(manifest?.files ?? {}) };
+if (setup || update) {
+  for (const key of Object.keys(record)) delete record[key];
+  for (const [path, from] of harnessFiles) {
+    const to = join(target, path);
+    const next = readFileSync(from);
+    const nextHash = hash(next);
+    if (!existsSync(to)) {
+      write(to, next);
+      created.push(path);
+      record[path] = nextHash;
+      continue;
+    }
+    const current = hash(readFileSync(to));
+    if (setup) {
+      skipped.push(path); // a file with this name was already here and isn't ours
+      continue;
+    }
+    if (current === nextHash) record[path] = nextHash;
+    else if (current === manifest.files?.[path]) {
+      write(to, next);
+      updated.push(path);
+      record[path] = nextHash;
+    } else {
+      write(`${to}.harness-new`, next);
+      kept.push(path);
+      record[path] = manifest.files?.[path] ?? current;
+    }
   }
-  const current = hash(readFileSync(to));
-  if (!update) {
-    skipped.push(path); // a file with this name was already here and isn't ours
-    continue;
+  for (const path of Object.keys(manifest?.files ?? {})) {
+    if (!(path in record)) notes.push(`${path} is no longer part of the harness. Delete it if you don't need it.`);
   }
-  if (current === nextHash) record[path] = nextHash;
-  else if (current === manifest.files?.[path]) {
-    write(to, next);
-    updated.push(path);
-    record[path] = nextHash;
-  } else {
-    write(`${to}.harness-new`, next);
-    kept.push(path);
-    record[path] = manifest.files?.[path] ?? current;
-  }
-}
-for (const path of Object.keys(manifest?.files ?? {})) {
-  if (!(path in record)) notes.push(`${path} is no longer part of the harness. Delete it if you don't need it.`);
 }
 
-// --- Set up once: skills for Codex, owners, CLAUDE.md, npm scripts ---
-if (!update) {
+// --- Set up once: skills for Codex, owners, CLAUDE.md ---
+if (setup) {
   if (agentsFile === "AGENTS.harness.md") notes.push("You already have an AGENTS.md, so the harness's instructions went into AGENTS.harness.md. For Codex, add a line to your AGENTS.md pointing to it.");
   if (scriptDir === "scripts/harness") notes.push("Your scripts/ folder already has a file with the same name, so the harness scripts went into scripts/harness/.");
 
@@ -186,7 +290,7 @@ if (!update) {
   }
 }
 
-// npm scripts, on setup and on update in case they went missing
+// --- npm scripts, in case they went missing ---
 const scripts = { check: `node ${scriptDir}/check.mjs`, tokens: `node ${scriptDir}/build-tokens.mjs`, sync: `node ${scriptDir}/sync.mjs` };
 const pkgPath = join(target, "package.json");
 if (!existsSync(pkgPath)) {
@@ -210,18 +314,25 @@ if (!existsSync(pkgPath)) {
   }
 }
 
-write(manifestPath, JSON.stringify({ source, commit, mode: plugin ? "plugin" : "copy", updated: new Date().toISOString().slice(0, 10), scriptDir, agentsFile, workflowFile, files: record }, null, 2) + "\n");
+const profile = setup ? (flag("--full") ? "full" : "starter") : manifest.profile ?? "full";
+const added = [...new Set([...(manifest?.added ?? []), ...(pieces.includes("all") ? Object.keys(PIECES) : pieces)])];
+write(manifestPath, JSON.stringify({ source, commit, mode: plugin ? "plugin" : "copy", profile, added, updated: new Date().toISOString().slice(0, 10), scriptDir, agentsFile, workflowFile, files: record }, null, 2) + "\n");
 
 // --- Report ---
 const list = (title, items) => items.length && console.log(`\n${title} (${items.length})\n${items.map((i) => `  ${i}`).join("\n")}`);
-console.log(dryRun ? "Dry run — nothing was written." : `${update ? "Updated" : "Set up"} the harness in ${target} (harness ${commit}${plugin ? ", skills from the plugin" : ""})`);
+const did = setup ? `Set up (${profile})` : update ? "Updated" : `Added ${pieces.join(", ")} to`;
+console.log(dryRun ? "Dry run — nothing was written." : `${did} the harness in ${target} (harness ${commit}${plugin ? ", skills from the plugin" : ""})`);
 list("Added", created);
 list("Updated", updated);
 list("You changed these, so the new version is next to them as .harness-new", kept);
 list("Changed", changed);
 list("Skipped because they already exist", skipped);
 for (const n of notes) console.log(`\nNote: ${n}`);
-if (!update) {
+if (setup && profile === "starter") {
+  const rest = Object.keys(PIECES).join(", ");
+  console.log(`\nStarted small: the files framing and review need. The agent adds the rest when a task first needs them (${rest}).`);
+}
+if (setup) {
   console.log(`
 Next:
   1. ${plugin ? "Ask the agent to set the harness up for this repo." : "Open this repo in Claude Code and ask it to set the harness up (restart the session first if the skills aren't listed)."}

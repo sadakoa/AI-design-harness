@@ -28,7 +28,7 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
    - Concepts: which ones it touches. A new name for something already in `concepts.md` only needs logging. A new concept — something the product doesn't have yet, or a new value for one it has, like a fourth priority — affects the verdict.
    - Places in `structure.md` it changes, and any it adds. New places go in the framing, not the log.
    - Constraints (CON-xx) it touches.
-   - Decisions (PD-xx) it supports or goes against, and any whose Why the PRD's premise changes (say, a decision made for small teams when the PRD plans for large ones).
+   - Decisions (PD-xx) it supports or goes against, and any whose Why the PRD's premise changes (say, a decision made for small teams when the PRD plans for large ones). If you find one that was clearly made but never written down, log it as a decision to confirm. Until an owner confirms it, it can make the verdict decide first, not stop.
    - Principles (PP-xx) that pull for or against it.
 
 4. **Decide the scope.** `screen` (one screen), `flow` (several screens doing one job together), `words` (only text on screen changes) or `look` (how the whole product looks: colors, type, a theme). For a flow, list the screens, whether each is approved in `design-system/screens/`, whether it's live in the product today, and how someone moves between them. `structure.md` says which places exist and how they connect.

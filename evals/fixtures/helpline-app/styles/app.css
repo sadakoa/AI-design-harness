@@ -1,0 +1,6 @@
+body { margin: 0; font-family: var(--hl-font); color: var(--hl-text); background: var(--hl-surface-subtle); }
+header { display: flex; align-items: center; gap: var(--hl-space-4); padding: var(--hl-space-3) var(--hl-space-6); background: var(--hl-surface); border-bottom: 1px solid var(--hl-border); }
+main { padding: var(--hl-space-6); }
+table { width: 100%; border-collapse: collapse; background: var(--hl-surface); border: 1px solid var(--hl-border); border-radius: var(--hl-radius); }
+th, td { text-align: left; padding: var(--hl-space-2) var(--hl-space-3); border-bottom: 1px solid var(--hl-border); }
+th { color: var(--hl-text-muted); font-weight: 500; }

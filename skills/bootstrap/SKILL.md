@@ -20,7 +20,7 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
 
 The harness's own files come from the harness: the plugin, or a copy of the repo. When this skill runs from the plugin, its base directory is `<harness>/skills/bootstrap`, so the harness is two folders up. Otherwise, clone the `source` in `.harness.json` to a temporary folder and use that.
 
-- **Not set up yet** (no `.harness.json` in this repo): make a new branch, then run `node <harness>/scripts/install.mjs . --plugin` (leave out `--plugin` if the skills don't come from a plugin). Then follow the steps below.
+- **Not set up yet** (no `.harness.json` in this repo): make a new branch, then run `node <harness>/scripts/install.mjs . --plugin` (leave out `--plugin` if the skills don't come from a plugin). It starts small, with the files framing and review need; the rest gets added when a task first needs it. Add `--full` only if they ask for everything up front. Then follow the steps below for the files that are there.
 - **Asked to update the harness:** on a new branch, run `node <harness>/scripts/install.mjs . --update`. Tell the person in plain words what changed. List any file saved as `.harness-new`: the team had edited those, so they compare and merge them by hand. `product/`, `design-system/` and `work/` are never touched. Stop there; the steps below are for a first setup.
 
 ## Steps
@@ -34,7 +34,7 @@ The harness's own files come from the harness: the plugin, or a copy of the repo
    - **Principles and rules:** draft only what the code or docs clearly show. Leave the rest as `(example)`.
    - **No design system at all?** That's fine. The colors, type and words the product already uses are enough to start.
 
-3. **Product.** Draft users, jobs, concepts and constraints from the README, docs and the product itself. Mark each `hypothesis` unless a document states it, and cite the source. Leave decisions empty unless they're written down somewhere.
+3. **Product.** Draft users, jobs, concepts and constraints from the README, docs and the product itself. Mark each `hypothesis` unless a document states it, and cite the source. For decisions, look in the docs, PR descriptions and commit messages for things that were settled ("we won't…", "dropped X because…"). Add each with its source in Why and "to confirm" as its Owner, so an owner can confirm or delete it.
    - **Sources:** list every doc you drew from, and any strategy docs, research or PRDs the README or the person points to, in `product/sources.md`. Link them; don't copy them.
    - **Structure:** draft `structure.md` from the main pages or routes and the links between them.
 

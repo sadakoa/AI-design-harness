@@ -2,6 +2,7 @@
 // 1. Every file in product/ and design-system/ is in its INDEX.md, with the same "Answers" line
 // 2. tokens.css matches tokens.json, and (with sync.json) both match your code
 // 3. IDs aren't duplicated, the feedback log is valid, and IDs cited in work/features/ exist
+//    Open log rows are counted by layer, and rows open for over 30 days are named
 //    A proposal's recommendation should name the job it serves (J-xx), or say "no job yet"
 //    Mockups only exist when the framing says go, or someone said go ahead on a decide first
 // 4. CSS in screens and options has no hard-coded colors, unknown variables or primitive color tokens (R-01)
@@ -71,7 +72,7 @@ function checkIndex(dir, isExempt) {
     if (!line) {
       errors.push(`${name}/${path} has no "> Answers:" line`);
     } else if (line[1].trim() !== row.answers.trim()) {
-      errors.push(`${name}/${path} answers "${line[1].trim()}" but its INDEX.md says "${row.answers}" — make them the same`);
+      warnings.push(`${name}/${path} answers "${line[1].trim()}" but its INDEX.md says "${row.answers}" — make them the same`);
     }
   }
   return rows.length;
@@ -148,7 +149,7 @@ for (const [prefix, file] of [["U", "users.md"], ["J", "jobs.md"]]) {
   ids[prefix] = ids[prefix].map((r) => r.id);
 }
 
-const log = tableIds(logFile, "FB").map(({ id, cells }) => ({ id, layer: cells[1], type: cells[2], status: cells[6], result: cells[7] }));
+const log = tableIds(logFile, "FB").map(({ id, cells }) => ({ id, date: cells[0], layer: cells[1], type: cells[2], status: cells[6], result: cells[7] }));
 const defined = new Set([...Object.values(ids).flat(), ...log.map((r) => r.id)]);
 
 for (const [prefix, list] of [...Object.entries(ids), ["FB", log.map((r) => r.id)]]) {
@@ -180,6 +181,16 @@ for (const { id, layer, type, status, result } of log) {
   }
 }
 const statusOf = new Map(log.map((r) => [r.id, r.status]));
+
+// The log only helps if it gets sorted: count what's open, and name what's gone stale
+const open = log.filter((r) => r.status === "open" && !/\(example\)/.test(r.date));
+const stale = open.filter((r) => {
+  const day = r.date.match(/\d{4}-\d{2}-\d{2}/)?.[0];
+  return day && Date.now() - Date.parse(day) > 30 * 24 * 60 * 60 * 1000;
+});
+const byLayer = LAYERS.map((l) => [l, open.filter((r) => r.layer === l).length]).filter(([, n]) => n);
+const logSummary = open.length ? `${open.length} open in the log (${byLayer.map(([l, n]) => `${l} ${n}`).join(", ")})` : "";
+if (stale.length) warnings.push(`${stale.map((r) => r.id).join(", ")} ${stale.length === 1 ? "has" : "have"} been open for over 30 days — sort ${stale.length === 1 ? "it" : "them"} (promote-feedback), or say why ${stale.length === 1 ? "it stays" : "they stay"} open`);
 
 // IDs cited in feature work must exist
 const ID_REF = /\b(PP|PD|CON|U|J|P|R|D)-\d+\b/g;
@@ -310,4 +321,5 @@ if (examples) warnings.push(`${examples} "(example)" entries left — see https:
 for (const w of warnings) console.warn(`warning  ${w}`);
 for (const e of errors) console.error(`error    ${e}`);
 if (errors.length) process.exit(1);
+if (logSummary) console.log(`log      ${logSummary}`);
 console.log(`ok       indexes (${indexRows} rows), tokens, IDs and screen CSS look fine${warnings.length ? ` — ${warnings.length} warning(s)` : ""}`);

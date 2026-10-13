@@ -32,7 +32,7 @@ With no PRD, a task is at least medium.
 
 2. **Look in this repo.** The Frame column of `product/INDEX.md`; earlier features in `work/features/` that touch the same places or concepts; rows in `work/feedback.md` about them; `design-system/screens/`.
 
-3. **Look in the team's tools.** Use whatever is connected: a wiki or Notion, Google Drive, Slack, the support tool, analytics. Start from the places in `product/sources.md`, then search for the topic, its synonyms, and the places and concepts it touches. Look for earlier PRDs and decisions, discussions, support tickets and numbers. If nothing is connected, say so and ask for the two or three docs that matter most.
+3. **Look in the team's tools.** Use whatever is connected: a wiki or Notion, Google Drive, Slack, the support tool, analytics. Start from the places in `product/sources.md`, then search for the topic, its synonyms, and the places and concepts it touches. Look for earlier PRDs and decisions, discussions, support tickets and numbers. A decision that was clearly made but never written into `product/decisions.md` (a thread that settled something, a PRD's "we won't…") gets logged as a decision to confirm, with its source. If nothing is connected, say so and ask for the two or three docs that matter most.
 
 4. **Look outside** (large only). Two to four products that solve the same job, common patterns, platform guidelines. Save screenshots in `research/` and note the source, what you noticed and what to borrow in `research/sources.md`, so `design-builder` doesn't do it again.
 

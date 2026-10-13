@@ -3,10 +3,12 @@
 //   node evals/prepare.mjs [--ref <commit>] [--out <folder>] [E01 E02 …]
 //   node evals/prepare.mjs --clean <folder>
 //
-// Each copy is a git worktree of --ref (default HEAD) without examples/ or evals/, so the agent
-// can't read the rubric. Inputs and fixtures come from this checkout.
+// Most scenarios run in a git worktree of --ref (default HEAD) without examples/ or evals/, so the agent
+// can't read the rubric. Scenarios with a "repo" run in a product repo made from a fixture instead, with
+// its own git history, next to a worktree of the harness to install from. Inputs and fixtures come from
+// this checkout.
 import { execFileSync } from "node:child_process";
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -24,7 +26,7 @@ if (args.includes("--clean")) {
   }
   for (const name of readdirSync(out)) {
     const dir = join(out, name);
-    if (existsSync(join(dir, ".git"))) git("worktree", "remove", "--force", dir);
+    if (existsSync(join(dir, ".git")) && lstatSync(join(dir, ".git")).isFile()) git("worktree", "remove", "--force", dir);
   }
   git("worktree", "prune");
   rmSync(out, { recursive: true, force: true });
@@ -52,16 +54,38 @@ for (const s of chosen) {
     console.error(`${dir} already exists — use another --out, or --clean it first`);
     process.exit(1);
   }
-  git("worktree", "add", "--detach", dir, commit);
+  let harnessDir = "";
+  if (s.repo) {
+    // A product repo with its own history, and a copy of the harness next to it to install from
+    harnessDir = join(out, `${s.id}-harness`);
+    git("worktree", "add", "--detach", harnessDir, commit);
+    cpSync(join(root, s.repo.from), dir, { recursive: true });
+    const inRepo = (...a) => execFileSync("git", ["-C", dir, "-c", "user.name=Helpline team", "-c", "user.email=team@example.com", ...a], { stdio: "ignore" });
+    inRepo("init", "-q", "-b", "main");
+    inRepo("add", "-A");
+    inRepo("commit", "-q", "-m", s.repo.commits[0]);
+    for (const message of s.repo.commits.slice(1)) inRepo("commit", "-q", "--allow-empty", "-m", message);
+    if (s.repo.install) {
+      execFileSync("node", [join(harnessDir, "scripts/install.mjs"), dir, ...s.repo.install], { stdio: "ignore" });
+      inRepo("add", "-A");
+      inRepo("commit", "-q", "-m", "Set up the design harness");
+    }
+  } else {
+    git("worktree", "add", "--detach", dir, commit);
+    rmSync(join(dir, "examples"), { recursive: true, force: true });
+    rmSync(join(dir, "evals"), { recursive: true, force: true });
+  }
   for (const [to, from] of Object.entries(s.fixtures ?? {})) cpSync(join(root, from), join(dir, to), { recursive: true });
   for (const [to, from] of Object.entries(s.inputs ?? {})) {
     mkdirSync(dirname(join(dir, to)), { recursive: true });
     cpSync(join(root, from), join(dir, to));
   }
-  rmSync(join(dir, "examples"), { recursive: true, force: true });
-  rmSync(join(dir, "evals"), { recursive: true, force: true });
+  const setting = s.repo
+    ? `This is the repo of Helpline, a made-up help desk. You can use git here (branches, history), but don't push. The harness itself is at ${harnessDir}; there's no plugin in this run, so read and install from there, and leave that folder unchanged. If the harness is set up here already, its example content describes this same product; treat it as real.`
+    : "Don't use git in it. `product/` and `design-system/` hold example content for a made-up help desk called Helpline; treat it as the real product.";
   const prompt = template
     .replaceAll("{{workspace}}", dir)
+    .replaceAll("{{setting}}", setting)
     .replaceAll("{{who}}", s.who)
     .replaceAll("{{request}}", s.request)
     .replaceAll("{{answers}}", s.answers);

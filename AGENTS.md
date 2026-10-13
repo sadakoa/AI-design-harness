@@ -37,7 +37,7 @@ People won't name a skill or a file. They'll say what they want, in their own wo
 
 These always hold.
 
-- Change `product/` and `design-system/` only on a new branch, as a pull request an owner merges: `bootstrap`'s drafts, the changes `promote-feedback` got a yes for, and an approved screen going into `design-system/screens/`. Everything else you make goes in `work/`. Owners are listed in `.github/CODEOWNERS`.
+- Change `product/` and `design-system/` only on a new branch, as a pull request an owner merges: `bootstrap`'s drafts, the changes `promote-feedback` got a yes for, and an approved screen going into `design-system/screens/`. Everything else you make goes in `work/`, except options built with the product's own components, which go in a sandbox page or stories on the feature branch and never ship. Owners are listed in `.github/CODEOWNERS`.
 - `design-system/tokens/tokens.json` is the only source for values. If anything disagrees with it, trust the tokens and log the mismatch. Tokens and components that `sync.json` maps come from the product's code: change them there and run `npm run sync`.
 - Don't add components, colors or words to the design system yourself. If you need something that isn't there, build it in `work/`, tag the line with a feedback ID and log it.
 - Say where every claim comes from. Entries marked `hypothesis` or `open` aren't facts, and neither are your guesses: say which is which, and what you couldn't check or open.
@@ -49,9 +49,13 @@ These always hold.
 
 The skills describe the usual path: look into bigger requests first, frame before designing, explore a few options, keep replies short. Their numbers, like three options, five questions or about 90 words, are starting points. When a request calls for something else, do that instead and say why in one line. Don't make people learn the harness: never ask them to run a skill, open a file or look up an ID.
 
+A repo may have started small (`.harness.json` says `"profile": "starter"`), with only what framing and review need. When a task needs a file that isn't there yet, add it: `node <harness>/scripts/install.mjs . --add <piece>`, where the harness is two folders above any skill's folder and the pieces are principles, sources, structure, components, patterns and screens. Say so in one line.
+
 ## Notice things
 
-When you learn something nobody asked about, in the product, the design system or the harness itself, say so in one line and log it where it belongs. A pattern across requests, a decision whose reason no longer holds, a step that didn't help: that's how the harness and the product get better.
+When you learn something nobody asked about, in the product, the design system or the harness itself, say so in one line and log it where it belongs. A pattern across requests, a decision that was made but never written down, a decision whose reason no longer holds, a step that didn't help: that's how the harness and the product get better.
+
+The log only helps if it gets sorted. When `npm run check` names rows that have been open for over 30 days, say so in one line when you start work, and offer to sort them.
 
 ## Skills
 

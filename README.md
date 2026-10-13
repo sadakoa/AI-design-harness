@@ -43,13 +43,15 @@ Start with one product and one screen. You set it up once; after that, you just 
    /plugin install design-harness@ai-design-harness
    ```
 
-2. **In your product's repo, ask it to set the design harness up.** It makes a branch, adds `product/`, `design-system/` and `work/` with a few small scripts, and drafts them from your code and docs. It never overwrites anything. What it drafts depends on what you have:
+2. **In your product's repo, ask it to set the design harness up.** It makes a branch and starts small: four product files (users, jobs, constraints, decisions), your tokens, rules and words, the feedback log, and a few small scripts. The rest gets added when a task first needs it. It drafts them from your code, docs and commit history, and never overwrites anything. What it drafts depends on what you have:
    - **You have a design system or a component library.** It points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
    - **You don't.** It drafts a starting point from the colors, type and words your product already uses. You need less than you'd think.
 3. **Check the drafts and merge.** Read `work/bootstrap-report.md`, fix the users, jobs and decisions in `product/` where they're wrong, and merge the branch.
 4. **Connect your team's tools** to Claude Code, like Notion, Slack or Google Drive, so the agent can look things up itself. List where things live in `product/sources.md`.
 
-After that, for each feature: ask the agent to make a branch, say what you want in your own words, and ask for a pull request when you're happy. The proposal and its notes live in `work/`. Merge them too, so the next round can see what's already in flight. Engineers build from the proposal's spec as usual; the harness doesn't write production code.
+Expect the first framings to say go or decide first: a stop needs a decision someone wrote down. Each framing and each look into your tools logs the decisions it finds that nobody wrote down, so the record fills in as you use it.
+
+After that, for each feature: ask the agent to make a branch, say what you want in your own words, and ask for a pull request when you're happy. The proposal and its notes live in `work/`. Merge them too, so the next round can see what's already in flight. Engineers build from the proposal's spec as usual; the harness doesn't write production code. If your product has its own components, the options are built with them; if your team designs in Figma or straight in code, skip the design step, and framing and review still work.
 
 **Keeping it up to date.** Turn on auto-update for the marketplace in `/plugin`, or run `/plugin update design-harness@ai-design-harness`. Then ask the agent to update the harness in your repo, which refreshes the few files copied into it: the scripts, `AGENTS.md` and the CI check. `product/`, `design-system/` and `work/` are never touched, and if your team edited one of the copied files, the new version lands next to it as `.harness-new`.
 
@@ -76,7 +78,7 @@ You don't need to remember any commands. Tell the agent what you want in your ow
 | A word on screen should change | Logs it for your word list | A row for the owners' weekly sort |
 | Research, data, something from real use | Logs it with its source | Observations for the owners' weekly sort |
 | "This design is approved" | Prepares it for `design-system/screens/` | A pull request for an owner |
-| Once a week (owners) | Sorts the log (`/promote-feedback`) | Pull requests against `product/` or `design-system/` |
+| A feature's pull request merges, and once a week (owners) | Sorts the log (`/promote-feedback`), oldest first | Pull requests against `product/` or `design-system/` |
 
 `npm run check` runs on every pull request and catches broken links between all of these. Run `npm run check -- path/to/page.html` to check a page built some other way.
 
@@ -105,7 +107,7 @@ IDs you'll see: `U-` user, `J-` job, `PP-` product principle, `PD-` product deci
 
 ## Working on the harness
 
-Changed a skill or a template? Ask the agent in this repo to run the evals: sixteen requests, from a designer's PRD to a one-line ask from Sales, each handled by a fresh agent and graded on the outcome. See [evals/README.md](evals/README.md).
+Changed a skill or a template? Ask the agent in this repo to run the evals: eighteen requests, from a designer's PRD to a one-line ask from Sales, each handled by a fresh agent and graded on the outcome. See [evals/README.md](evals/README.md).
 
 ## Not for
 

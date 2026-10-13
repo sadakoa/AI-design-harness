@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Inbox · Helpline</title>
+<link rel="stylesheet" href="../styles/tokens.css">
+<link rel="stylesheet" href="../styles/app.css">
+<script src="../components/hl-button.js" defer></script>
+<script src="../components/hl-badge.js" defer></script>
+</head>
+<body>
+<header><strong>Helpline</strong><span>Inbox</span></header>
+<main>
+  <p><hl-button variant="primary">Assign</hl-button> <hl-button>Close</hl-button></p>
+  <table>
+    <tr><th></th><th>Request</th><th>Priority</th><th>Status</th><th>Assignee</th><th>Received</th></tr>
+    <tr><td><input type="checkbox" aria-label="Select request 1052"></td><td>Idea: dark mode for the mobile app</td><td><hl-badge tone="low">Low</hl-badge></td><td>New</td><td>Unassigned</td><td>Oct 7, 11:04 AM</td></tr>
+    <tr><td><input type="checkbox" aria-label="Select request 1051"></td><td>Warehouse team locked out after password reset</td><td><hl-badge tone="high">High</hl-badge></td><td>New</td><td>Unassigned</td><td>Oct 7, 10:52 AM</td></tr>
+    <tr><td><input type="checkbox" aria-label="Select request 1048"></td><td>Charged twice for the October invoice</td><td><hl-badge tone="high">High</hl-badge></td><td>New</td><td>Unassigned</td><td>Oct 7, 9:18 AM</td></tr>
+  </table>
+</main>
+</body>
+</html>

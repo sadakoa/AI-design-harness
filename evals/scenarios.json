@@ -7,7 +7,9 @@
       "kind": "new screen, PRD",
       "request": "Here's a PRD for a new screen: work/prd/customer-history.md. Can you take it from here?",
       "answers": "If you ask whether to go ahead on your assumptions, the answer is yes. Nobody answers anything else.",
-      "inputs": { "work/prd/customer-history.md": "evals/inputs/customer-history.md" }
+      "inputs": {
+        "work/prd/customer-history.md": "evals/inputs/customer-history.md"
+      }
     },
     {
       "id": "E02",
@@ -15,7 +17,10 @@
       "kind": "fix to an existing screen",
       "request": "Agents are closing requests by mistake on the inbox. The brief is in work/prd/close-by-mistake.md and the current screen is work/prd/current-inbox.html. Can you sort it out?",
       "answers": "If you ask whether to go ahead on your assumptions, the answer is yes. Nobody answers anything else.",
-      "inputs": { "work/prd/close-by-mistake.md": "evals/inputs/close-by-mistake.md", "work/prd/current-inbox.html": "evals/inputs/current-inbox.html" }
+      "inputs": {
+        "work/prd/close-by-mistake.md": "evals/inputs/close-by-mistake.md",
+        "work/prd/current-inbox.html": "evals/inputs/current-inbox.html"
+      }
     },
     {
       "id": "E03",
@@ -47,7 +52,9 @@
       "kind": "flow across screens, PRD",
       "request": "Here's the hand-off PRD: work/prd/hand-off.md. It's a flow across a few screens. Can you design it?",
       "answers": "If you ask whether to go ahead on your assumptions, the answer is yes. Nobody answers anything else.",
-      "inputs": { "work/prd/hand-off.md": "evals/inputs/hand-off.md" }
+      "inputs": {
+        "work/prd/hand-off.md": "evals/inputs/hand-off.md"
+      }
     },
     {
       "id": "E07",
@@ -55,7 +62,9 @@
       "kind": "new feature, PRD in Japanese",
       "request": "work/prd/away-status.md の PRD、デザインに進めますか？",
       "answers": "Nobody answers questions.",
-      "inputs": { "work/prd/away-status.md": "evals/inputs/away-status.md" }
+      "inputs": {
+        "work/prd/away-status.md": "evals/inputs/away-status.md"
+      }
     },
     {
       "id": "E08",
@@ -63,7 +72,9 @@
       "kind": "research findings to bring in",
       "request": "Here are my notes from six team lead interviews: work/notes/interview-notes.md. Can you get this into the product context?",
       "answers": "Nobody answers questions.",
-      "inputs": { "work/notes/interview-notes.md": "evals/inputs/interview-notes.md" }
+      "inputs": {
+        "work/notes/interview-notes.md": "evals/inputs/interview-notes.md"
+      }
     },
     {
       "id": "E09",
@@ -71,7 +82,9 @@
       "kind": "review of a page built without a design",
       "request": "I built the notification settings page without a design: work/prd/notification-settings.html. Can you check it before I ship it on Friday?",
       "answers": "Nobody answers questions.",
-      "inputs": { "work/prd/notification-settings.html": "evals/inputs/notification-settings.html" }
+      "inputs": {
+        "work/prd/notification-settings.html": "evals/inputs/notification-settings.html"
+      }
     },
     {
       "id": "E10",
@@ -87,8 +100,12 @@
       "kind": "revising a proposal",
       "request": "I like option A in work/features/20261008-support-inbox/proposal.html. But team leads say the High group gets so long on Monday mornings that medium requests drop off the screen and wait all day. Can you adjust it?",
       "answers": "If you ask whether to go ahead, the answer is yes. Nobody answers anything else.",
-      "fixtures": { "work/features/20261008-support-inbox": "examples/support-inbox" },
-      "inputs": { "work/features/20261008-support-inbox/_inputs/support-inbox.md": "examples/prd/support-inbox.md" }
+      "fixtures": {
+        "work/features/20261008-support-inbox": "examples/support-inbox"
+      },
+      "inputs": {
+        "work/features/20261008-support-inbox/_inputs/support-inbox.md": "examples/prd/support-inbox.md"
+      }
     },
     {
       "id": "E12",
@@ -96,8 +113,12 @@
       "kind": "moving an approved design into the design system",
       "request": "I've approved option A of the support inbox proposal in work/features/20261008-support-inbox/. Can you get it into the design system?",
       "answers": "Nobody answers questions.",
-      "fixtures": { "work/features/20261008-support-inbox": "examples/support-inbox" },
-      "inputs": { "work/features/20261008-support-inbox/_inputs/support-inbox.md": "examples/prd/support-inbox.md" }
+      "fixtures": {
+        "work/features/20261008-support-inbox": "examples/support-inbox"
+      },
+      "inputs": {
+        "work/features/20261008-support-inbox/_inputs/support-inbox.md": "examples/prd/support-inbox.md"
+      }
     },
     {
       "id": "E13",
@@ -121,7 +142,10 @@
       "kind": "framing, then sorting the feedback log",
       "request": "Frame work/prd/rebalance.md. Then log the seven items in work/notes/feedback-items.md (items 4 and 5 came from design reviews, the rest from real use) and go through the feedback log with me.",
       "answers": "Nobody answers questions.",
-      "inputs": { "work/prd/rebalance.md": "evals/inputs/rebalance.md", "work/notes/feedback-items.md": "evals/inputs/feedback-items.md" }
+      "inputs": {
+        "work/prd/rebalance.md": "evals/inputs/rebalance.md",
+        "work/notes/feedback-items.md": "evals/inputs/feedback-items.md"
+      }
     },
     {
       "id": "E16",
@@ -129,6 +153,43 @@
       "kind": "large problem, no PRD",
       "request": "Team leads keep finding out that one agent is overloaded only when customers complain. Can you look into it and tell me what we know? There's no PRD yet.",
       "answers": "Nobody answers questions. No team tools (wiki, chat, tickets) are connected in this run.",
+      "inputs": {}
+    },
+    {
+      "id": "E17",
+      "who": "engineering lead",
+      "kind": "setting the harness up in a product repo",
+      "request": "Can you set the design harness up for this repo?",
+      "answers": "Nobody answers questions.",
+      "repo": {
+        "from": "evals/fixtures/helpline-app",
+        "commits": [
+          "Start the Helpline web app: inbox and request pages, tokens, three components",
+          "Priority is set by agents, not automatically: auto-priority was wrong too often in the pilot (#12)",
+          "Drop the customer portal spike: customers never log in, it would be a second product to support (#15)",
+          "Inbox shows newest first for now; sorting by priority comes later (#18)",
+          "Badges always show their text, never color alone (#21)"
+        ]
+      },
+      "inputs": {}
+    },
+    {
+      "id": "E18",
+      "who": "designer",
+      "kind": "design with the product's own components",
+      "request": "Agents keep typing the same answers. Can you design a Saved replies page where they keep answers they can drop into a reply? Use what we already have.",
+      "answers": "If you ask whether to go ahead on your assumptions, the answer is yes. Nobody answers anything else.",
+      "repo": {
+        "from": "evals/fixtures/helpline-app",
+        "commits": [
+          "Start the Helpline web app: inbox and request pages, tokens, three components",
+          "Priority is set by agents, not automatically: auto-priority was wrong too often in the pilot (#12)",
+          "Drop the customer portal spike: customers never log in, it would be a second product to support (#15)",
+          "Inbox shows newest first for now; sorting by priority comes later (#18)",
+          "Badges always show their text, never color alone (#21)"
+        ],
+        "install": []
+      },
       "inputs": {}
     }
   ]

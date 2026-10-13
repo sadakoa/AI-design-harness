@@ -9,6 +9,7 @@ They check outcomes, not whether the agent followed every step. A good run helps
 | `scenarios.json` | The requests, who makes them, their input files, and how questions get answered |
 | `rubric.md` | What a good outcome looks like, for every scenario and for each one |
 | `inputs/` | PRDs, notes and pages the scenarios use |
+| `fixtures/` | A small product repo (Helpline's own app, with its components and history) for setting up and designing in a real codebase |
 | `prompt.md` | What each agent is told |
 | `grade.md` | What each grader is told |
 | `prepare.mjs` | Makes the copies and the prompts |
@@ -18,13 +19,13 @@ They check outcomes, not whether the agent followed every step. A good run helps
 
 Ask the agent in this repo to run the evals (all of them, or the ones a change touches). It should:
 
-1. Run `node evals/prepare.mjs` with the scenario IDs, or none for all of them. Add `--ref <commit>` to test an older version. It makes one git worktree per scenario in a temporary folder, adds the inputs, removes `examples/` and `evals/` from the copies so the agents can't see the rubric, and writes `<id>.prompt.md` for each.
+1. Run `node evals/prepare.mjs` with the scenario IDs, or none for all of them. Add `--ref <commit>` to test an older version. It makes one git worktree per scenario in a temporary folder, adds the inputs, removes `examples/` and `evals/` from the copies so the agents can't see the rubric, and writes `<id>.prompt.md` for each. Scenarios with a `repo` get a product repo built from a fixture, with its own commit history, next to a copy of the harness to install from.
 2. Start one agent per scenario with its prompt, all at once. Don't tell them they're being tested.
 3. When they're done, grade each run with `grade.md` against `rubric.md`, one grader per run or a few runs per grader.
 4. Write `results/<yyyymmdd>-<commit>.md`: per scenario, the marks, what the agent noticed, and the harness problems; then what changed since the last results file.
 5. Run `node evals/prepare.mjs --clean <folder>` to remove the copies.
 
-All sixteen take a while: scenarios with design work run 15 to 25 minutes each, in parallel. Run the ones a change touches as you go, and all of them now and then.
+All eighteen take a while: scenarios with design work run 15 to 25 minutes each, in parallel. Run the ones a change touches as you go, and all of them now and then.
 
 ## Adding a scenario
 

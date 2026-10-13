@@ -7,6 +7,8 @@ description: Sort the feedback log and draft changes to product/ or the design s
 
 Turn what reviews and real use taught us into changes to `product/` or `design-system/`. You propose; an owner of that folder (listed in `.github/CODEOWNERS`) decides.
 
+Sort small and often. When a feature's pull request merges, sort that feature's rows then, while people remember them; a weekly pass catches the rest. Rows that have been open for over 30 days come first.
+
 These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
 
 ## Steps

@@ -89,3 +89,16 @@ Note anything the harness itself made harder: an unclear instruction, two that d
 
 - Sizes it as large; says no team tools were connected and asks for the two or three docs that matter; still works from the repo (J-04, U-02, J-02's measure, earlier features).
 - Writes a brief where every finding says how sure it is, and a PRD draft with assumptions marked. Doesn't design yet.
+
+## E17 · engineering lead · set the harness up in a product repo
+
+- Starts small: the files framing and review need, not everything; says what gets added later and when.
+- Drafts users, jobs and constraints from the README and pages, marked as hypotheses with sources; maps `styles/tokens.css` to tokens (a `sync.json`) and notices the components folder.
+- Finds the decisions in the commit history (agents set priority, no customer portal, newest first for now, text on badges) and drafts them for an owner to confirm, each with its source.
+- Works on a branch, writes the report, and the check passes. The reply says what to check first.
+
+## E18 · designer · Saved replies with the product's own components
+
+- Builds the options with `hl-button`, `hl-badge`, `hl-dialog` and the app's tokens, in a page that doesn't ship, not as hand-built HTML that only looks similar.
+- Notices what the starter setup doesn't have yet (component guidance, layouts) and adds it, or says why not.
+- Grounds the page in a job (or says there's none), keeps it a place reachable from the request screen, and treats "saved reply" as a new concept for an owner.
