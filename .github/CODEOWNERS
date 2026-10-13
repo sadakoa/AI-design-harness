@@ -5,7 +5,9 @@
 /design-system/    @sadakoa
 # Structure is shared: list both product and design owners here.
 /product/structure.md    @sadakoa
-/.claude/skills/   @sadakoa
+/skills/          @sadakoa
+/.claude-plugin/   @sadakoa
+/evals/           @sadakoa
 /scripts/          @sadakoa
 /.github/          @sadakoa
 /AGENTS.md         @sadakoa
