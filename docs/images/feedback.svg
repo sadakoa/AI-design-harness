@@ -24,7 +24,7 @@
   <!-- outcomes -->
   <rect class="card" x="420" y="28" width="500" height="72" rx="12"/>
   <text class="mono status" x="444" y="70">adopted</text>
-  <text class="sans text" x="596" y="70">The design system changes. Logged as D-xx.</text>
+  <text class="sans text" x="596" y="70">product/ or the design system changes.</text>
 
   <rect class="card" x="420" y="114" width="500" height="72" rx="12"/>
   <text class="mono status" x="444" y="156">screen-only</text>
