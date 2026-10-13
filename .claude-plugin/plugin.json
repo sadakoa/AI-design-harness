@@ -1,0 +1,8 @@
+{
+  "name": "design-harness",
+  "description": "Look into, frame, design and review product work with an AI agent, grounded in your product's users, jobs and decisions and in your design system.",
+  "author": { "name": "sadakoa", "url": "https://github.com/sadakoa" },
+  "homepage": "https://github.com/sadakoa/AI-design-harness",
+  "repository": "https://github.com/sadakoa/AI-design-harness",
+  "keywords": ["design", "ux", "design-system", "prd", "research"]
+}

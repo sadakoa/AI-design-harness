@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HELPLINE TMS v2.3 - Ticket List</title>
+<style>
+  body { margin: 0; background: #e8ecf0; font-family: Tahoma, Verdana, Arial, sans-serif; font-size: 11px; color: #222; }
+  .top { background: linear-gradient(#2b5797, #163d73); color: #fff; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #f0a30a; }
+  .logo { font-size: 16px; font-weight: bold; letter-spacing: 1px; }
+  .logo small { font-size: 10px; font-weight: normal; color: #b8cce4; }
+  .nav a { color: #fff; margin-left: 10px; text-decoration: underline; }
+  .wrap { padding: 8px 12px; }
+  .crumb { color: #555; margin-bottom: 6px; }
+  .alert { background: #fff3a8; border: 1px solid #d4b106; padding: 5px 8px; margin-bottom: 6px; color: #6b5300; font-weight: bold; }
+  .bar { background: #f7f7f7; border: 1px solid #b5b5b5; padding: 5px; margin-bottom: 4px; }
+  .btn { font-family: inherit; font-size: 11px; padding: 3px 9px; border: 1px solid; border-radius: 3px; color: #fff; font-weight: bold; margin-right: 2px; box-shadow: inset 0 1px 0 rgba(255,255,255,.4); }
+  .g { background: linear-gradient(#5cb85c, #3d8b3d); border-color: #2d6a2d; }
+  .b { background: linear-gradient(#5b9bd5, #2e6da4); border-color: #24527c; }
+  .r { background: linear-gradient(#e0605a, #b52b27); border-color: #8a1f1c; }
+  .o { background: linear-gradient(#f5a623, #d4820a); border-color: #a86506; }
+  .p { background: linear-gradient(#9b59b6, #6c3483); border-color: #512763; }
+  .n { background: linear-gradient(#fdfdfd, #d9d9d9); border-color: #999; color: #222; }
+  .filters select, .filters input { font-family: inherit; font-size: 11px; margin-right: 8px; }
+  .filters label { font-weight: bold; margin-right: 2px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #a0a0a0; }
+  th { background: linear-gradient(#f4f4f4, #d6d6d6); border: 1px solid #a0a0a0; padding: 4px 5px; text-align: left; white-space: nowrap; }
+  th.sorted { background: linear-gradient(#ffe9a6, #f2c94c); }
+  td { border: 1px solid #d0d0d0; padding: 3px 5px; white-space: nowrap; }
+  tr:nth-child(even) td { background: #f2f6fa; }
+  tr.sel td { background: #fff8c4; }
+  .p1 { color: #d40000; font-weight: bold; }
+  .p2 { color: #e07b00; }
+  .p3 { color: #999; }
+  .neg { color: #d40000; font-weight: bold; }
+  .un { color: #999; font-style: italic; }
+  a { color: #0645ad; }
+  .subj { max-width: 230px; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom; }
+  .foot { margin-top: 6px; display: flex; justify-content: space-between; color: #666; }
+  .legend { font-size: 10px; color: #888; margin-top: 4px; }
+  .pager a { margin: 0 2px; }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo">HELPLINE <small>Ticket Management System v2.3</small></div>
+  <div class="nav"><a href="#">Home</a><a href="#">Tickets</a><a href="#">Queues</a><a href="#">Reports</a><a href="#">Admin</a><a href="#">Logout (mtorres)</a></div>
+</div>
+<div class="wrap">
+  <div class="crumb">Home &raquo; Tickets &raquo; All Queues &raquo; List View</div>
+  <div class="alert">&#9888; ATTENTION: 3 ticket(s) have exceeded the SLA threshold. Please review immediately.</div>
+  <div class="bar">
+    <button class="btn g">+ New Ticket</button><button class="btn b">Assign</button><button class="btn r">Close</button><button class="btn o">Escalate</button><button class="btn p">Merge</button><button class="btn n">Export CSV</button><button class="btn n">Print</button><button class="btn n">Refresh</button>
+  </div>
+  <div class="bar filters">
+    <label>Queue:</label><select><option>ALL</option></select>
+    <label>Status:</label><select><option>ALL</option></select>
+    <label>Agent:</label><select><option>ALL</option></select>
+    <label>Sort by:</label><select><option>Recv. Date</option></select><select><option>DESC</option></select>
+    <label>Show:</label><select><option>25</option></select>
+    <label>Search:</label><input type="text" size="18"> <button class="btn n">Go</button>
+  </div>
+  <table>
+    <tr><th><input type="checkbox"></th><th>Ticket#</th><th class="sorted">Recv. Date &#9660;</th><th>Cust.</th><th>Company</th><th>Subject</th><th>St.</th><th>Pri.</th><th>Agent</th><th>SLA (h)</th><th>Last Upd.</th><th>Actions</th></tr>
+    <tr><td><input type="checkbox"></td><td>#1052</td><td>10/07/26 11:04</td><td>I. Novak</td><td>Quillstone Books</td><td><span class="subj">Idea: dark mode for the mobile app</span></td><td>NEW</td><td class="p3">P3</td><td class="un">unassgnd</td><td>71.9</td><td>10/07 11:04</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr><td><input type="checkbox"></td><td>#1051</td><td>10/07/26 10:52</td><td>J. Lindqvist</td><td>Orbitline Logistics</td><td><span class="subj">Warehouse team locked out after password reset</span></td><td>NEW</td><td class="p1">P1</td><td class="un">unassgnd</td><td class="neg">-0.3</td><td>10/07 10:52</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr><td><input type="checkbox"></td><td>#1050</td><td>10/07/26 10:31</td><td>E. Varga</td><td>Tidewater Bakery</td><td><span class="subj">How do I export last month's invoices?</span></td><td>NEW</td><td class="p2">P2</td><td class="un">unassgnd</td><td>7.5</td><td>10/07 10:31</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr><td><input type="checkbox"></td><td>#1049</td><td>10/07/26 09:47</td><td>N. Fischer</td><td>Halden Studio</td><td><span class="subj">Add two seats to our plan</span></td><td>NEW</td><td class="p2">P2</td><td>P.Raman</td><td>6.8</td><td>10/07 09:51</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr class="sel"><td><input type="checkbox" checked></td><td>#1048</td><td>10/07/26 09:18</td><td>A. Osei</td><td>Pinecrest Dental</td><td><span class="subj">Charged twice for the October invoice</span></td><td>NEW</td><td class="p1">P1</td><td class="un">unassgnd</td><td class="neg">-1.7</td><td>10/07 09:18</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr><td><input type="checkbox"></td><td>#1047</td><td>10/07/26 08:05</td><td>R. Duarte</td><td>Copperleaf Hotels</td><td><span class="subj">Bookings stopped syncing overnight</span></td><td>WIP</td><td class="p1">P1</td><td>D.Okafor</td><td class="neg">-3.0</td><td>10/07 10:12</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr><td><input type="checkbox"></td><td>#1046</td><td>10/07/26 07:56</td><td>O. Price</td><td>Saltmarsh Outdoor</td><td><span class="subj">Change our billing contact email</span></td><td>NEW</td><td class="p3">P3</td><td class="un">unassgnd</td><td>68.8</td><td>10/07 07:56</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr><td><input type="checkbox"></td><td>#1045</td><td>10/06/26 16:40</td><td>G. Liu</td><td>Marlow &amp; Finch</td><td><span class="subj">Password reset email never arrives</span></td><td>WIP</td><td class="p2">P2</td><td>M.Torres</td><td>2.3</td><td>10/07 09:30</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr><td><input type="checkbox"></td><td>#1044</td><td>10/06/26 14:15</td><td>S. Achebe</td><td>Redfern Clinics</td><td><span class="subj">Report totals don't match the dashboard</span></td><td>WIP</td><td class="p2">P2</td><td>L.Berg</td><td>0.8</td><td>10/07 08:44</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+    <tr><td><input type="checkbox"></td><td>#1043</td><td>10/06/26 11:20</td><td>L. Morgan</td><td>Fernhill School</td><td><span class="subj">Update the address on our invoices</span></td><td>WIP</td><td class="p3">P3</td><td>M.Torres</td><td>46.1</td><td>10/06 15:02</td><td><a href="#">edit</a> | <a href="#">asgn</a> | <a href="#">del</a></td></tr>
+  </table>
+  <div class="foot">
+    <div>Showing 1-10 of 87 ticket(s) | 1 selected</div>
+    <div class="pager">&laquo; Prev <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> ... <a href="#">9</a> Next &raquo;</div>
+  </div>
+  <div class="legend">Legend: P1=Critical, P2=Normal, P3=Low &middot; St.: NEW=New, WIP=Work In Progress, CLSD=Closed &middot; SLA (h) = hours remaining (negative = breached) &middot; unassgnd = not yet assigned</div>
+</div>
+</body>
+</html>

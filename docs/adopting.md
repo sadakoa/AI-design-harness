@@ -2,27 +2,30 @@
 
 Start with one product and one screen. You can fill in the rest as you go.
 
-## 1. Install it
+## 1. Add the plugin
 
-From a clone of this repo, point the installer at your product's repo. Add `--dry-run` first if you want to see what it would do.
+In Claude Code, once per machine:
+
+```
+/plugin marketplace add sadakoa/AI-design-harness
+/plugin install design-harness@ai-design-harness
+```
+
+The skills come from the plugin, so improving them improves every repo that uses it. Turn on auto-update for the marketplace in `/plugin`, or run `/plugin update design-harness@ai-design-harness` now and then.
+
+Using Codex, or want everything inside your repo? Run the installer from a clone of this repo instead (add `--dry-run` first to see what it would do), then reopen your agent:
 
 ```bash
 node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
 ```
 
-It copies `product/`, `design-system/`, `work/`, the skills and the scripts, adds `check`, `tokens` and `sync` to your `package.json` (or creates one), and points `CLAUDE.md` at the harness's instructions. It never overwrites anything: if a file already exists it's skipped and listed, and if a name is taken it uses another one (`AGENTS.harness.md`, `scripts/harness/`, `npm run harness:check`) and tells you.
+## 2. Set it up in your repo
+
+Open your product's repo and ask the agent to set the design harness up for this repo. It makes a branch and copies in `product/`, `design-system/` and `work/`, the check, sync and token scripts, `AGENTS.md`, a CI check, and `check`, `tokens` and `sync` in your `package.json`. It never overwrites anything: if a file already exists it's skipped and listed, and if a name is taken it uses another one (`AGENTS.harness.md`, `scripts/harness/`, `npm run harness:check`) and tells you. `.harness.json` records which files came from the harness, so asking it to update the harness later only touches those.
+
+Then it reads your code and docs, fills in `product/` and `design-system/` as far as it can, and writes `work/bootstrap-report.md`: what it found, what it guessed, and what an owner should check first. Everything it couldn't confirm is marked `hypothesis`. You review it as one pull request.
 
 Starting a new product instead? Use this repo as a template, have a look at `examples/`, then delete it.
-
-## 2. Let bootstrap draft the first version
-
-Open your repo in Claude Code and ask it to set the harness up for this repo, or run this (restart the session if `/bootstrap` isn't listed yet):
-
-```
-/bootstrap .
-```
-
-It reads your code and docs, fills in `product/` and `design-system/` as far as it can, and writes `work/bootstrap-report.md`: what it found, what it guessed, and what an owner should check first. Everything it couldn't confirm is marked `hypothesis`. It commits on a new branch, so you can review it as one pull request.
 
 What happens next depends on what you have.
 

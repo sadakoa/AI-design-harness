@@ -1,0 +1,15 @@
+{
+  "name": "ai-design-harness",
+  "owner": {
+    "name": "sadakoa",
+    "url": "https://github.com/sadakoa"
+  },
+  "description": "The AI Design Harness: a design workflow for AI agents, from looking into a problem to a reviewed proposal.",
+  "plugins": [
+    {
+      "name": "design-harness",
+      "source": "./",
+      "description": "Look into, frame, design and review product work with an AI agent, grounded in your product and your design system."
+    }
+  ]
+}

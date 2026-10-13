@@ -7,6 +7,8 @@ description: Sort the feedback log and draft changes to product/ or the design s
 
 Turn what reviews and real use taught us into changes to `product/` or `design-system/`. You propose; an owner of that folder (listed in `.github/CODEOWNERS`) decides.
 
+These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
+
 ## Steps
 
 1. **Read.** Every `open` row in `work/feedback.md`, and the files in the Promote column of `product/INDEX.md` (layer `product`) or `design-system/INDEX.md` (layer `design`); for layer `harness`, the skill, template or script it names. Check both `decisions.md` files so you don't bring back something that was already rejected, unless there's a new reason.
@@ -30,6 +32,15 @@ Turn what reviews and real use taught us into changes to `product/` or `design-s
      - passes `npm run check`.
 
    Ask before opening the PR. Never merge it.
+
+## Harness rows
+
+Rows with layer `harness` are about the harness, not this product. In a product's repo, they go back to the harness:
+
+1. Draft one GitHub issue per row or group, for the repo in `.harness.json` (its `source`): a title, what happened, where (the skill, template or script), and what would have helped. Leave out anything about the product, its customers or the company: the harness repo may be public.
+2. Show the drafts and ask. After a yes, file them with `gh issue create --repo <owner/repo>`, and set the rows to `sent` with the issue link as the result.
+
+In the harness repo itself, sort them like any other row.
 
 ## Table
 

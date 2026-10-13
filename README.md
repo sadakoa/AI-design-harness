@@ -36,20 +36,30 @@ You need Claude Code or Codex, Node 20 or later, and git.
 
 Start with one product and one screen. You set it up once; after that, you just talk to the agent.
 
-1. **Install it.** Open your product's repo in Claude Code and ask: "Make a branch and install the harness from path/to/AI-design-harness." Or run the installer yourself. It never overwrites anything; your README and existing files are left alone.
+1. **Add the plugin to Claude Code**, once per machine:
 
-   ```bash
-   node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
+   ```
+   /plugin marketplace add sadakoa/AI-design-harness
+   /plugin install design-harness@ai-design-harness
    ```
 
-2. **Reopen Claude Code** in your repo, so it picks up the new skills.
-3. **Ask it to set the harness up for this repo** (or run `/bootstrap .`). What it does depends on what you have:
-   - **You have a design system or a component library.** Bootstrap points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
-   - **You don't.** Bootstrap still drafts a starting point from the colors, type and words your product already uses. You need less than you'd think.
-4. **Check the drafts and merge.** Read `work/bootstrap-report.md`, fix the users, jobs and decisions in `product/` where they're wrong, and merge the branch.
-5. **Connect your team's tools** to Claude Code, like Notion, Slack or Google Drive, so the agent can look things up itself. List where things live in `product/sources.md`.
+2. **In your product's repo, ask it to set the design harness up.** It makes a branch, adds `product/`, `design-system/` and `work/` with a few small scripts, and drafts them from your code and docs. It never overwrites anything. What it drafts depends on what you have:
+   - **You have a design system or a component library.** It points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
+   - **You don't.** It drafts a starting point from the colors, type and words your product already uses. You need less than you'd think.
+3. **Check the drafts and merge.** Read `work/bootstrap-report.md`, fix the users, jobs and decisions in `product/` where they're wrong, and merge the branch.
+4. **Connect your team's tools** to Claude Code, like Notion, Slack or Google Drive, so the agent can look things up itself. List where things live in `product/sources.md`.
 
 After that, for each feature: ask the agent to make a branch, say what you want in your own words, and ask for a pull request when you're happy. The proposal and its notes live in `work/`. Merge them too, so the next round can see what's already in flight. Engineers build from the proposal's spec as usual; the harness doesn't write production code.
+
+**Keeping it up to date.** Turn on auto-update for the marketplace in `/plugin`, or run `/plugin update design-harness@ai-design-harness`. Then ask the agent to update the harness in your repo, which refreshes the few files copied into it: the scripts, `AGENTS.md` and the CI check. `product/`, `design-system/` and `work/` are never touched, and if your team edited one of the copied files, the new version lands next to it as `.harness-new`.
+
+**Tell the harness what got in the way.** Say so while you work ("too many questions", "this step didn't help"), and the agent logs it. "Send it to the harness" turns those notes into issues on this repo, with nothing about your product in them.
+
+**Without the plugin** (Codex, or if you'd rather keep everything in the repo), run the installer from a clone of this repo, reopen your agent, and ask the same:
+
+```bash
+node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
+```
 
 [Adopting it](docs/adopting.md) has the details.
 
@@ -78,16 +88,24 @@ product/            what to build and why: users, jobs, principles, concepts, st
 design-system/      how it looks and behaves: tokens, rules, writing, components, layouts
 work/features/      one folder per idea: brief, framing, mockups, proposal, review
 work/feedback.md    what we've learned, waiting for an owner
-.claude/skills/     bootstrap, discover, frame, design-builder, design-review, promote-feedback
-scripts/            check, sync, build-tokens
+skills/             bootstrap, discover, frame, design-builder, design-review, promote-feedback
+scripts/            check, sync, build-tokens, install
+.claude-plugin/     what makes this repo a Claude Code plugin
 examples/           sample PRDs and a full example run
+evals/              requests to check the harness against after a change
 ```
+
+In your product's repo, only `product/`, `design-system/`, `work/` and a few small files are added. The skills come from the plugin.
 
 Plans, research and PRDs stay where they already are. `product/` keeps a short version of each, with an ID, and links to the rest ([why](docs/how-it-works.md#what-lives-here-and-what-stays-elsewhere)).
 
 IDs you'll see: `U-` user, `J-` job, `PP-` product principle, `PD-` product decision, `CON-` constraint, `P-` design principle, `R-` design rule, `D-` design decision, `FB-` feedback entry. They're never renumbered.
 
 [How it works](docs/how-it-works.md) explains the ideas behind it, with pictures. There's also a [slide deck](docs/slides/ai-design-harness.pdf); to present it from a browser, open `docs/slides/index.html`.
+
+## Working on the harness
+
+Changed a skill or a template? Ask the agent in this repo to run the evals: sixteen requests, from a designer's PRD to a one-line ask from Sales, each handled by a fresh agent and graded on the outcome. See [evals/README.md](evals/README.md).
 
 ## Not for
 

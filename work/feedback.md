@@ -29,6 +29,7 @@ Date is the day you log it. Who is whoever raised it: a person's name, a role (S
 | adopted | It's in `product/` or `design-system/` now. Set this inside the PR that makes the change. | The decision ID: PD-xx for product, D-xx for design. If it only added evidence or a source, the entry it updated (U-xx, J-xx, CON-xx) or `sources.md`. For harness, the file that changed |
 | screen-only | It only applies to that one screen or feature | Why |
 | dropped | We let it go | Why |
+| sent | Layer `harness` only: sent to the harness repo as an issue | The issue link |
 
 ## When to promote
 

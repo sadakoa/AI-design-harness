@@ -15,6 +15,8 @@ Walk through what a designer does in their head — check the problem, ask, rese
 
 Use the PRD at the path you were given. If there isn't one, ask for a path or pasted text.
 
+These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
+
 ## Where things go
 
 Everything goes in the feature folder `frame` creates: `work/features/<yyyymmdd>-<slug>/`. Redoing the same thing later? Same slug, new date; on the same day, add `-2`, `-3`. Never overwrite.

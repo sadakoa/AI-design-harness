@@ -91,7 +91,7 @@ try {
   errors.push(`tokens.json: ${error.message}`);
 }
 
-const template = join(root, ".claude/skills/design-builder/templates/proposal.html");
+const template = [join(root, "skills/design-builder/templates/proposal.html"), join(root, ".claude/skills/design-builder/templates/proposal.html")].find(existsSync) ?? "";
 if (existsSync(template)) {
   const missing = [...new Set([...read(template).matchAll(/var\(\s*(--[\w-]+)/g)].map((m) => m[1]))].filter((n) => !tokenNames.has(n));
   if (missing.length) errors.push(`the proposal template uses ${missing.join(", ")}, which tokens.json no longer defines — keep those token names`);
@@ -161,10 +161,11 @@ for (const [prefix, list] of [...Object.entries(ids), ["FB", log.map((r) => r.id
 
 const LAYERS = ["product", "design", "harness"];
 const TYPES = ["deviation", "missing", "outdated", "bug", "insight", "observation"];
-const STATUSES = ["open", "adopted", "screen-only", "dropped"];
+const STATUSES = ["open", "adopted", "screen-only", "dropped", "sent"];
 for (const { id, layer, type, status, result } of log) {
   if (!LAYERS.includes(layer)) errors.push(`${id} in work/feedback.md has layer "${layer}" — use ${LAYERS.join(" or ")}`);
   if (!TYPES.includes(type)) errors.push(`${id} in work/feedback.md has type "${type}" — use one of: ${TYPES.join(", ")}`);
+  if (status === "sent" && layer !== "harness") errors.push(`${id} in work/feedback.md is sent, which only harness rows can be`);
   if (!STATUSES.includes(status)) {
     errors.push(`${id} in work/feedback.md has status "${status}" — use one of: ${STATUSES.join(", ")}`);
   } else if (status === "adopted") {

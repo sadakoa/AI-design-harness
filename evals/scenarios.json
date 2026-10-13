@@ -1,0 +1,135 @@
+{
+  "about": "Requests someone might bring, the files each needs, and how questions get answered. What a good outcome looks like is the section with the same id in rubric.md.",
+  "scenarios": [
+    {
+      "id": "E01",
+      "who": "designer",
+      "kind": "new screen, PRD",
+      "request": "Here's a PRD for a new screen: work/prd/customer-history.md. Can you take it from here?",
+      "answers": "If you ask whether to go ahead on your assumptions, the answer is yes. Nobody answers anything else.",
+      "inputs": { "work/prd/customer-history.md": "evals/inputs/customer-history.md" }
+    },
+    {
+      "id": "E02",
+      "who": "designer",
+      "kind": "fix to an existing screen",
+      "request": "Agents are closing requests by mistake on the inbox. The brief is in work/prd/close-by-mistake.md and the current screen is work/prd/current-inbox.html. Can you sort it out?",
+      "answers": "If you ask whether to go ahead on your assumptions, the answer is yes. Nobody answers anything else.",
+      "inputs": { "work/prd/close-by-mistake.md": "evals/inputs/close-by-mistake.md", "work/prd/current-inbox.html": "evals/inputs/current-inbox.html" }
+    },
+    {
+      "id": "E03",
+      "who": "product manager",
+      "kind": "update to an existing feature, no PRD",
+      "request": "Our biggest customer, Orbitline Logistics, signed an enterprise plan with a 1-hour response time (contract: 'Orbitline enterprise agreement 2026' in the shared drive). We need an 'Urgent' priority above High for their requests, shown everywhere priority shows, and agents should hear a sound when one comes in. We need it by November 15. Can you get this designed?",
+      "answers": "Nobody answers questions.",
+      "inputs": {}
+    },
+    {
+      "id": "E04",
+      "who": "Sales, in Slack",
+      "kind": "rough request against a decision",
+      "request": "Hey! Orbitline asked if their customers could check the status of their requests on a web page instead of emailing us. Could we add a simple customer portal page? Would really help the renewal in December.",
+      "answers": "Nobody answers questions.",
+      "inputs": {}
+    },
+    {
+      "id": "E05",
+      "who": "support team lead",
+      "kind": "words only",
+      "request": "Agents all say 'transfer' but the button on the request screen says 'Reassign'. Can we just rename it to 'Transfer'?",
+      "answers": "Nobody answers questions.",
+      "inputs": {}
+    },
+    {
+      "id": "E06",
+      "who": "designer",
+      "kind": "flow across screens, PRD",
+      "request": "Here's the hand-off PRD: work/prd/hand-off.md. It's a flow across a few screens. Can you design it?",
+      "answers": "If you ask whether to go ahead on your assumptions, the answer is yes. Nobody answers anything else.",
+      "inputs": { "work/prd/hand-off.md": "evals/inputs/hand-off.md" }
+    },
+    {
+      "id": "E07",
+      "who": "product manager, writing in Japanese",
+      "kind": "new feature, PRD in Japanese",
+      "request": "work/prd/away-status.md の PRD、デザインに進めますか？",
+      "answers": "Nobody answers questions.",
+      "inputs": { "work/prd/away-status.md": "evals/inputs/away-status.md" }
+    },
+    {
+      "id": "E08",
+      "who": "UX researcher",
+      "kind": "research findings to bring in",
+      "request": "Here are my notes from six team lead interviews: work/notes/interview-notes.md. Can you get this into the product context?",
+      "answers": "Nobody answers questions.",
+      "inputs": { "work/notes/interview-notes.md": "evals/inputs/interview-notes.md" }
+    },
+    {
+      "id": "E09",
+      "who": "engineer",
+      "kind": "review of a page built without a design",
+      "request": "I built the notification settings page without a design: work/prd/notification-settings.html. Can you check it before I ship it on Friday?",
+      "answers": "Nobody answers questions.",
+      "inputs": { "work/prd/notification-settings.html": "evals/inputs/notification-settings.html" }
+    },
+    {
+      "id": "E10",
+      "who": "engineer",
+      "kind": "change to the design system itself",
+      "request": "We're adding dark mode to the app next quarter. Our screens use the CSS variables from design-system/tokens/tokens.css. Can the design system support dark mode, and what do you need from us?",
+      "answers": "Nobody answers questions.",
+      "inputs": {}
+    },
+    {
+      "id": "E11",
+      "who": "designer",
+      "kind": "revising a proposal",
+      "request": "I like option A in work/features/20261008-support-inbox/proposal.html. But team leads say the High group gets so long on Monday mornings that medium requests drop off the screen and wait all day. Can you adjust it?",
+      "answers": "If you ask whether to go ahead, the answer is yes. Nobody answers anything else.",
+      "fixtures": { "work/features/20261008-support-inbox": "examples/support-inbox" },
+      "inputs": { "work/features/20261008-support-inbox/_inputs/support-inbox.md": "examples/prd/support-inbox.md" }
+    },
+    {
+      "id": "E12",
+      "who": "design owner",
+      "kind": "moving an approved design into the design system",
+      "request": "I've approved option A of the support inbox proposal in work/features/20261008-support-inbox/. Can you get it into the design system?",
+      "answers": "Nobody answers questions.",
+      "fixtures": { "work/features/20261008-support-inbox": "examples/support-inbox" },
+      "inputs": { "work/features/20261008-support-inbox/_inputs/support-inbox.md": "examples/prd/support-inbox.md" }
+    },
+    {
+      "id": "E13",
+      "who": "designer who just joined",
+      "kind": "how do I use this",
+      "request": "Hi! I just joined. How do I use this for my feature? I have a Figma file for a new 'Saved replies' screen: https://www.figma.com/file/abc123/saved-replies",
+      "answers": "Nobody answers questions.",
+      "inputs": {}
+    },
+    {
+      "id": "E14",
+      "who": "CEO",
+      "kind": "vague request about the look",
+      "request": "Helpline needs to look more modern before the investor demo on November 3. Can the design team make it pop?",
+      "answers": "Nobody answers questions.",
+      "inputs": {}
+    },
+    {
+      "id": "E15",
+      "who": "product owner",
+      "kind": "framing, then sorting the feedback log",
+      "request": "Frame work/prd/rebalance.md. Then log the seven items in work/notes/feedback-items.md (items 4 and 5 came from design reviews, the rest from real use) and go through the feedback log with me.",
+      "answers": "Nobody answers questions.",
+      "inputs": { "work/prd/rebalance.md": "evals/inputs/rebalance.md", "work/notes/feedback-items.md": "evals/inputs/feedback-items.md" }
+    },
+    {
+      "id": "E16",
+      "who": "product manager",
+      "kind": "large problem, no PRD",
+      "request": "Team leads keep finding out that one agent is overloaded only when customers complain. Can you look into it and tell me what we know? There's no PRD yet.",
+      "answers": "Nobody answers questions. No team tools (wiki, chat, tickets) are connected in this run.",
+      "inputs": {}
+    }
+  ]
+}

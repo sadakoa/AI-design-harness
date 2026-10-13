@@ -14,6 +14,8 @@ Answer "should we build this, and what exactly?" before any design work. A clean
 
 Never edit `product/`. If something there is missing or out of date, log it.
 
+These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
+
 ## Steps
 
 1. **Start the feature folder.** If `discover` already made one, use it. Otherwise create `work/features/<yyyymmdd>-<slug>/` (design-builder uses the same folder later) and copy the PRD into `_inputs/`. Pasted text goes to `_inputs/prd.md`. A medium or large request with no `research/brief.md` should go through `discover` first.

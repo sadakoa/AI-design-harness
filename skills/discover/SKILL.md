@@ -12,6 +12,8 @@ Go and find what the team already knows, so the framing and the design start fro
 - **Out:** `research/brief.md` in a new feature folder; `_inputs/prd-draft.md` when there was no PRD; rows in `work/feedback.md` for facts worth keeping.
 - **Asks:** only when you can't tell what the problem is.
 
+These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
+
 ## Size it first
 
 Say the size in one line before you start; the person can change it ("lighter is fine").

@@ -14,6 +14,15 @@ Fill in `product/` and `design-system/` from what already exists, so a team does
 
 This is the only skill that writes to `product/` and `design-system/` directly — on a new branch, as one pull request an owner reviews.
 
+These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
+
+## Set up, or update
+
+The harness's own files come from the harness: the plugin, or a copy of the repo. When this skill runs from the plugin, its base directory is `<harness>/skills/bootstrap`, so the harness is two folders up. Otherwise, clone the `source` in `.harness.json` to a temporary folder and use that.
+
+- **Not set up yet** (no `.harness.json` in this repo): make a new branch, then run `node <harness>/scripts/install.mjs . --plugin` (leave out `--plugin` if the skills don't come from a plugin). Then follow the steps below.
+- **Asked to update the harness:** on a new branch, run `node <harness>/scripts/install.mjs . --update`. Tell the person in plain words what changed. List any file saved as `.harness-new`: the team had edited those, so they compare and merge them by hand. `product/`, `design-system/` and `work/` are never touched. Stop there; the steps below are for a first setup.
+
 ## Steps
 
 1. **Look around, read-only.** The README and docs, `package.json`, styles (CSS variables, Tailwind config, theme files), the component folder, the main pages, and the text people see on them.

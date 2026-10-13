@@ -28,32 +28,38 @@ People won't name a skill or a file. They'll say what they want, in their own wo
 | "How do I use this?" | Answer from `README.md` in a few lines, and offer to start on what they need |
 | Only a name or a link, no goal | Ask what problem it solves before anything else |
 | "Set this up for our repo" | `bootstrap` |
+| "Update the harness" | `bootstrap`, updating: it refreshes the harness's own files and leaves your content alone |
 | "Go through the feedback" | `promote-feedback` |
 | The harness got in the way: "too many questions", "this step is pointless" | Log it in `work/feedback.md` with layer `harness`, naming the skill or script, and carry on with what they asked |
+| "Send it to the harness" | `promote-feedback`, harness rows: draft issues for the harness repo, and file them after a yes |
 
 ## Rules
 
-- Before framing a medium or large request, look into it: `discover` finds what the team already knows.
-- Before designing anything, frame it: `frame` checks the request against `product/`.
-- Entries in `product/` marked `hypothesis` or `open` aren't facts. Say so whenever you rely on one.
-- `design-system/tokens/tokens.json` is the only source for values. If anything disagrees with it, trust the tokens and log the mismatch in `work/feedback.md`.
-- If a file still has `(example)` content, use it as a placeholder and say so in your output.
+These always hold.
+
+- Change `product/` and `design-system/` only on a new branch, as a pull request an owner merges: `bootstrap`'s drafts, the changes `promote-feedback` got a yes for, and an approved screen going into `design-system/screens/`. Everything else you make goes in `work/`. Owners are listed in `.github/CODEOWNERS`.
+- `design-system/tokens/tokens.json` is the only source for values. If anything disagrees with it, trust the tokens and log the mismatch. Tokens and components that `sync.json` maps come from the product's code: change them there and run `npm run sync`.
+- Don't add components, colors or words to the design system yourself. If you need something that isn't there, build it in `work/`, tag the line with a feedback ID and log it.
+- Say where every claim comes from. Entries marked `hypothesis` or `open` aren't facts, and neither are your guesses: say which is which, and what you couldn't check or open.
+- Keep customer and personal details where they are. Never copy them into the repo, a URL or anything public, like an issue on the harness repo.
+- Don't promise dates or decisions that belong to someone else.
+- If a file still has `(example)` content, use it as a placeholder and say so.
+
+## Everything else is a default
+
+The skills describe the usual path: look into bigger requests first, frame before designing, explore a few options, keep replies short. Their numbers, like three options, five questions or about 90 words, are starting points. When a request calls for something else, do that instead and say why in one line. Don't make people learn the harness: never ask them to run a skill, open a file or look up an ID.
+
+## Notice things
+
+When you learn something nobody asked about, in the product, the design system or the harness itself, say so in one line and log it where it belongs. A pattern across requests, a decision whose reason no longer holds, a step that didn't help: that's how the harness and the product get better.
 
 ## Skills
 
 | Task | Skill |
 |---|---|
-| Set the harness up for an existing product | `bootstrap` |
+| Set the harness up for an existing product, or update it | `bootstrap` |
 | Find out what's already known, with or without a PRD | `discover` |
 | Check a request before anyone designs it | `frame` |
 | Design a screen or a flow, or revise a proposal | `design-builder` |
 | Review a screen, flow or proposal | `design-review` |
 | Turn feedback into product or design changes | `promote-feedback` |
-
-## Don't
-
-- Write outside `work/`, except on a new branch as a pull request an owner merges: `bootstrap`'s drafts, the changes `promote-feedback` got a yes for, and an approved screen going into `design-system/screens/`. Owners are listed in `.github/CODEOWNERS`.
-- Edit tokens or the component inventory that `sync.json` maps. They come from the product's code; change them there and run `npm run sync`.
-- Add components, colors or wording to the design system. If you need something that isn't there, build it inside `work/`, tag the line with a feedback ID and log it.
-- Guess. Ask, or write it down as an open question and keep going.
-- Make people learn the harness. Don't ask them to run a skill, open a file or look up an ID.

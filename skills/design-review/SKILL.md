@@ -13,6 +13,8 @@ Find where a design drifts from its intent and from the rules. Report, don't fix
 
 Review the path you were given. If there isn't one, ask.
 
+These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
+
 ## Steps
 
 1. **Know the intent.** Which screen or flow, whose job? If there's a `framing.md` next to it, read it and the `product/` entries it cites. If there isn't, don't frame it: a review gives no verdict. Write a short intent note at the top of `review.md` (who uses it, which job, which place in `product/structure.md`) from what you were told or can see, and mark what you guessed. If the page is outside `work/features/`, make `work/features/<yyyymmdd>-<slug>/`, copy the page into its `_inputs/`, and work there.
