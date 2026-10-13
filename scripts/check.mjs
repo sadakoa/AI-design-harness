@@ -99,8 +99,8 @@ if (existsSync(template)) {
 }
 
 const config = existsSync(join(root, "sync.json")) ? readConfig() : null;
-// The product's own variables that sync.json maps are fine to use too
-for (const name of Object.values(config?.tokens?.map ?? {})) tokenNames.add(name);
+// The product's own variables that sync.json maps, for checking pages built in the product's code
+const productVars = new Set(Object.values(config?.tokens?.map ?? {}));
 const syncCheck = (what, compare) => {
   try {
     if (!compare()) errors.push(`${what} doesn't match your code — run npm run sync`);
@@ -175,7 +175,8 @@ for (const { id, layer, type, status, result } of log) {
     // A decision, or for evidence only (a confidence, a baseline, a source) the entry it updated
     const productFiles = existsSync(product) ? readdirSync(product).filter((f) => f.endsWith(".md")) : [];
     const ok = layer === "product" ? [...ids.PD, ...ids.U, ...ids.J, ...ids.CON, ...productFiles] : ids.D;
-    if (layer === "harness" ? !/\S/.test(result.replace(/^—$/, "")) : !ok.includes(result)) {
+    const named = (result ?? "").replace(/`/g, "").replace(/^product\//, "").trim();
+    if (layer === "harness" ? !/\S/.test(named.replace(/^—$/, "")) : !ok.includes(named)) {
       const where = layer === "product"
         ? "a PD-xx from product/decisions.md, or the U-, J- or CON- entry (or the product file) it added evidence to"
         : layer === "harness" ? "the file that changed" : "a D-xx from design-system/decisions.md";
@@ -242,7 +243,7 @@ const declarations = ({ css, offset, inline }) => {
   });
 };
 
-const scan = (dir, bucket, approved) => {
+const scan = (dir, bucket, approved, productOk = false) => {
   for (const file of walk(dir)) {
     const path = rel(file);
     if (/\/(proposal\.html|framing\.md)$/.test(path) && /\{\{/.test(read(file))) {
@@ -276,7 +277,9 @@ const scan = (dir, bucket, approved) => {
       const lineNo = lineOf(decl.at);
       if (/FB-\d+/.test(lines[lineNo - 1])) continue;
       const value = decl.value.replace(/\/\*[\s\S]*?\*\//g, "").trim();
-      const bare = value.replace(/var\([^)]*\)|url\([^)]*\)|"[^"]*"|'[^']*'/g, " ");
+      const bare = value
+        .replace(/\b(?:rgba?|hsla?|oklch|oklab|lab|lch|hwb)\(\s*var\([^()]*\)\s*(?:\/\s*[\d.]+%?\s*)?\)/g, " ")
+        .replace(/var\([^)]*\)|url\([^)]*\)|"[^"]*"|'[^']*'/g, " ");
       if (COLOR.test(bare)) {
         bucket.push(`${path}:${lineNo} ${decl.prop}: ${value} — hard-coded color (R-01; tag the line with an FB ID if it's on purpose)`);
       }
@@ -284,7 +287,7 @@ const scan = (dir, bucket, approved) => {
         warnings.push(`${path}:${lineNo} ${name} is a primitive; use a color role (color.surface, color.text…) so the meaning carries over`);
       }
       for (const [, name] of value.matchAll(/var\(\s*(--[\w-]+)/g)) {
-        if (!tokenNames.has(name) && !localNames.has(name)) {
+        if (!tokenNames.has(name) && !localNames.has(name) && !(productOk && productVars.has(name))) {
           bucket.push(`${path}:${lineNo} ${name} isn't in tokens.css`);
         }
       }
@@ -296,7 +299,7 @@ scan(join(root, "work/features"), warnings, false);
 for (const target of process.argv.slice(2)) {
   const path = resolve(process.cwd(), target);
   if (!existsSync(path)) errors.push(`can't find ${target}`);
-  else scan(path, warnings, false);
+  else scan(path, warnings, false, true);
 }
 
 const featuresDir = join(root, "work/features");

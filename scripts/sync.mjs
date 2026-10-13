@@ -21,10 +21,11 @@ const source = (from) => {
   return path;
 };
 
-// CSS variables from every plain :root block, at the top level or inside @layer (as shadcn writes them).
+// CSS variables from every plain :root block, at the top level or inside @layer (as shadcn writes them),
+// and from Tailwind v4 @theme blocks.
 // Blocks inside @media or @supports, and .dark or [data-theme] blocks, are skipped: tokens.json holds one theme.
 // A file with no blocks at all is read as a plain list of variables. Later values win.
-// Bare HSL channels ("222.2 84% 4.9%", the shadcn style) are wrapped in hsl() so they're real colors.
+// When a value is copied into tokens.json, bare HSL channels ("222.2 84% 4.9%", the shadcn style) are wrapped in hsl().
 const HSL_CHANNELS = /^-?\d*\.?\d+(deg)?\s+\d*\.?\d+%\s+\d*\.?\d+%(\s*\/\s*\d*\.?\d+%?)?$/;
 export const cssVariables = (css) => {
   const text = css.replace(/\/\*[\s\S]*?\*\//g, "");
@@ -37,7 +38,8 @@ export const cssVariables = (css) => {
       last = i + 1;
     } else if (text[i] === "}") {
       const block = stack.pop();
-      if (block?.header === ":root" && stack.every((b) => b.header.startsWith("@layer"))) blocks.push(text.slice(block.start, i));
+      const plain = block?.header === ":root" || /^@theme\b/.test(block?.header ?? "");
+      if (plain && stack.every((b) => b.header.startsWith("@layer"))) blocks.push(text.slice(block.start, i));
       last = i + 1;
     }
   }
@@ -45,7 +47,7 @@ export const cssVariables = (css) => {
   for (const body of blocks.length ? blocks : text.includes("{") ? [] : [text]) {
     for (const [, name, raw] of body.matchAll(/(--[\w-]+)\s*:\s*([^;{}]+?)\s*(?:;|$)/g)) {
       const value = raw.trim();
-      vars[name] = HSL_CHANNELS.test(value) ? `hsl(${value})` : value;
+      vars[name] = value;
     }
   }
   return vars;
@@ -66,7 +68,7 @@ export function syncedTokens(config, current) {
   for (const [path, name] of Object.entries(config.tokens.map ?? {})) {
     if (!(name in vars)) throw new Error(`${name} isn't defined in ${files.join(", ")}`);
     const leaf = path.split(".").reduce((node, key) => (node[key] ??= {}), next);
-    leaf.$value = vars[name];
+    leaf.$value = HSL_CHANNELS.test(vars[name]) ? `hsl(${vars[name]})` : vars[name];
     leaf.$extensions = { ...(leaf.$extensions ?? {}), harness: { source: name } };
   }
   return next;

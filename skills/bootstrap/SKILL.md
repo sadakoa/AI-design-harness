@@ -12,7 +12,7 @@ Fill in `product/` and `design-system/` from what already exists, so a team does
 - **Out:** drafts in `product/` and `design-system/`, a `sync.json` if the code has CSS variables or a component folder, and `work/bootstrap-report.md`.
 - **Asks:** where the product docs live, if you can't find any.
 
-This is the only skill that writes to `product/` and `design-system/` directly — on a new branch, as one pull request an owner reviews.
+It writes to `product/` and `design-system/` directly, on a new branch, as one pull request an owner reviews.
 
 These steps are the usual path. Skip, merge or reorder them when the request calls for it, and say why in one line. The rules in `AGENTS.md` always hold.
 
@@ -21,7 +21,7 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
 The harness's own files come from the harness: the plugin, or a copy of the repo. When this skill runs from the plugin, its base directory is `<harness>/skills/bootstrap`, so the harness is two folders up. Otherwise, clone the `source` in `.harness.json` to a temporary folder and use that.
 
 - **Not set up yet** (no `.harness.json` in this repo): make a new branch, then run `node <harness>/scripts/install.mjs . --plugin` (leave out `--plugin` if the skills don't come from a plugin). It starts small, with the files framing and review need. Add `--full` only if they ask for everything up front. Then follow the steps below for the files that are there.
-- **Asked to add a piece** (product principles, structure, component guidance, layouts, approved screens): on a new branch, run `node <harness>/scripts/install.mjs . --add <piece>` (principles, structure, components, patterns or screens). It adds the files without the example content; draft them from the code and docs, as in a first setup.
+- **Asked to add a piece** (product principles, structure, component guidance, approved screens): on a new branch, run `node <harness>/scripts/install.mjs . --add <piece>` (principles, structure, components or screens). It adds the files without the example content; draft them from the code and docs, as in a first setup.
 - **Asked to update the harness:** on a new branch, run `node <harness>/scripts/install.mjs . --update`. Tell the person in plain words what changed. List any file saved as `.harness-new`: the team had edited those, so they compare and merge them by hand. `product/`, `design-system/` and `work/` are never touched. Stop there; the steps below are for a first setup.
 
 ## Steps
@@ -35,7 +35,7 @@ The harness's own files come from the harness: the plugin, or a copy of the repo
    - **Principles and rules:** draft only what the code or docs clearly show. Leave the rest as `(example)`.
    - **No design system at all?** That's fine. The colors, type and words the product already uses are enough to start.
 
-3. **Product.** Draft users, jobs and constraints (and concepts, if that file is there) from the README, docs and the product itself. Mark each `hypothesis` unless a document states it, and cite the source. For decisions, look in the docs, PR descriptions and commit messages for things that were settled ("we won't…", "dropped X because…"). Log each in `work/feedback.md` as type `decision`, quoting where it was made, and list them in the report, so an owner confirms them into `decisions.md`.
+3. **Product.** Draft users, jobs and constraints (and concepts, if that file is there) from the README, docs and the product itself. Mark each `hypothesis` unless a document states it, and cite the source. For decisions, look in the docs, PR descriptions and commit messages for things that were settled ("we won't…", "dropped X because…"). Log each in `work/feedback.md` as type `decision` (delete the `(example)` row there first, so yours start at FB-01), quoting where it was made, and list them in the report, so an owner confirms them into `decisions.md`.
    - **Sources:** list every doc you drew from, and any strategy docs, research or PRDs the README or the person points to, in `product/sources.md`. Link them; don't copy them.
    - **Structure:** if `structure.md` is there, draft it from the main pages or routes and the links between them.
 

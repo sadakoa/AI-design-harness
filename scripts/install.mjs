@@ -34,13 +34,12 @@ const PIECES = {
   principles: ["product/principles.md"],
   structure: ["product/concepts.md", "product/structure.md"],
   components: ["design-system/components/GUIDE.md", "design-system/components/_template.md"],
-  patterns: ["design-system/patterns"],
   screens: ["design-system/screens"],
 };
 const STARTER = [
   "product/INDEX.md", "product/users.md", "product/jobs.md", "product/constraints.md", "product/decisions.md", "product/sources.md",
   "design-system/INDEX.md", "design-system/tokens", "design-system/foundations", "design-system/decisions.md",
-  "design-system/components/inventory.md",
+  "design-system/components/inventory.md", "design-system/patterns",
   "work",
 ];
 
@@ -217,10 +216,15 @@ const workflowFile =
 const pkgPath = join(target, "package.json");
 const ownCheck = `node ${scriptDir}/check.mjs`;
 const theirs = existsSync(pkgPath) ? JSON.parse(readFileSync(pkgPath, "utf8")).scripts ?? {} : {};
-const checkScript = manifest?.checkScript ?? (theirs.check && theirs.check !== ownCheck ? "harness:check" : "check");
+const ownScripts = { check: ownCheck, tokens: `node ${scriptDir}/build-tokens.mjs`, sync: `node ${scriptDir}/sync.mjs` };
+// If a name is taken by the team's own script, the harness's goes under harness:<name>
+const scriptNames = manifest?.scripts ?? Object.fromEntries(
+  Object.entries(ownScripts).map(([name, command]) => [name, theirs[name] && theirs[name] !== command ? `harness:${name}` : name]),
+);
+const checkScript = scriptNames.check;
 const workflowText = readFileSync(join(harness, ".github/workflows/check.yml"), "utf8").replace("npm run check", `npm run ${checkScript}`);
 const templatePath = existsSync(join(target, ".github/pull_request_template.md")) && !manifest?.files?.[".github/pull_request_template.md"] ? null : ".github/pull_request_template.md";
-if (!templatePath && setup) notes.push("You already have a pull request template. Add a line to it: \"Sorted this feature's rows in work/feedback.md\".");
+if (!templatePath && !manifest?.templateNoted) notes.push("You already have a pull request template. Add a line to it: \"Sorted this feature's rows in work/feedback.md\".");
 
 const harnessFiles = [
   ...SCRIPTS.map((f) => [`${scriptDir}/${f}`, join(harness, "scripts", f)]),
@@ -313,21 +317,23 @@ if (setup) {
 }
 
 // --- npm scripts, in case they went missing ---
-const scripts = { check: ownCheck, tokens: `node ${scriptDir}/build-tokens.mjs`, sync: `node ${scriptDir}/sync.mjs` };
 if (!existsSync(pkgPath)) {
-  write(pkgPath, JSON.stringify({ name: basename(target).toLowerCase().replace(/[^a-z0-9-]+/g, "-"), private: true, scripts }, null, 2) + "\n");
+  write(pkgPath, JSON.stringify({ name: basename(target).toLowerCase().replace(/[^a-z0-9-]+/g, "-"), private: true, scripts: ownScripts }, null, 2) + "\n");
   created.push("package.json");
 } else {
   const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
   pkg.scripts ??= {};
   const added = [];
-  for (const [name, command] of Object.entries(scripts)) {
-    if (Object.values(pkg.scripts).includes(command)) continue;
-    const key = pkg.scripts[name] ? `harness:${name}` : name;
-    if (pkg.scripts[key]) continue;
+  for (const [name, command] of Object.entries(ownScripts)) {
+    const key = scriptNames[name];
+    if (pkg.scripts[key] === command) continue;
+    if (pkg.scripts[key]) {
+      notes.push(`package.json's "${key}" isn't the harness's any more. Point it back at ${command} if you can.`);
+      continue;
+    }
     pkg.scripts[key] = command;
     added.push(key);
-    if (key !== name) notes.push(`package.json already has a "${name}" script, so the harness's is "npm run ${key}". When the skills say "npm run ${name}", use that.`);
+    if (key !== name) notes.push(`package.json already has a "${name}" script, so the harness's is "npm run ${key}". It's recorded in .harness.json, and agents use it.`);
   }
   if (added.length) {
     write(pkgPath, JSON.stringify(pkg, null, 2) + "\n");
@@ -337,7 +343,7 @@ if (!existsSync(pkgPath)) {
 
 const profile = setup ? (flag("--full") ? "full" : "starter") : manifest.profile ?? "full";
 const added = [...new Set([...(manifest?.added ?? []), ...(pieces.includes("all") ? Object.keys(PIECES) : pieces)])];
-write(manifestPath, JSON.stringify({ source, commit: pieces.length ? manifest.commit : commit, mode: plugin ? "plugin" : "copy", profile, added, updated: new Date().toISOString().slice(0, 10), scriptDir, agentsFile, workflowFile, checkScript, files: record }, null, 2) + "\n");
+write(manifestPath, JSON.stringify({ source, commit: pieces.length ? manifest.commit : commit, mode: plugin ? "plugin" : "copy", profile, added, updated: new Date().toISOString().slice(0, 10), scriptDir, agentsFile, workflowFile, checkScript, scripts: scriptNames, templateNoted: !templatePath || undefined, files: record }, null, 2) + "\n");
 
 // --- Report ---
 const list = (title, items) => items.length && console.log(`\n${title} (${items.length})\n${items.map((i) => `  ${i}`).join("\n")}`);

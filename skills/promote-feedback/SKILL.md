@@ -15,7 +15,7 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
 
 1. **Read.** Every `open` row in `work/feedback.md`, and the files in the Promote column of `product/INDEX.md` (layer `product`) or `design-system/INDEX.md` (layer `design`); for layer `harness`, the skill, template or script it names. Check both `decisions.md` files so you don't bring back something that was already rejected, unless there's a new reason.
 
-2. **Group.** Merge rows that say the same thing and keep all their IDs. If a group would end up with different outcomes, split it. If a design finding is really a product problem (we built the wrong thing), move it to layer `product`
+2. **Group.** Merge rows that say the same thing and keep all their IDs. If a group would end up with different outcomes, split it. If a design finding is really a product problem (we built the wrong thing), move it to layer `product`.
 
 3. **Suggest.** Give each group `adopted`, `screen-only`, `dropped` or `keep open` (not enough evidence yet: say what would settle it, and write `revisit YYYY-MM-DD` as the result), using "When to promote" in the log, with a one-line reason. When in doubt, `keep open`. A claim from one person usually stays open.
 
@@ -25,6 +25,7 @@ These steps are the usual path. Skip, merge or reorder them when the request cal
 
 6. **Do what was approved.**
    - `screen-only` or `dropped`: update the status and reason in the log straight away.
+   - `keep open`: leave the status `open` and set the result to `revisit YYYY-MM-DD`.
    - No answer: leave it `open`.
    - `adopted`: make one PR, on a new branch, for everything approved in this round. It
      - edits the home file (for values, edit only `tokens/tokens.json`, then run `npm run tokens`; name new tokens the way its `$description` says; if `sync.json` maps that token, change it in the product's code instead and run `npm run sync`),

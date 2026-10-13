@@ -21,7 +21,7 @@ node path/to/AI-design-harness/scripts/install.mjs path/to/your-repo
 
 ## 2. Set it up in your repo
 
-Open your product's repo and ask the agent to set the design harness up for this repo. It makes a branch and starts small: the files framing and review need (users, jobs, constraints and decisions in `product/`; tokens, rules, words and decisions in `design-system/`; the feedback log). The rest (product principles, sources, structure, components, layouts, approved screens) is added when a task first needs it; ask for everything up front if you'd rather. It also adds the check, sync and token scripts, `AGENTS.md`, a CI check, and `check`, `tokens` and `sync` in your `package.json`. It never overwrites anything: if a file already exists it's skipped and listed, and if a name is taken it uses another one (`AGENTS.harness.md`, `scripts/harness/`, `npm run harness:check`) and tells you. `.harness.json` records which files came from the harness, so asking it to update the harness later only touches those.
+Open your product's repo and ask the agent to set the design harness up for this repo. It makes a branch and starts small: the files framing and review need (users, jobs, constraints, decisions and sources in `product/`; tokens, rules, words, layouts, decisions and the component list in `design-system/`; the feedback log). More pieces (product principles, structure, component guidance, approved screens) come when you ask; the agent says when a task could have used one. Ask for everything up front if you'd rather. It also adds the check, sync and token scripts, `AGENTS.md`, a CI check, and `check`, `tokens` and `sync` in your `package.json`. It never overwrites anything: if a file already exists it's skipped and listed, and if a name is taken it uses another one (`AGENTS.harness.md`, `scripts/harness/`, `npm run harness:check`) and tells you. `.harness.json` records which files came from the harness, so asking it to update the harness later only touches those.
 
 Then it reads your code and docs, fills in `product/` and `design-system/` as far as it can, and writes `work/bootstrap-report.md`: what it found, what it guessed, and what an owner should check first. Everything it couldn't confirm is marked `hypothesis`. You review it as one pull request.
 
@@ -43,7 +43,7 @@ Your code stays the source; the harness only reads it. Bootstrap writes `sync.js
 }
 ```
 
-- `from` can be one stylesheet or a list of them; it reads every top-level `:root` block, and later ones win, as in CSS. Blocks inside `@media`, like a dark theme, are skipped: `tokens.json` holds one theme for now. Supporting a second one is a change to `tokens.json` and `scripts/build-tokens.mjs`, which owners decide through `/promote-feedback`.
+- `from` can be one stylesheet or a list of them; it reads every `:root` block at the top level or inside `@layer`, and Tailwind v4 `@theme` blocks; later ones win, as in CSS. Dark themes (`.dark`, `[data-theme]`, `@media`) are skipped: `tokens.json` holds one theme for now. Supporting a second one is a change to `tokens.json` and `scripts/build-tokens.mjs`, which owners decide through `/promote-feedback`.
 - `npm run sync` copies the values into `tokens.json` and lists your components in `design-system/components/inventory.md`. It never writes to your code.
 - When your code changes, `npm run check` fails until you run `npm run sync` again. In CI, where your app isn't checked out next to the harness, it only warns.
 - Rules, writing and layouts don't sync. Bootstrap drafts them; after that, owners edit them here.

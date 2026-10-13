@@ -43,10 +43,10 @@ Start with one product and one screen. You set it up once; after that, you just 
    /plugin install design-harness@ai-design-harness
    ```
 
-2. **In your product's repo, ask it to set the design harness up.** It makes a branch and starts small: four product files (users, jobs, constraints, decisions), your tokens, rules and words, the feedback log, and a few small scripts. The rest gets added when a task first needs it. It drafts them from your code, docs and commit history, and never overwrites anything. What it drafts depends on what you have:
+2. **In your product's repo, ask it to set the design harness up.** It makes a branch and starts small: the product's users, jobs, constraints and decisions, and where your docs live; your tokens, rules, words, layouts and component list; the feedback log; and a few small scripts. More pieces come when you ask; the agent says when a task could have used one. It drafts them from your code, docs and commit history, and never overwrites anything. What it drafts depends on what you have:
    - **You have a design system or a component library.** It points `sync.json` at your CSS variables and component folder and drafts the rest. `npm run sync` keeps the harness in step with your code, one way: your code stays the source.
    - **You don't.** It drafts a starting point from the colors, type and words your product already uses. You need less than you'd think.
-3. **Check the drafts and merge.** Read `work/bootstrap-report.md`, fix the users, jobs and decisions in `product/` where they're wrong, and merge the branch.
+3. **Check the drafts and merge.** Read `work/bootstrap-report.md`, fix the users and jobs in `product/` where they're wrong, confirm the decisions it logged from your history, and merge the branch.
 4. **Connect your team's tools** to Claude Code, like Notion, Slack or Google Drive, so the agent can look things up itself. List where things live in `product/sources.md`.
 
 Expect the first framings to say go or decide first: a stop needs a decision someone wrote down. Each framing and each look into your tools logs the decisions it finds that nobody wrote down, so the record fills in as you use it.
